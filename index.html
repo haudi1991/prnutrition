@@ -179,45 +179,47 @@
       width: fit-content;
     }
 
-    footer{
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      color: rgba(234,241,255,.50);
-      font-size: 12px;
+    /* ===== Micro contact (fixed corner) ===== */
+    .micro-contact{
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 999;
       display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      color: rgba(234,241,255,.70);
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 10px;
-      padding: 2px 6px;
-    }
-
-    .credit{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
       align-items:center;
-      color: rgba(234,241,255,.52);
-    }
-    .credit a{
-      color: rgba(234,241,255,.78);
-      text-decoration:none;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      padding: 5px 9px;
+      gap:8px;
+      padding: 7px 10px;
       border-radius: 999px;
-      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+      color: rgba(234,241,255,.78);
+      font-size: 12px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .micro-contact .chip{
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: rgba(125,211,252,.16);
+      border: 1px solid rgba(125,211,252,.22);
+      font-size: 12px;
+    }
+    .micro-contact a{
+      color: rgba(234,241,255,.86);
+      text-decoration:none;
+      font-weight: 900;
       letter-spacing: -0.01em;
     }
-    .credit a:hover{
-      background: rgba(255,255,255,.05);
+    .micro-contact a:hover{
+      text-decoration: underline;
+    }
+
+    @media (max-width: 520px){
+      .micro-contact{ right: 10px; bottom: 10px; }
     }
   </style>
 </head>
@@ -298,23 +300,14 @@
         </div>
       </a>
     </div>
-
-    <footer>
-      <div>Structură recomandată: <code>/apps</code> pentru pagini, <code>/data</code> pentru JSON.</div>
-      <div id="stamp"></div>
-
-      <div class="credit">
-        <span>Realizat de Puie Radu</span>
-        <a href="tel:+40724212779" aria-label="Sună 0724 212 779">0724 212 779</a>
-      </div>
-    </footer>
   </div>
 
-  <script>
-    const el = document.getElementById('stamp');
-    const d = new Date();
-    el.textContent = `Ultima deschidere: ${d.toLocaleDateString()} ${d.toLocaleTimeString().slice(0,5)}`;
-  </script>
+  <!-- Micro contact fixed -->
+  <div class="micro-contact" aria-label="Contact">
+    <span class="chip">📞</span>
+    <span>Contact:</span>
+    <a href="tel:+40724212779">0724 212 779</a>
+  </div>
 </body>
 </html>
 
