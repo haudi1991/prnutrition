@@ -102,6 +102,16 @@
       line-height: 1.4;
     }
 
+    /* ✅ 2 coloane pentru “Date” (Nume + Obiectiv) */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .grid2{ grid-template-columns: 1fr 1fr; }
+    }
+
     /* ===== Icon buttons + tooltips ===== */
     .icon-btn{
       cursor:pointer;
@@ -361,7 +371,6 @@
       gap:10px;
       flex-wrap: wrap;
     }
-    /* buttons in one row (left) */
     .table-actions .left-actions{
       display:flex;
       align-items:center;
@@ -509,15 +518,25 @@
               <div class="sum-actions"></div>
             </summary>
 
+            <!-- ✅ AICI e fixul: grid2 => 2 coloane -->
             <div class="accordion-body">
-              <div style="display:grid; grid-template-columns: 1fr; gap:10px;">
+              <div class="grid2">
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Nume client</div>
-                  <input id="clientName" style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;" placeholder="Ex: Andrei Popescu" />
+                  <input
+                    id="clientName"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: Andrei Popescu"
+                  />
                 </div>
+
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
-                  <input id="goal" style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;" placeholder="Ex: somn, energie, stres, recuperare..." />
+                  <input
+                    id="goal"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: somn, energie, stres, recuperare..."
+                  />
                 </div>
               </div>
             </div>
@@ -576,9 +595,15 @@
           <!-- Actions near table: + row, reset, print (one row) -->
           <div class="table-actions no-print">
             <div class="left-actions">
-              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
-              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
-              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">
+                ＋<span class="sr-only">Add row</span>
+              </button>
+              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">
+                🗑️<span class="sr-only">Reset</span>
+              </button>
+              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">
+                🖨️<span class="sr-only">Print</span>
+              </button>
 
               <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
             </div>
@@ -675,7 +700,9 @@
     }
 
     function getProtocolIds(p){
-      if (Array.isArray(p?.items)) return p.items.map(x => safeTrim(x)).filter(Boolean);
+      if (Array.isArray(p?.items)) {
+        return p.items.map(x => safeTrim(x?.ref)).filter(Boolean);
+      }
       if (Array.isArray(p?.rows)) {
         return p.rows
           .map(r => safeTrim(r?.id) || findCatalogIdByName(r?.name) || safeTrim(r?.name))
@@ -693,13 +720,6 @@
     async function loadProtocols(){
       const protRaw = await fetchJson(PROTOCOLS_URL);
       protocols = Array.isArray(protRaw) ? protRaw : [];
-    }
-
-    async function initData(){
-      await Promise.all([loadCatalog(), loadProtocols()]);
-      renderProtocolSelect();
-      renderCatalog();
-      syncButtons();
     }
 
     function renderProtocolSelect(){
@@ -891,6 +911,13 @@
 
       els.protDetails.open = false;
       els.catalogDetails.open = true;
+      syncButtons();
+    }
+
+    async function initData(){
+      await Promise.all([loadCatalog(), loadProtocols()]);
+      renderProtocolSelect();
+      renderCatalog();
       syncButtons();
     }
 
