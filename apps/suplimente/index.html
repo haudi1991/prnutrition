@@ -183,6 +183,7 @@
       font-size: 18px;
       line-height: 1;
       user-select: none;
+      position: relative; /* tooltip */
     }
     .icon-btn:hover{ background: rgba(255,255,255,.06); }
     .icon-btn:active{ transform: translateY(1px); }
@@ -193,6 +194,111 @@
     .icon-btn.danger{
       border-color: rgba(255,255,255,.14);
       background: rgba(255,255,255,.02);
+    }
+    .icon-btn[disabled]{
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== Tooltip (hover/focus) ===== */
+    button[data-tip]{ position: relative; }
+    button[data-tip]::after{
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(2px);
+      opacity: 0;
+      pointer-events: none;
+
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      font-size: 12px;
+      line-height: 1.25;
+      color: rgba(234,241,255,.92);
+      background: rgba(11,15,23,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 7px 9px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.40);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 50;
+    }
+    button[data-tip]::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom: calc(100% + 4px);
+      transform: translateX(-50%) translateY(2px);
+      opacity:0;
+      pointer-events:none;
+
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(255,255,255,.14);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 49;
+    }
+    button[data-tip]:hover::after,
+    button[data-tip]:hover::before,
+    button[data-tip]:focus-visible::after,
+    button[data-tip]:focus-visible::before{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== Quick search (always visible) ===== */
+    .quickbar{
+      margin-top: 8px;
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .searchbox{
+      flex: 1 1 520px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    .searchbox .mag{
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.70);
+      flex: 0 0 auto;
+    }
+    .searchbox input{
+      width:100%;
+      font: inherit;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0;
+    }
+    .quick-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     /* ===== Accordions (collapsible) ===== */
@@ -260,17 +366,7 @@
       gap:10px;
     }
 
-    /* ===== Inputs inside accordion ===== */
-    .row{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      align-items: center;
-    }
-    @media (min-width: 820px){
-      .row{ grid-template-columns: 1fr auto; }
-    }
-    select, input[type="text"]{
+    select{
       width:100%;
       font: inherit;
       color: var(--text);
@@ -286,7 +382,7 @@
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
     @media (min-width: 820px){
       .catalog-grid{ grid-template-columns: 1fr 1fr; }
@@ -327,6 +423,7 @@
       font: inherit;
       font-size: 13px;
       white-space: nowrap;
+      position: relative; /* tooltip */
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
@@ -380,17 +477,27 @@
       background: rgba(255,255,255,.02);
     }
 
-    .removeBtn{
+    /* delete column = fixed small */
+    th.col-del, td.col-del{
+      width: 44px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .del-mini{
       cursor:pointer;
+      width: 28px;
+      height: 28px;
+      display:inline-grid;
+      place-items:center;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       color: rgba(234,241,255,.85);
       border-radius: 10px;
-      padding: 6px 10px;
-      font: inherit;
-      font-size: 12px;
+      font-size: 14px;
+      line-height: 1;
+      position: relative; /* tooltip */
     }
-    .removeBtn:hover{ background: rgba(255,255,255,.06); }
+    .del-mini:hover{ background: rgba(255,255,255,.06); }
 
     .no-print { display: block; }
 
@@ -415,6 +522,9 @@
 
       header{ display:none !important; }
       .no-print { display:none !important; }
+
+      button[data-tip]::before,
+      button[data-tip]::after{ display:none !important; }
 
       .section{ padding: 12px !important; }
       .panel{ padding: 10px !important; }
@@ -457,8 +567,8 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- ===== Sticky toolbar (principal) ===== -->
-          <div class="toolbar no-print" role="region" aria-label="Toolbar protocol suplimente">
+          <!-- Sticky toolbar -->
+          <div class="toolbar no-print">
             <div class="left">
               <div class="mini-field">
                 <label>Nume client</label>
@@ -473,21 +583,45 @@
             <div class="right">
               <div class="counter">Rânduri: <b id="rowCount">0</b></div>
 
-              <button class="icon-btn primary" id="printBtn" type="button" title="Print / Save PDF" aria-label="Print / Save PDF">
-                🖨️<span class="sr-only">Print / Save PDF</span>
+              <button class="icon-btn primary" id="printBtn" type="button"
+                data-tip="Print / Save PDF">
+                🖨️<span class="sr-only">Print</span>
               </button>
 
-              <button class="icon-btn" id="addEmptyRow" type="button" title="Adaugă rând gol" aria-label="Adaugă rând gol">
-                ＋<span class="sr-only">Adaugă rând gol</span>
+              <!-- + now adds only if meaningful (Shift = add empty row) -->
+              <button class="icon-btn" id="addEmptyRow" type="button" disabled
+                data-tip="Adaugă rând gol (Shift+Click). Normal: se activează când ai ceva selectat (catalog/protocol).">
+                ＋<span class="sr-only">Add row</span>
               </button>
 
-              <button class="icon-btn danger" id="clearTable" type="button" title="Șterge tabel" aria-label="Șterge tabel">
-                🗑️<span class="sr-only">Șterge tabel</span>
+              <button class="icon-btn danger" id="clearTable" type="button" disabled
+                data-tip="Șterge toate rândurile (se activează când există rânduri)">
+                🗑️<span class="sr-only">Clear</span>
               </button>
             </div>
           </div>
 
-          <!-- ===== Accordions ===== -->
+          <!-- Quick search always visible (no extra click) -->
+          <div class="quickbar no-print">
+            <div class="searchbox">
+              <div class="mag" aria-hidden="true">🔎</div>
+              <input id="catalogSearchAlways" placeholder="Caută rapid în catalog (ex: d3, omega, magneziu)" />
+            </div>
+
+            <div class="quick-actions">
+              <button class="icon-btn" id="toggleCatalog" type="button"
+                data-tip="Deschide/închide Catalogul complet (carduri cu Adaugă)">
+                🧾<span class="sr-only">Toggle catalog</span>
+              </button>
+
+              <button class="icon-btn" id="reloadDataTop" type="button"
+                data-tip="Reîncarcă catalog + protocoale (din GitHub)">
+                🔄<span class="sr-only">Reload</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Protocoale (collapsed by default) -->
           <details class="accordion no-print" id="protDetails">
             <summary>
               <div class="sum-left">
@@ -497,23 +631,20 @@
               </div>
 
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadDataTop" type="button" title="Reîncarcă catalog + protocoale" aria-label="Reîncarcă catalog + protocoale">
-                  🔄<span class="sr-only">Reîncarcă</span>
-                </button>
-                <button class="icon-btn primary" id="addStdProtocolTop" type="button" title="Adaugă protocol în tabel (Shift=Replace)" aria-label="Adaugă protocol în tabel">
-                  ➕<span class="sr-only">Adaugă protocol</span>
+                <button class="icon-btn primary" id="addStdProtocolTop" type="button" disabled
+                  data-tip="Adaugă protocol în tabel (Shift = Replace). Se activează când alegi un protocol.">
+                  ➕<span class="sr-only">Add protocol</span>
                 </button>
               </div>
             </summary>
 
             <div class="accordion-body">
-              <div class="row">
-                <select id="stdProtocolSelect"></select>
-                <div class="hint">Click = append. <b>Shift+Click</b> pe ➕ = replace (șterge tabelul și pune protocolul).</div>
-              </div>
+              <select id="stdProtocolSelect"></select>
+              <div class="hint">Click pe ➕ = append. <b>Shift+Click</b> pe ➕ = replace (șterge tabelul și pune protocolul).</div>
             </div>
           </details>
 
+          <!-- Catalog (collapsed by default; can be toggled from quickbar) -->
           <details class="accordion no-print" id="catalogDetails">
             <summary>
               <div class="sum-left">
@@ -522,16 +653,14 @@
                 <div class="sum-muted">(GitHub)</div>
               </div>
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadData" type="button" title="Reîncarcă catalog + protocoale" aria-label="Reîncarcă catalog + protocoale">
-                  🔄<span class="sr-only">Reîncarcă</span>
-                </button>
+                <div class="hint" style="max-width:320px; text-align:right;">
+                  Caută rapid sus 🔎 (fără click extra)
+                </div>
               </div>
             </summary>
 
             <div class="accordion-body">
-              <input id="catalogSearch" type="text" placeholder="Caută (ex: vitamina d, omega, magneziu)" />
               <div class="catalog-grid" id="catalogList"></div>
-              <div class="hint">Tip: poți edita manual orice celulă din tabel (Supliment / Brand / Doză / Note / Link).</div>
             </div>
           </details>
 
@@ -548,7 +677,7 @@
                   <th style="width:12%;">Doză</th>
                   <th style="width:28%;">Note</th>
                   <th style="width:22%;">Link</th>
-                  <th class="no-print" style="width:7%;"></th>
+                  <th class="no-print col-del"></th>
                 </tr>
               </thead>
               <tbody id="suppTbody"></tbody>
@@ -575,16 +704,18 @@
       clearTable: document.getElementById('clearTable'),
       rowCount: document.getElementById('rowCount'),
 
-      // protocols accordion
+      // quick search
+      catalogSearchAlways: document.getElementById('catalogSearchAlways'),
+      toggleCatalog: document.getElementById('toggleCatalog'),
+
+      // protocols
       protDetails: document.getElementById('protDetails'),
       stdProtocolSelect: document.getElementById('stdProtocolSelect'),
       reloadDataTop: document.getElementById('reloadDataTop'),
       addStdProtocolTop: document.getElementById('addStdProtocolTop'),
 
-      // catalog accordion
+      // catalog
       catalogDetails: document.getElementById('catalogDetails'),
-      reloadData: document.getElementById('reloadData'),
-      catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
       // table
@@ -599,6 +730,9 @@
     let catalogById = new Map();
     let protocols = [];
     let rows = []; // in-memory only
+
+    // Used only for enabling "+" meaningfully
+    let lastAddedSource = null; // 'protocol' | 'catalog' | null
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
     function slugify(s){
@@ -639,7 +773,8 @@
       protocols = Array.isArray(protRaw) ? protRaw : [];
 
       renderProtocolSelect();
-      renderCatalog();
+      renderCatalog(); // uses search query
+      syncButtons();
     }
 
     function renderProtocolSelect(){
@@ -666,49 +801,69 @@
     }
 
     function addRow(r){
-      rows.push({
-        name: safeTrim(r?.name),
-        brand: safeTrim(r?.brand),
-        dose: safeTrim(r?.dose),
-        notes: safeTrim(r?.notes),
-        link: safeTrim(r?.link),
-      });
+      const name = safeTrim(r?.name);
+      const brand = safeTrim(r?.brand);
+      const dose = safeTrim(r?.dose);
+      const notes = safeTrim(r?.notes);
+      const link = safeTrim(r?.link);
+
+      // prevent accidental empty row creation
+      const hasAny = (name || brand || dose || notes || link);
+      if (!hasAny) return false;
+
+      rows.push({ name, brand, dose, notes, link });
       renderTable();
+      return true;
     }
 
     function addCatalogItemToTable(item){
-      addRow(item);
+      const ok = addRow(item);
+      if (ok) lastAddedSource = 'catalog';
+      syncButtons();
     }
 
     function addProtocolToTable(p, { replace = false } = {}){
       const ids = Array.isArray(p?.items) ? p.items : [];
       if (replace) rows = [];
 
+      let addedCount = 0;
+
       for (const ref of ids){
         const id = safeTrim(ref);
         const it = catalogById.get(id);
         if (it){
-          // dedup basic: same name+brand
+          // basic de-dup by (name+brand)
           const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
-          if (!exists) addCatalogItemToTable(it);
+          if (!exists){
+            if (addRow(it)) addedCount++;
+          }
         } else {
-          addRow({ name: id });
+          // fallback row with name only if missing in catalog
+          if (addRow({ name: id })) addedCount++;
         }
       }
 
-      // close protocol accordion after add (optional)
+      if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
+      lastAddedSource = 'protocol';
+
       els.protDetails.open = false;
       renderHeader();
+      syncButtons();
+
+      return addedCount;
     }
 
     function renderCatalog(){
-      const q = safeTrim(els.catalogSearch.value).toLowerCase();
+      const q = safeTrim(els.catalogSearchAlways.value).toLowerCase();
       const filtered = !q ? catalog : catalog.filter(it => {
         const blob = `${it.name} ${it.brand} ${it.dose} ${it.link} ${it.notes}`.toLowerCase();
         return blob.includes(q);
       });
 
       els.catalogList.innerHTML = '';
+
+      // If user searches, auto-open catalog so it's one-step UX
+      if (q.length > 0) els.catalogDetails.open = true;
 
       for (const it of filtered){
         const box = document.createElement('div');
@@ -732,7 +887,8 @@
         const addBtn = document.createElement('button');
         addBtn.className = 'btn';
         addBtn.type = 'button';
-        addBtn.textContent = 'Adaugă în tabel';
+        addBtn.textContent = 'Adaugă';
+        addBtn.setAttribute('data-tip', 'Adaugă în tabel (după poți edita manual)');
         addBtn.addEventListener('click', () => addCatalogItemToTable(it));
 
         actions.appendChild(addBtn);
@@ -767,15 +923,19 @@
         tr.appendChild(tdEditable('link'));
 
         const tdRemove = document.createElement('td');
-        tdRemove.className = 'no-print';
+        tdRemove.className = 'no-print col-del';
+
         const btn = document.createElement('button');
-        btn.className = 'removeBtn';
+        btn.className = 'del-mini';
         btn.type = 'button';
-        btn.textContent = 'Șterge';
+        btn.textContent = '🗑️';
+        btn.setAttribute('data-tip', 'Șterge rândul');
         btn.addEventListener('click', () => {
           rows.splice(idx, 1);
           renderTable();
+          syncButtons();
         });
+
         tdRemove.appendChild(btn);
         tr.appendChild(tdRemove);
 
@@ -783,6 +943,7 @@
       });
 
       els.rowCount.textContent = String(rows.length);
+      syncButtons();
     }
 
     // Update rows on edit
@@ -796,20 +957,21 @@
       rows[idx][field] = safeTrim(td.textContent);
     });
 
-    function resetAll(){
-      // default: empty every time you open
-      els.clientName.value = '';
-      els.goal.value = '';
-      els.catalogSearch.value = '';
-      els.stdProtocolSelect.value = '';
-      rows = [];
-      renderHeader();
-      renderCatalog();
-      renderTable();
+    function syncButtons(){
+      const hasRows = rows.length > 0;
 
-      // default collapsed
-      els.protDetails.open = false;
-      els.catalogDetails.open = false;
+      // trash enabled only if there are rows
+      els.clearTable.disabled = !hasRows;
+
+      // protocol add enabled only if selected
+      els.addStdProtocolTop.disabled = !safeTrim(els.stdProtocolSelect.value);
+
+      // "+" behavior:
+      // - normal click: does nothing (disabled) because we avoid adding blank row
+      // - Shift+click: adds empty row explicitly
+      // So "+" stays enabled to allow Shift+click, but only once user understands? We'll keep it enabled but safe:
+      // We set it enabled always, but normal click will show tooltip-only and do nothing.
+      els.addEmptyRow.disabled = false;
     }
 
     function setPrintDate(){
@@ -821,52 +983,78 @@
       }
     }
 
+    function resetAll(){
+      els.clientName.value = '';
+      els.goal.value = '';
+      els.catalogSearchAlways.value = '';
+      els.stdProtocolSelect.value = '';
+      rows = [];
+      lastAddedSource = null;
+
+      renderHeader();
+      renderCatalog();
+      renderTable();
+
+      els.protDetails.open = false;
+      els.catalogDetails.open = false;
+      syncButtons();
+    }
+
     async function init(){
       setPrintDate();
       renderHeader();
       renderTable(); // empty
 
-      // toolbar actions
+      // actions
       els.printBtn.addEventListener('click', () => window.print());
-      els.addEmptyRow.addEventListener('click', () => addRow({}));
-      els.clearTable.addEventListener('click', () => { rows = []; renderTable(); });
+
+      // +: normal click does nothing; Shift+Click adds empty row (explicit)
+      els.addEmptyRow.addEventListener('click', (ev) => {
+        if (!ev.shiftKey) return; // prevent blank rows by default
+        rows.push({ name:'', brand:'', dose:'', notes:'', link:'' });
+        renderTable();
+      });
+
+      els.clearTable.addEventListener('click', () => {
+        rows = [];
+        renderTable();
+      });
 
       // inputs
       els.clientName.addEventListener('input', renderHeader);
       els.goal.addEventListener('input', renderHeader);
 
-      // catalog
-      els.catalogSearch.addEventListener('input', renderCatalog);
+      // search always visible
+      els.catalogSearchAlways.addEventListener('input', renderCatalog);
 
-      // reload data (both buttons)
+      // toggle catalog
+      els.toggleCatalog.addEventListener('click', () => {
+        els.catalogDetails.open = !els.catalogDetails.open;
+      });
+
+      // reload
       const doReload = async () => {
         await loadData();
-        // keep table intact; just refresh lists
         renderCatalog();
         renderProtocolSelect();
+        syncButtons();
       };
-      els.reloadData.addEventListener('click', doReload);
       els.reloadDataTop.addEventListener('click', doReload);
 
-      // add protocol (icon)
-      const doAddProtocol = (ev) => {
+      // protocol select enables add button
+      els.stdProtocolSelect.addEventListener('change', () => syncButtons());
+
+      // add protocol
+      els.addStdProtocolTop.addEventListener('click', (ev) => {
         const v = els.stdProtocolSelect.value;
         if (!v) return;
         const idx = Number(v);
         const p = protocols[idx];
         if (!p) return;
 
-        // if goal empty, fill from protocol goal
-        if (!safeTrim(els.goal.value) && safeTrim(p.goal)) {
-          els.goal.value = p.goal;
-        }
-
-        // Shift+click => replace
         const replace = !!(ev && ev.shiftKey);
         addProtocolToTable(p, { replace });
-        renderHeader();
-      };
-      els.addStdProtocolTop.addEventListener('click', doAddProtocol);
+      });
 
       await loadData();
       resetAll();
