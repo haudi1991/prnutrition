@@ -80,32 +80,66 @@
       margin: 0 0 10px 0;
     }
     .print-title .muted{ color: rgba(234,241,255,.80); }
-
-    /* ===== Editor UI ===== */
-    .editor{ display:grid; gap: 10px; }
-
-    .grid2{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-    @media (min-width: 820px){
-      .grid2{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .field{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      border-radius: 14px;
-      padding: 10px 12px;
-    }
-    .field label{
-      display:block;
+    .print-title .date{
+      float:right;
+      font-weight: 650;
       font-size: 12px;
-      color: rgba(234,241,255,.70);
-      margin-bottom: 6px;
+      color: rgba(234,241,255,.65);
+      margin-top: 6px;
     }
-    .field input, .field select{
+
+    /* ===== Small helpers ===== */
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+    .hint{
+      font-size: 12px;
+      color: rgba(234,241,255,.62);
+      line-height: 1.4;
+    }
+
+    /* ===== Sticky toolbar ===== */
+    .toolbar{
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(11,15,23,.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 10px;
+      display:flex;
+      gap:10px;
+      align-items: stretch;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    }
+    .toolbar .left{
+      display:flex;
+      flex: 1 1 auto;
+      gap:10px;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    .mini-field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 220px;
+      flex: 1 1 260px;
+    }
+    .mini-field label{
+      font-size: 11px;
+      color: rgba(234,241,255,.70);
+    }
+    .mini-field input{
       width:100%;
       font: inherit;
       color: var(--text);
@@ -116,42 +150,135 @@
       outline: none;
     }
 
-    .btnrow{
+    .toolbar .right{
       display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      margin-top: 8px;
+      flex: 0 0 auto;
+      gap:8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-    .btn{
-      cursor:pointer;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      padding: 9px 12px;
-      border-radius: 12px;
-      font: inherit;
-      font-size: 13px;
+    .counter{
+      font-size: 12px;
+      color: rgba(234,241,255,.70);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 8px 10px;
+      border-radius: 999px;
       white-space: nowrap;
     }
-    .btn:hover{ background: rgba(255,255,255,.06); }
 
-    .hint{
-      font-size: 12px;
-      color: rgba(234,241,255,.62);
-      line-height: 1.4;
+    /* ===== Icon buttons ===== */
+    .icon-btn{
+      cursor:pointer;
+      width: 40px;
+      height: 40px;
+      display:inline-grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.88);
+      border-radius: 12px;
+      font: inherit;
+      font-size: 18px;
+      line-height: 1;
+      user-select: none;
+    }
+    .icon-btn:hover{ background: rgba(255,255,255,.06); }
+    .icon-btn:active{ transform: translateY(1px); }
+    .icon-btn.primary{
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.10);
+    }
+    .icon-btn.danger{
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.02);
     }
 
-    .callout{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
+    /* ===== Accordions (collapsible) ===== */
+    details.accordion{
       border: 1px solid rgba(255,255,255,.10);
-      background: rgba(125,211,252,.06);
-      color: rgba(234,241,255,.80);
-      font-size: 13px;
-      line-height: 1.4;
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    details.accordion + details.accordion{ margin-top: 10px; }
+
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .sum-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .chev{
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.75);
+      flex: 0 0 auto;
+      font-size: 14px;
+    }
+    details[open] .chev{ transform: rotate(90deg); }
+    .sum-title{
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: rgba(234,241,255,.92);
+      white-space: nowrap;
+    }
+    .sum-muted{
+      color: rgba(234,241,255,.60);
+      font-weight: 650;
+      font-size: 12px;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sum-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex: 0 0 auto;
+    }
+
+    .accordion-body{
+      margin-top: 10px;
+      display:grid;
+      gap:10px;
+    }
+
+    /* ===== Inputs inside accordion ===== */
+    .row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      align-items: center;
+    }
+    @media (min-width: 820px){
+      .row{ grid-template-columns: 1fr auto; }
+    }
+    select, input[type="text"]{
+      width:100%;
+      font: inherit;
+      color: var(--text);
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding: 10px 10px;
+      outline: none;
     }
 
     /* ===== Catalog ===== */
@@ -190,8 +317,30 @@
       flex-wrap:wrap;
       margin-top: 6px;
     }
+    .btn{
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      font: inherit;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.06); }
 
     /* ===== Table ===== */
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.80);
+      font-size: 13px;
+      line-height: 1.4;
+    }
     .table-wrap{
       margin-top: 12px;
       border: 1px solid rgba(255,255,255,.10);
@@ -222,7 +371,6 @@
     }
     tbody tr:last-child td{ border-bottom: none; }
 
-    /* editable cells */
     td[contenteditable="true"]{
       outline: none;
       border-radius: 8px;
@@ -266,7 +414,7 @@
       }
 
       header{ display:none !important; }
-      .editor, .no-print { display:none !important; }
+      .no-print { display:none !important; }
 
       .section{ padding: 12px !important; }
       .panel{ padding: 10px !important; }
@@ -294,7 +442,9 @@
     <header>
       <div class="badge">💊 Protocol suplimente</div>
       <h1>Protocol suplimente – <span id="clientNameOut">Client</span></h1>
-      <p class="sub">Selectezi un protocol (din <code>/data/protocols.json</code>) sau adaugi din catalog (din <code>/data/catalog.json</code>). Fără salvare locală.</p>
+      <p class="sub">
+        Datele vin din <code>/data/catalog.json</code> și <code>/data/protocols.json</code>. Nimic nu se salvează local.
+      </p>
     </header>
 
     <main class="card">
@@ -304,66 +454,89 @@
           <!-- Titlu pentru PDF (print only) -->
           <div class="print-title">
             Protocol suplimente – <span id="printName" class="muted">Client</span>
+            <span id="printDate" class="date"></span>
           </div>
 
-          <!-- ===== EDITOR (no localStorage) ===== -->
-          <div class="editor">
-
-            <div class="grid2">
-              <div class="field">
+          <!-- ===== Sticky toolbar (principal) ===== -->
+          <div class="toolbar no-print" role="region" aria-label="Toolbar protocol suplimente">
+            <div class="left">
+              <div class="mini-field">
                 <label>Nume client</label>
                 <input id="clientName" placeholder="Ex: Andrei Popescu" />
               </div>
-              <div class="field">
+              <div class="mini-field">
                 <label>Obiectiv / context (1–2 fraze)</label>
                 <input id="goal" placeholder="Ex: somn, energie, stres, recuperare..." />
               </div>
             </div>
 
-            <!-- Protocoale standard (GitHub) -->
-            <div class="field">
-              <label>Protocoale (GitHub)</label>
-              <div class="grid2">
-                <div>
-                  <select id="stdProtocolSelect"></select>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                  <button class="btn" id="reloadData" type="button">Reîncarcă catalog + protocoale</button>
-                  <button class="btn" id="addStdProtocol" type="button">Adaugă protocol</button>
-                </div>
-              </div>
-              <div class="hint" style="margin-top:8px;">
-                Protocolul adaugă în tabel item-urile definite doar ca “referințe” (ID) către <code>catalog.json</code>.
-              </div>
-            </div>
+            <div class="right">
+              <div class="counter">Rânduri: <b id="rowCount">0</b></div>
 
-            <!-- Catalog standard -->
-            <div class="field">
-              <label>Catalog suplimente (GitHub)</label>
-              <div class="grid2">
-                <div><input id="catalogSearch" placeholder="Caută (ex: vitamina d, omega, magneziu)" /></div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                  <button class="btn" id="addEmptyRow" type="button">Adaugă rând gol</button>
-                  <button class="btn" id="clearTable" type="button">Șterge tabel</button>
-                </div>
-              </div>
-              <div class="catalog-grid" id="catalogList"></div>
-              <div class="hint" style="margin-top:8px;">
-                Poți edita manual orice celulă din tabel (inclusiv brand/link/note).
-              </div>
-            </div>
+              <button class="icon-btn primary" id="printBtn" type="button" title="Print / Save PDF" aria-label="Print / Save PDF">
+                🖨️<span class="sr-only">Print / Save PDF</span>
+              </button>
 
+              <button class="icon-btn" id="addEmptyRow" type="button" title="Adaugă rând gol" aria-label="Adaugă rând gol">
+                ＋<span class="sr-only">Adaugă rând gol</span>
+              </button>
+
+              <button class="icon-btn danger" id="clearTable" type="button" title="Șterge tabel" aria-label="Șterge tabel">
+                🗑️<span class="sr-only">Șterge tabel</span>
+              </button>
+            </div>
           </div>
+
+          <!-- ===== Accordions ===== -->
+          <details class="accordion no-print" id="protDetails">
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Protocoale</div>
+                <div class="sum-muted">(GitHub)</div>
+              </div>
+
+              <div class="sum-actions">
+                <button class="icon-btn" id="reloadDataTop" type="button" title="Reîncarcă catalog + protocoale" aria-label="Reîncarcă catalog + protocoale">
+                  🔄<span class="sr-only">Reîncarcă</span>
+                </button>
+                <button class="icon-btn primary" id="addStdProtocolTop" type="button" title="Adaugă protocol în tabel (Shift=Replace)" aria-label="Adaugă protocol în tabel">
+                  ➕<span class="sr-only">Adaugă protocol</span>
+                </button>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="row">
+                <select id="stdProtocolSelect"></select>
+                <div class="hint">Click = append. <b>Shift+Click</b> pe ➕ = replace (șterge tabelul și pune protocolul).</div>
+              </div>
+            </div>
+          </details>
+
+          <details class="accordion no-print" id="catalogDetails">
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Catalog suplimente</div>
+                <div class="sum-muted">(GitHub)</div>
+              </div>
+              <div class="sum-actions">
+                <button class="icon-btn" id="reloadData" type="button" title="Reîncarcă catalog + protocoale" aria-label="Reîncarcă catalog + protocoale">
+                  🔄<span class="sr-only">Reîncarcă</span>
+                </button>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <input id="catalogSearch" type="text" placeholder="Caută (ex: vitamina d, omega, magneziu)" />
+              <div class="catalog-grid" id="catalogList"></div>
+              <div class="hint">Tip: poți edita manual orice celulă din tabel (Supliment / Brand / Doză / Note / Link).</div>
+            </div>
+          </details>
 
           <div class="callout">
             <b>Obiectiv:</b> <span id="goalOut">—</span>
-          </div>
-
-          <div class="btnrow no-print">
-            <div class="hint">Rânduri în tabel: <b id="rowCount">0</b></div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <button class="btn" id="printBtn" type="button" onclick="window.print()">Print / Save PDF</button>
-            </div>
           </div>
 
           <div class="table-wrap" aria-label="Tabel suplimente">
@@ -394,19 +567,28 @@
       clientNameOut: document.getElementById('clientNameOut'),
       printName: document.getElementById('printName'),
       goalOut: document.getElementById('goalOut'),
+      printDate: document.getElementById('printDate'),
 
+      // toolbar
+      printBtn: document.getElementById('printBtn'),
+      addEmptyRow: document.getElementById('addEmptyRow'),
+      clearTable: document.getElementById('clearTable'),
+      rowCount: document.getElementById('rowCount'),
+
+      // protocols accordion
+      protDetails: document.getElementById('protDetails'),
       stdProtocolSelect: document.getElementById('stdProtocolSelect'),
-      reloadData: document.getElementById('reloadData'),
-      addStdProtocol: document.getElementById('addStdProtocol'),
+      reloadDataTop: document.getElementById('reloadDataTop'),
+      addStdProtocolTop: document.getElementById('addStdProtocolTop'),
 
+      // catalog accordion
+      catalogDetails: document.getElementById('catalogDetails'),
+      reloadData: document.getElementById('reloadData'),
       catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
-      addEmptyRow: document.getElementById('addEmptyRow'),
-      clearTable: document.getElementById('clearTable'),
-
+      // table
       tbody: document.getElementById('suppTbody'),
-      rowCount: document.getElementById('rowCount'),
     };
 
     // Data only from GitHub Pages (no localStorage)
@@ -498,18 +680,24 @@
       addRow(item);
     }
 
-    function addProtocolToTable(p){
+    function addProtocolToTable(p, { replace = false } = {}){
       const ids = Array.isArray(p?.items) ? p.items : [];
+      if (replace) rows = [];
+
       for (const ref of ids){
         const id = safeTrim(ref);
         const it = catalogById.get(id);
         if (it){
+          // dedup basic: same name+brand
           const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
           if (!exists) addCatalogItemToTable(it);
         } else {
           addRow({ name: id });
         }
       }
+
+      // close protocol accordion after add (optional)
+      els.protDetails.open = false;
       renderHeader();
     }
 
@@ -535,8 +723,8 @@
         meta.innerHTML =
           `<div><b>Brand:</b> ${it.brand || '—'}</div>
            <div><b>Doză:</b> ${it.dose || '—'}</div>
-           <div><b>Link:</b> ${it.link ? it.link : '—'}</div>
-           <div><b>Note:</b> ${it.notes || '—'}</div>`;
+           <div><b>Note:</b> ${it.notes || '—'}</div>
+           <div><b>Link:</b> ${it.link ? it.link : '—'}</div>`;
 
         const actions = document.createElement('div');
         actions.className = 'actions';
@@ -618,43 +806,74 @@
       renderHeader();
       renderCatalog();
       renderTable();
+
+      // default collapsed
+      els.protDetails.open = false;
+      els.catalogDetails.open = false;
+    }
+
+    function setPrintDate(){
+      try{
+        const d = new Date();
+        els.printDate.textContent = d.toLocaleDateString('ro-RO');
+      }catch(e){
+        els.printDate.textContent = '';
+      }
     }
 
     async function init(){
+      setPrintDate();
       renderHeader();
       renderTable(); // empty
 
-      els.clientName.addEventListener('input', renderHeader);
-      els.goal.addEventListener('input', renderHeader);
-
-      els.catalogSearch.addEventListener('input', renderCatalog);
-
+      // toolbar actions
+      els.printBtn.addEventListener('click', () => window.print());
       els.addEmptyRow.addEventListener('click', () => addRow({}));
       els.clearTable.addEventListener('click', () => { rows = []; renderTable(); });
 
-      els.reloadData.addEventListener('click', async () => {
-        await loadData();
-      });
+      // inputs
+      els.clientName.addEventListener('input', renderHeader);
+      els.goal.addEventListener('input', renderHeader);
 
-      els.addStdProtocol.addEventListener('click', () => {
+      // catalog
+      els.catalogSearch.addEventListener('input', renderCatalog);
+
+      // reload data (both buttons)
+      const doReload = async () => {
+        await loadData();
+        // keep table intact; just refresh lists
+        renderCatalog();
+        renderProtocolSelect();
+      };
+      els.reloadData.addEventListener('click', doReload);
+      els.reloadDataTop.addEventListener('click', doReload);
+
+      // add protocol (icon)
+      const doAddProtocol = (ev) => {
         const v = els.stdProtocolSelect.value;
         if (!v) return;
         const idx = Number(v);
         const p = protocols[idx];
         if (!p) return;
 
+        // if goal empty, fill from protocol goal
         if (!safeTrim(els.goal.value) && safeTrim(p.goal)) {
           els.goal.value = p.goal;
         }
-        addProtocolToTable(p);
+
+        // Shift+click => replace
+        const replace = !!(ev && ev.shiftKey);
+        addProtocolToTable(p, { replace });
         renderHeader();
-      });
+      };
+      els.addStdProtocolTop.addEventListener('click', doAddProtocol);
 
       await loadData();
       resetAll();
     }
 
     init().catch(() => {
+      setPrintDate();
       resetAll();
     });
   </script>
