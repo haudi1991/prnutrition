@@ -101,8 +101,66 @@
     .card.app{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
     }
-    .card.data{
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+
+    /* ===== JSON area: smaller + "technical" feel ===== */
+    .data-wrap{
+      margin-top: 6px;
+      border: 1px dashed rgba(255,255,255,.14);
+      background: rgba(255,255,255,.015);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .grid.data-grid{
+      gap: 10px;
+    }
+    @media (min-width: 820px){
+      .grid.data-grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    a.card.data{
+      background: rgba(255,255,255,.015);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: none;                 /* ✅ diferențiere clară față de apps */
+      padding: 12px 14px;               /* ✅ mai mic */
+      min-height: 108px;                /* ✅ mai mic */
+    }
+    a.card.data:hover{
+      transform: translateY(-1px);
+      transition: transform .12s ease;
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.02);
+    }
+    a.card.data .sub{
+      font-size: 12px;                  /* ✅ mai mic */
+      color: rgba(234,241,255,.60);
+    }
+    a.card.data .pill{
+      font-size: 11px;                  /* ✅ mai mic */
+      padding: 5px 9px;
+      opacity: .9;
+    }
+    a.card.data .open{
+      font-size: 11px;                  /* ✅ mai mic */
+      padding: 6px 9px;
+      opacity: .85;
+      background: rgba(255,255,255,.02);
+      border-color: rgba(255,255,255,.10);
+    }
+    a.card.data .title{
+      font-size: 14px;                  /* ✅ mai mic */
+    }
+
+    /* "chip" JSON */
+    .json-chip{
+      width: fit-content;
+      border: 1px solid rgba(167,243,208,.18);
+      background: rgba(167,243,208,.08);
+      color: rgba(234,241,255,.78);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
     }
 
     a.card:hover{
@@ -139,8 +197,11 @@
       border-color: rgba(125,211,252,.18);
     }
     .ico.data{
+      width: 24px; height: 24px;       /* ✅ mai mic la JSON */
+      border-radius: 10px;
       background: rgba(167,243,208,.08);
       border-color: rgba(167,243,208,.16);
+      font-size: 13px;
     }
 
     .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
@@ -298,34 +359,39 @@
       <small>fișiere tehnice</small>
     </div>
 
-    <div class="grid">
-      <a class="card data" href="./data/catalog.json">
-        <div class="topline">
-          <div class="title">
-            <span class="ico data">🗂️</span>
-            catalog.json
+    <!-- ✅ wrapper diferit + cards mai mici -->
+    <div class="data-wrap">
+      <div class="grid data-grid">
+        <a class="card data" href="./data/catalog.json">
+          <div class="topline">
+            <div class="title">
+              <span class="ico data">🗂️</span>
+              catalog.json
+            </div>
+            <span class="json-chip">JSON</span>
           </div>
-          <span class="open">Deschide →</span>
-        </div>
-        <div class="sub">Catalog standard suplimente (read-only). Folosit de aplicația de suplimente.</div>
-        <div class="row">
-          <div class="pill">/data/catalog.json</div>
-        </div>
-      </a>
+          <div class="sub">Catalog standard suplimente (read-only). Folosit de aplicația de suplimente.</div>
+          <div class="row">
+            <div class="pill">/data/catalog.json</div>
+            <span class="open">Deschide</span>
+          </div>
+        </a>
 
-      <a class="card data" href="./data/protocols.json">
-        <div class="topline">
-          <div class="title">
-            <span class="ico data">🧩</span>
-            protocols.json
+        <a class="card data" href="./data/protocols.json">
+          <div class="topline">
+            <div class="title">
+              <span class="ico data">🧩</span>
+              protocols.json
+            </div>
+            <span class="json-chip">JSON</span>
           </div>
-          <span class="open">Deschide →</span>
-        </div>
-        <div class="sub">Protocoale standard (read-only). Folosit de aplicația de suplimente (Adaugă protocol).</div>
-        <div class="row">
-          <div class="pill">/data/protocols.json</div>
-        </div>
-      </a>
+          <div class="sub">Protocoale standard (read-only). Folosit de aplicația de suplimente (Adaugă protocol).</div>
+          <div class="row">
+            <div class="pill">/data/protocols.json</div>
+            <span class="open">Deschide</span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 
