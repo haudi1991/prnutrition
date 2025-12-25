@@ -2,37 +2,8 @@
   {
     "id": "sleep-01",
     "name": "Somn – calmare (ashwagandha + theanine + GABA + Mg)",
-    "goal": "Somn: adormire mai ușoară + reducerea tensiunii seara",
-    "rows": [
-      {
-        "name": "Magneziu bisglicinat",
-        "dose": "200–350 mg Mg elementar",
-        "whenHow": "1–2h înainte de somn",
-        "link": "",
-        "notes": "Scade doza dacă deranjează digestiv; distanță 2–4h față de unele medicamente (ex. antibiotice/bisfosfonați)."
-      },
-      {
-        "name": "L-teanină",
-        "dose": "100–200 mg",
-        "whenHow": "30–60 min înainte de somn, cu apă",
-        "link": "",
-        "notes": "Relaxare; dovezile sunt promițătoare, dar doza/durata diferă între studii."
-      },
-      {
-        "name": "Ashwagandha (standardizată)",
-        "dose": "300–600 mg",
-        "whenHow": "seara, cu mâncare (sau 300 mg x2/zi)",
-        "link": "",
-        "notes": "6–8 săpt; evită în sarcină/alăptare; atenție la tiroidă; oprești dacă apar simptome neobișnuite."
-      },
-      {
-        "name": "GABA",
-        "dose": "100–300 mg",
-        "whenHow": "30–60 min înainte de somn (mai ales în seri stresante)",
-        "link": "",
-        "notes": "Dovezi limitate; unele studii au folosit 300 mg/zi (posibile efecte GI/cefalee)."
-      }
-    ]
+    "goal": "Somn: adormire mai ușoară",
+    "items": ["magnesium-bisglycinate", "l-theanine", "ashwagandha", "gaba"]
   }
 ]
 

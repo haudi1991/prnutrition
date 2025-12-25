@@ -1,73 +1,57 @@
 [
   {
+    "id": "vitamina-d3",
     "name": "Vitamina D3",
+    "brand": "NOW Foods",
     "dose": "2000 UI",
     "whenHow": "dimineața, cu masă cu grăsimi",
     "link": "https://gymbeam.ro/vitamina-d3-2000-iu-240-caps-now-foods.html",
     "notes": "iarna / în funcție de analize"
   },
   {
+    "id": "omega-3",
     "name": "Omega-3",
+    "brand": "Nordic Naturals",
     "dose": "1–2 g EPA+DHA",
     "whenHow": "prânz/cină, cu mâncare",
     "link": "",
     "notes": "recuperare / inflamație"
   },
   {
-    "name": "Magneziu (glicinat)",
-    "dose": "200–400 mg",
-    "whenHow": "seara, cu apă",
+    "id": "magnesium-bisglycinate",
+    "name": "Magneziu bisglicinat",
+    "brand": "Doctor's Best",
+    "dose": "200–350 mg Mg elementar",
+    "whenHow": "1–2h înainte de somn",
     "link": "",
-    "notes": "somn / relaxare"
+    "notes": "scade doza dacă deranjează digestiv"
   },
   {
-    "name": "Creatină monohidrat",
-    "dose": "3–5 g",
-    "whenHow": "zilnic, cu apă (oricând)",
+    "id": "l-theanine",
+    "name": "L-teanină",
+    "brand": "Jarrow",
+    "dose": "100–200 mg",
+    "whenHow": "30–60 min înainte de somn, cu apă",
     "link": "",
-    "notes": "performanță / energie"
+    "notes": "relaxare"
   },
   {
-    "name": "Zinc",
-    "dose": "10–15 mg",
-    "whenHow": "cu masă",
-    "link": "",
-    "notes": "nu pe termen lung zilnic"
-  },
-  {
-    "name": "Vitamina C",
-    "dose": "250–500 mg",
-    "whenHow": "oricând, cu apă",
-    "link": "",
-    "notes": "la nevoie"
-  },
-  {
-    "name": "Electroliți",
-    "dose": "1 porție",
-    "whenHow": "în timpul/antrenament sau după",
-    "link": "",
-    "notes": "hidratare / crampe"
-  },
-  {
-    "name": "Probiotic",
-    "dose": "conform etichetei",
-    "whenHow": "dimineața sau seara, constant",
-    "link": "",
-    "notes": "digestie (cure 4–8 săpt.)"
-  },
-  {
-    "name": "Ashwagandha",
+    "id": "ashwagandha",
+    "name": "Ashwagandha (standardizată)",
+    "brand": "KSM-66",
     "dose": "300–600 mg",
-    "whenHow": "seara sau după-amiază",
+    "whenHow": "seara, cu mâncare (sau 300 mg x2/zi)",
     "link": "",
-    "notes": "stres / somn (după toleranță)"
+    "notes": "evită în sarcină/alăptare; atenție la tiroidă"
   },
   {
-    "name": "Melatonină",
-    "dose": "0.5–2 mg",
-    "whenHow": "cu 30–60 min înainte de somn",
+    "id": "gaba",
+    "name": "GABA",
+    "brand": "NOW Foods",
+    "dose": "100–300 mg",
+    "whenHow": "30–60 min înainte de somn (mai ales în seri stresante)",
     "link": "",
-    "notes": "doze mici, pe perioade scurte"
+    "notes": "dovezi limitate; posibil GI/cefalee"
   }
 ]
 
