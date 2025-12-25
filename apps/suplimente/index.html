@@ -472,7 +472,7 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
     // ===== Remote catalog from GitHub Pages =====
     async function loadRemoteCatalog(){
       try{
-        const res = await fetch('./catalog.json', { cache: 'no-store' });
+        const res = await fetch('../../data/catalog.json', { cache: 'no-store' });
         if (!res.ok) return [];
         const data = await res.json();
         return Array.isArray(data) ? data : [];
