@@ -168,7 +168,7 @@
       white-space: nowrap;
     }
 
-    /* ===== Icon buttons + short tooltips ===== */
+    /* ===== Icon buttons + tooltips ===== */
     .icon-btn{
       cursor:pointer;
       width: 40px;
@@ -197,17 +197,20 @@
       transform: none;
     }
 
+    /* tooltips: allow wrapping + keep visible above rows */
     button[data-tip]{ position: relative; }
     button[data-tip]::after{
       content: attr(data-tip);
       position: absolute;
       left: 50%;
-      bottom: calc(100% + 10px);
+      bottom: calc(100% + 12px);
       transform: translateX(-50%) translateY(2px);
       opacity: 0;
       pointer-events: none;
 
-      white-space: nowrap;
+      max-width: 220px;
+      white-space: normal;
+      text-align: center;
 
       font-size: 12px;
       line-height: 1.25;
@@ -220,13 +223,13 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       transition: opacity .14s ease, transform .14s ease;
-      z-index: 50;
+      z-index: 9999; /* ensure above delete etc */
     }
     button[data-tip]::before{
       content:"";
       position:absolute;
       left:50%;
-      bottom: calc(100% + 4px);
+      bottom: calc(100% + 6px);
       transform: translateX(-50%) translateY(2px);
       opacity:0;
       pointer-events:none;
@@ -236,7 +239,7 @@
       border-right: 6px solid transparent;
       border-top: 6px solid rgba(255,255,255,.14);
       transition: opacity .14s ease, transform .14s ease;
-      z-index: 49;
+      z-index: 9998;
     }
     button[data-tip]:hover::after,
     button[data-tip]:hover::before,
@@ -323,7 +326,7 @@
       outline: none;
     }
 
-    /* ===== Search (moved under Catalog) ===== */
+    /* ===== Search (under Catalog) ===== */
     .searchbox{
       display:flex;
       align-items:center;
@@ -419,7 +422,7 @@
     .table-actions{
       margin-top: 10px;
       display:flex;
-      justify-content:flex-end;
+      justify-content:space-between;
       align-items:center;
       gap:10px;
     }
@@ -569,7 +572,8 @@
             <div class="right">
               <div class="counter">Rânduri: <b id="rowCount">0</b></div>
 
-              <button class="icon-btn" id="clearTable" type="button" disabled data-tip="Reset">
+              <!-- Reset = reset la TOT -->
+              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">
                 🗑️<span class="sr-only">Reset</span>
               </button>
             </div>
@@ -585,8 +589,8 @@
               </div>
 
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadProt" type="button" data-tip="Reîncarcă">
-                  🔄<span class="sr-only">Reload</span>
+                <button class="icon-btn" id="reloadProt" type="button" data-tip="Sync">
+                  🔄<span class="sr-only">Sync</span>
                 </button>
                 <button class="icon-btn primary" id="addProtocolBtn" type="button" disabled data-tip="Adaugă">
                   ➕<span class="sr-only">Add</span>
@@ -600,7 +604,7 @@
             </div>
           </details>
 
-          <!-- Catalog (open by default) -->
+          <!-- Catalog -->
           <details class="accordion no-print" id="catalogDetails" open>
             <summary>
               <div class="sum-left">
@@ -610,14 +614,13 @@
               </div>
 
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadCatalogBtn" type="button" data-tip="Reîncarcă">
-                  🔄<span class="sr-only">Reload</span>
+                <button class="icon-btn" id="reloadCatalogBtn" type="button" data-tip="Sync">
+                  🔄<span class="sr-only">Sync</span>
                 </button>
               </div>
             </summary>
 
             <div class="accordion-body">
-              <!-- moved search right under Catalog -->
               <div class="searchbox">
                 <div class="mag" aria-hidden="true">🔎</div>
                 <input id="catalogSearch" placeholder="Caută rapid (ex: d3, omega, magneziu)" />
@@ -631,8 +634,15 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Print moved near table -->
+          <!-- Actions near table: Add empty + Print -->
           <div class="table-actions no-print">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând">
+                ＋<span class="sr-only">Row</span>
+              </button>
+              <div class="hint">Rând gol pentru completare manuală.</div>
+            </div>
+
             <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">
               🖨️<span class="sr-only">Print</span>
             </button>
@@ -669,10 +679,11 @@
       printDate: document.getElementById('printDate'),
 
       // toolbar
-      clearTable: document.getElementById('clearTable'),
+      resetAll: document.getElementById('resetAll'),
       rowCount: document.getElementById('rowCount'),
 
-      // print near table
+      // table actions
+      addEmptyRow: document.getElementById('addEmptyRow'),
       printBtn: document.getElementById('printBtn'),
 
       // protocols
@@ -735,16 +746,12 @@
     }
 
     function getProtocolIds(p){
-      // preferred new format: p.items = ["id1","id2"...]
       if (Array.isArray(p?.items)) return p.items.map(x => safeTrim(x)).filter(Boolean);
-
-      // fallback old format: p.rows with "name"
       if (Array.isArray(p?.rows)) {
         return p.rows
           .map(r => safeTrim(r?.id) || findCatalogIdByName(r?.name) || safeTrim(r?.name))
           .filter(Boolean);
       }
-
       return [];
     }
 
@@ -796,7 +803,7 @@
       const notes = safeTrim(r?.notes);
       const link = safeTrim(r?.link);
 
-      // avoid empty row creation
+      // avoid empty row creation from bad clicks; allow explicit empty row via addEmptyRow
       if (!(name || brand || dose || notes || link)) return false;
 
       rows.push({ name, brand, dose, notes, link });
@@ -813,18 +820,13 @@
       const ids = getProtocolIds(p);
       if (!ids.length) return;
 
-      let added = 0;
-
       for (const idOrName of ids){
         const it = catalogById.get(idOrName);
         if (it){
           const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
-          if (!exists){
-            if (addRow(it)) added++;
-          }
+          if (!exists) addRow(it);
         } else {
-          // fallback: add name-only row
-          if (addRow({ name: idOrName })) added++;
+          addRow({ name: idOrName });
         }
       }
 
@@ -833,8 +835,6 @@
       els.protDetails.open = false;
       renderHeader();
       syncButtons();
-
-      return added;
     }
 
     function renderCatalog(){
@@ -939,8 +939,6 @@
     });
 
     function syncButtons(){
-      const hasRows = rows.length > 0;
-      els.clearTable.disabled = !hasRows;
       els.addProtocolBtn.disabled = !safeTrim(els.stdProtocolSelect.value);
       els.rowCount.textContent = String(rows.length);
     }
@@ -975,13 +973,17 @@
       renderHeader();
       renderTable();
 
-      // actions
-      els.printBtn.addEventListener('click', () => window.print());
+      // Reset = reset la TOT
+      els.resetAll.addEventListener('click', resetAll);
 
-      els.clearTable.addEventListener('click', () => {
-        rows = [];
+      // Add empty row (manual)
+      els.addEmptyRow.addEventListener('click', () => {
+        rows.push({ name:'', brand:'', dose:'', notes:'', link:'' });
         renderTable();
       });
+
+      // Print
+      els.printBtn.addEventListener('click', () => window.print());
 
       // inputs
       els.clientName.addEventListener('input', renderHeader);
@@ -990,7 +992,7 @@
       // search
       els.catalogSearch.addEventListener('input', renderCatalog);
 
-      // reload near each section
+      // reload (sync) near each section
       els.reloadCatalogBtn.addEventListener('click', async () => {
         await loadCatalog();
         renderCatalog();
