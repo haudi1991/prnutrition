@@ -102,72 +102,6 @@
       line-height: 1.4;
     }
 
-    /* ===== Sticky toolbar ===== */
-    .toolbar{
-      position: sticky;
-      top: 10px;
-      z-index: 10;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(11,15,23,.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 10px;
-      display:flex;
-      gap:10px;
-      align-items: stretch;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.18);
-    }
-    .toolbar .left{
-      display:flex;
-      flex: 1 1 auto;
-      gap:10px;
-      min-width: 0;
-      flex-wrap: wrap;
-      align-items: stretch;
-    }
-    .mini-field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width: 220px;
-      flex: 1 1 260px;
-    }
-    .mini-field label{
-      font-size: 11px;
-      color: rgba(234,241,255,.70);
-    }
-    .mini-field input{
-      width:100%;
-      font: inherit;
-      color: var(--text);
-      background: rgba(255,255,255,.02);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 12px;
-      padding: 10px 10px;
-      outline: none;
-    }
-
-    .toolbar .right{
-      display:flex;
-      flex: 0 0 auto;
-      gap:8px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .counter{
-      font-size: 12px;
-      color: rgba(234,241,255,.70);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      padding: 8px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
     /* ===== Icon buttons + tooltips ===== */
     .icon-btn{
       cursor:pointer;
@@ -197,7 +131,7 @@
       transform: none;
     }
 
-    /* tooltips: allow wrapping + keep visible above rows */
+    /* tooltips */
     button[data-tip]{ position: relative; }
     button[data-tip]::after{
       content: attr(data-tip);
@@ -223,7 +157,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       transition: opacity .14s ease, transform .14s ease;
-      z-index: 9999; /* ensure above delete etc */
+      z-index: 9999;
     }
     button[data-tip]::before{
       content:"";
@@ -422,9 +356,17 @@
     .table-actions{
       margin-top: 10px;
       display:flex;
+      align-items:center;
       justify-content:space-between;
+      gap:10px;
+      flex-wrap: wrap;
+    }
+    /* buttons in one row (left) */
+    .table-actions .left-actions{
+      display:flex;
       align-items:center;
       gap:10px;
+      flex-wrap: wrap;
     }
 
     .table-wrap{
@@ -478,7 +420,7 @@
       height: 28px;
       display:inline-grid;
       place-items:center;
-      border: 1px solid rgba(255,255,255,.12);
+      border:  1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       color: rgba(234,241,255,.85);
       border-radius: 10px;
@@ -556,28 +498,30 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- Sticky toolbar -->
-          <div class="toolbar no-print">
-            <div class="left">
-              <div class="mini-field">
-                <label>Nume client</label>
-                <input id="clientName" placeholder="Ex: Andrei Popescu" />
+          <!-- Inputs (keep simple) -->
+          <details class="accordion no-print" open>
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Date</div>
+                <div class="sum-muted">client + obiectiv</div>
               </div>
-              <div class="mini-field">
-                <label>Obiectiv / context (1–2 fraze)</label>
-                <input id="goal" placeholder="Ex: somn, energie, stres, recuperare..." />
+              <div class="sum-actions"></div>
+            </summary>
+
+            <div class="accordion-body">
+              <div style="display:grid; grid-template-columns: 1fr; gap:10px;">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Nume client</div>
+                  <input id="clientName" style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;" placeholder="Ex: Andrei Popescu" />
+                </div>
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
+                  <input id="goal" style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;" placeholder="Ex: somn, energie, stres, recuperare..." />
+                </div>
               </div>
             </div>
-
-            <div class="right">
-              <div class="counter">Rânduri: <b id="rowCount">0</b></div>
-
-              <!-- Reset = reset la TOT -->
-              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">
-                🗑️<span class="sr-only">Reset</span>
-              </button>
-            </div>
-          </div>
+          </details>
 
           <!-- Protocoale -->
           <details class="accordion no-print" id="protDetails">
@@ -589,11 +533,8 @@
               </div>
 
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadProt" type="button" data-tip="Sync">
-                  🔄<span class="sr-only">Sync</span>
-                </button>
-                <button class="icon-btn primary" id="addProtocolBtn" type="button" disabled data-tip="Adaugă">
-                  ➕<span class="sr-only">Add</span>
+                <button class="icon-btn primary" id="addProtocolBtn" type="button" disabled data-tip="Adaugă protocol">
+                  ➕<span class="sr-only">Add protocol</span>
                 </button>
               </div>
             </summary>
@@ -614,9 +555,7 @@
               </div>
 
               <div class="sum-actions">
-                <button class="icon-btn" id="reloadCatalogBtn" type="button" data-tip="Sync">
-                  🔄<span class="sr-only">Sync</span>
-                </button>
+                <div class="hint">Click pe “Adaugă”.</div>
               </div>
             </summary>
 
@@ -634,18 +573,15 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions near table: Add empty + Print -->
+          <!-- Actions near table: + row, reset, print (one row) -->
           <div class="table-actions no-print">
-            <div style="display:flex; gap:10px; align-items:center;">
-              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând">
-                ＋<span class="sr-only">Row</span>
-              </button>
-              <div class="hint">Rând gol pentru completare manuală.</div>
-            </div>
+            <div class="left-actions">
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
+              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
 
-            <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">
-              🖨️<span class="sr-only">Print</span>
-            </button>
+              <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
+            </div>
           </div>
 
           <div class="table-wrap" aria-label="Tabel suplimente">
@@ -678,27 +614,20 @@
       goalOut: document.getElementById('goalOut'),
       printDate: document.getElementById('printDate'),
 
-      // toolbar
       resetAll: document.getElementById('resetAll'),
       rowCount: document.getElementById('rowCount'),
 
-      // table actions
       addEmptyRow: document.getElementById('addEmptyRow'),
       printBtn: document.getElementById('printBtn'),
 
-      // protocols
       protDetails: document.getElementById('protDetails'),
       stdProtocolSelect: document.getElementById('stdProtocolSelect'),
-      reloadProt: document.getElementById('reloadProt'),
       addProtocolBtn: document.getElementById('addProtocolBtn'),
 
-      // catalog
       catalogDetails: document.getElementById('catalogDetails'),
-      reloadCatalogBtn: document.getElementById('reloadCatalogBtn'),
       catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
-      // table
       tbody: document.getElementById('suppTbody'),
     };
 
@@ -766,7 +695,7 @@
       protocols = Array.isArray(protRaw) ? protRaw : [];
     }
 
-    async function loadAll(){
+    async function initData(){
       await Promise.all([loadCatalog(), loadProtocols()]);
       renderProtocolSelect();
       renderCatalog();
@@ -802,8 +731,6 @@
       const dose = safeTrim(r?.dose);
       const notes = safeTrim(r?.notes);
       const link = safeTrim(r?.link);
-
-      // avoid empty row creation from bad clicks; allow explicit empty row via addEmptyRow
       if (!(name || brand || dose || notes || link)) return false;
 
       rows.push({ name, brand, dose, notes, link });
@@ -869,7 +796,7 @@
         addBtn.className = 'btn';
         addBtn.type = 'button';
         addBtn.textContent = 'Adaugă';
-        addBtn.setAttribute('data-tip', 'Adaugă');
+        addBtn.setAttribute('data-tip', 'Adaugă în tabel');
         addBtn.addEventListener('click', () => addCatalogItemToTable(it));
 
         actions.appendChild(addBtn);
@@ -910,7 +837,7 @@
         btn.className = 'del-mini';
         btn.type = 'button';
         btn.textContent = '🗑️';
-        btn.setAttribute('data-tip', 'Șterge');
+        btn.setAttribute('data-tip', 'Șterge rând');
         btn.addEventListener('click', () => {
           rows.splice(idx, 1);
           renderTable();
@@ -927,7 +854,6 @@
       syncButtons();
     }
 
-    // update rows on edit
     els.tbody.addEventListener('focusout', (e) => {
       const td = e.target;
       if (!(td instanceof HTMLElement)) return;
@@ -973,38 +899,20 @@
       renderHeader();
       renderTable();
 
-      // Reset = reset la TOT
       els.resetAll.addEventListener('click', resetAll);
 
-      // Add empty row (manual)
       els.addEmptyRow.addEventListener('click', () => {
         rows.push({ name:'', brand:'', dose:'', notes:'', link:'' });
         renderTable();
       });
 
-      // Print
       els.printBtn.addEventListener('click', () => window.print());
 
-      // inputs
       els.clientName.addEventListener('input', renderHeader);
       els.goal.addEventListener('input', renderHeader);
 
-      // search
       els.catalogSearch.addEventListener('input', renderCatalog);
 
-      // reload (sync) near each section
-      els.reloadCatalogBtn.addEventListener('click', async () => {
-        await loadCatalog();
-        renderCatalog();
-      });
-
-      els.reloadProt.addEventListener('click', async () => {
-        await loadProtocols();
-        renderProtocolSelect();
-        syncButtons();
-      });
-
-      // protocol add
       els.stdProtocolSelect.addEventListener('change', syncButtons);
       els.addProtocolBtn.addEventListener('click', () => {
         const v = els.stdProtocolSelect.value;
@@ -1015,7 +923,7 @@
         addProtocolToTable(p);
       });
 
-      await loadAll();
+      await initData();
       resetAll();
     }
 
