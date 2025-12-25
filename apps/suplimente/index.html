@@ -243,7 +243,7 @@
       }
 
       header{ display:none !important; }
-      .editor, .btnrow, .hint, .catalog-area, .protocol-area, .backup-area { display:none !important; }
+      .editor, .btnrow, .hint, .catalog-area, .protocol-area, .std-protocol-area, .backup-area { display:none !important; }
 
       .section{ padding: 12px !important; }
       .panel{ padding: 10px !important; }
@@ -272,7 +272,7 @@
       <div class="badge">💊 Protocol suplimente</div>
       <h1>Protocol suplimente – <span id="clientNameOut">Client</span></h1>
       <p class="sub">
-        Catalogul standard se încarcă din <b>catalog.json</b> (GitHub Pages). Tot ce e “per client” rămâne local în browser (Save/Load + Export/Import).
+        Standard: catalog + protocoale din GitHub. Per-client: salvat local (Save/Load + Export/Import). La print rămâne doar titlul + obiectiv + tabelul.
       </p>
     </header>
 
@@ -294,7 +294,26 @@
               </div>
               <div class="field">
                 <label>Obiectiv / context (1–2 fraze)</label>
-                <input id="goal" placeholder="Ex: energie, deficit, somn, analize..." />
+                <input id="goal" placeholder="Ex: somn, energie, stres, recuperare..." />
+              </div>
+            </div>
+
+            <!-- Protocoale standard (GitHub) -->
+            <div class="std-protocol-area field">
+              <label>Protocoale standard (GitHub)</label>
+
+              <div class="grid2">
+                <div>
+                  <select id="stdProtocolSelect"></select>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="btn" id="reloadStdProtocols" type="button">Reîncarcă</button>
+                  <button class="btn" id="addStdProtocol" type="button">Adaugă protocol</button>
+                </div>
+              </div>
+
+              <div class="hint" style="margin-top:8px;">
+                “Adaugă protocol” îl pune peste ce ai deja în listă (textarea).
               </div>
             </div>
 
@@ -311,7 +330,7 @@
               </div>
 
               <div class="grid2" style="margin-top:10px;">
-                <div><input id="protocolName" placeholder="Nume protocol (ex: Energie – standard)" /></div>
+                <div><input id="protocolName" placeholder="Nume protocol (ex: Somn – client X)" /></div>
                 <div class="hint">Salvează nume + obiectiv + lista de suplimente în browser (local).</div>
               </div>
             </div>
@@ -325,7 +344,7 @@
                 <input id="importFile" type="file" accept="application/json" style="display:none;" />
               </div>
               <div class="hint" style="margin-top:8px;">
-                Backup-ul conține: protocoale + ultima stare + suplimente adăugate local (nu modifică catalogul standard din GitHub).
+                Backup-ul conține: protocoale locale + ultima stare + suplimente adăugate local (nu modifică fișierele din GitHub).
               </div>
             </div>
 
@@ -432,7 +451,12 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       tbody: document.getElementById('suppTbody'),
       rowCount: document.getElementById('rowCount'),
 
-      // protocols
+      // std protocols (GitHub)
+      stdProtocolSelect: document.getElementById('stdProtocolSelect'),
+      reloadStdProtocols: document.getElementById('reloadStdProtocols'),
+      addStdProtocol: document.getElementById('addStdProtocol'),
+
+      // local protocols
       protocolSelect: document.getElementById('protocolSelect'),
       protocolName: document.getElementById('protocolName'),
       saveProtocol: document.getElementById('saveProtocol'),
@@ -460,12 +484,15 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       clearAll: document.getElementById('clearAll'),
     };
 
-    const STORAGE_STATE = 'supp_state_v5';
-    const STORAGE_PROTOCOLS = 'supp_protocols_v2';
-    const STORAGE_LOCAL_CATALOG = 'supp_catalog_local_v1';
+    const STORAGE_STATE = 'supp_state_v6';
+    const STORAGE_PROTOCOLS = 'supp_protocols_v3';
+    const STORAGE_LOCAL_CATALOG = 'supp_catalog_local_v2';
 
-    let remoteCatalogCache = []; // loaded from catalog.json
-    let mergedCatalogCache = []; // remote + local additions
+    // caches
+    let remoteCatalogCache = [];
+    let mergedCatalogCache = [];
+
+    let stdProtocolsCache = [];
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
 
@@ -479,6 +506,64 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       }catch(e){
         return [];
       }
+    }
+
+    // ===== Standard protocols from GitHub Pages =====
+    async function loadStdProtocols(){
+      try{
+        const res = await fetch('../../data/protocols.json', { cache: 'no-store' });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      }catch(e){
+        return [];
+      }
+    }
+
+    function renderStdProtocolSelect(){
+      els.stdProtocolSelect.innerHTML = '';
+
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '— Selectează protocol standard —';
+      els.stdProtocolSelect.appendChild(opt0);
+
+      stdProtocolsCache.forEach((p, idx) => {
+        const opt = document.createElement('option');
+        opt.value = String(idx);
+        opt.textContent = p?.name || p?.id || `Protocol ${idx+1}`;
+        els.stdProtocolSelect.appendChild(opt);
+      });
+    }
+
+    async function refreshStdProtocols(){
+      stdProtocolsCache = await loadStdProtocols();
+      renderStdProtocolSelect();
+    }
+
+    function protocolRowsToText(rows){
+      if (!Array.isArray(rows)) return '';
+      return rows
+        .map(r => {
+          const name = (r?.name ?? '').toString().trim();
+          const dose = (r?.dose ?? '').toString().trim();
+          const whenHow = (r?.whenHow ?? '').toString().trim();
+          const link = (r?.link ?? '').toString().trim();
+          const notes = (r?.notes ?? '').toString().trim();
+          return [name, dose, whenHow, link, notes].join(' | ');
+        })
+        .filter(line => line.replace(/\|/g,'').trim().length > 0)
+        .join('\n');
+    }
+
+    function appendTextToTextarea(text){
+      const add = (text || '').trim();
+      if (!add) return;
+
+      const current = (els.suppInput.value || '').trimEnd();
+      els.suppInput.value = current ? (current + '\n' + add) : add;
+
+      onAnyInput();
     }
 
     // ===== Local additions catalog =====
@@ -520,7 +605,6 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       remoteCatalogCache = await loadRemoteCatalog();
       const local = loadLocalCatalog();
 
-      // remote (standard) + local additions (personal)
       mergedCatalogCache = dedupCatalog([...(remoteCatalogCache || []), ...(local || [])]);
       renderCatalog();
     }
@@ -629,7 +713,7 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       }catch(e){}
     }
 
-    // ===== Protocols =====
+    // ===== Local Protocols =====
     function loadProtocols(){
       try{
         const raw = localStorage.getItem(STORAGE_PROTOCOLS);
@@ -763,15 +847,31 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
       onAnyInput();
 
       renderProtocolSelect();
+
       await refreshCatalog();
+      await refreshStdProtocols();
 
       // inputs
       els.clientName.addEventListener('input', onAnyInput);
       els.goal.addEventListener('input', onAnyInput);
       els.suppInput.addEventListener('input', onAnyInput);
 
-      els.catalogSearch.addEventListener('input', renderCatalog);
+      // std protocols
+      els.reloadStdProtocols.addEventListener('click', refreshStdProtocols);
+      els.addStdProtocol.addEventListener('click', () => {
+        const v = els.stdProtocolSelect.value;
+        if (!v) return;
 
+        const idx = Number(v);
+        const p = stdProtocolsCache[idx];
+        if (!p) return;
+
+        const text = protocolRowsToText(p.rows);
+        appendTextToTextarea(text);
+      });
+
+      // catalog
+      els.catalogSearch.addEventListener('input', renderCatalog);
       els.reloadCatalog.addEventListener('click', refreshCatalog);
 
       els.resetLocalCatalog.addEventListener('click', () => {
@@ -802,7 +902,7 @@ Magneziu (glicinat) | 200–400 mg | seara, cu apă | https://... | somn
         refreshCatalog();
       });
 
-      // protocols
+      // local protocols
       els.saveProtocol.addEventListener('click', () => {
         const name = safeTrim(els.protocolName.value) || `Protocol ${new Date().toLocaleDateString()}`;
         const list = loadProtocols();
