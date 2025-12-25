@@ -186,10 +186,9 @@
       bottom: 12px;
       z-index: 999;
       display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 14px; /* ca să arate ok pe 2 rânduri */
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
       box-shadow: 0 10px 26px rgba(0,0,0,.25);
@@ -198,7 +197,23 @@
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
-    .micro-contact .chip{
+
+    .micro-left{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding-top: 2px;
+    }
+
+    .micro-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .micro-ico{
       width: 20px;
       height: 20px;
       border-radius: 999px;
@@ -208,27 +223,23 @@
       border: 1px solid rgba(125,211,252,.22);
       font-size: 12px;
       flex: 0 0 auto;
-      margin-top: 2px;
     }
-    .micro-contact .stack{
-      display:flex;
-      flex-direction:column;
-      line-height: 1.15;
-      gap: 4px;
-      min-width: 0;
+    .micro-ico.mail{
+      background: rgba(167,243,208,.12);
+      border-color: rgba(167,243,208,.18);
     }
-    .micro-contact .name{
+
+    .micro-name{
       font-weight: 900;
       letter-spacing: -0.01em;
-      color: rgba(234,241,255,.80);
-      white-space: nowrap;
+      color: rgba(234,241,255,.86);
     }
+
     .micro-contact a{
       color: rgba(234,241,255,.90);
       text-decoration:none;
       font-weight: 900;
       letter-spacing: -0.01em;
-      white-space: nowrap;
     }
     .micro-contact a:hover{
       text-decoration: underline;
@@ -318,12 +329,23 @@
     </div>
   </div>
 
-  <!-- Micro contact fixed (2 rânduri) -->
+  <!-- Micro contact fixed (nume + tel + email) -->
   <div class="micro-contact" aria-label="Contact">
-    <span class="chip">📞</span>
-    <div class="stack">
-      <div class="name">Puie Radu</div>
-      <a href="tel:+40724212779">0724 212 779</a>
+    <div class="micro-left">
+      <div class="micro-row">
+        <span class="micro-ico" title="Nume">👤</span>
+        <span class="micro-name">Puie Radu</span>
+      </div>
+
+      <div class="micro-row">
+        <span class="micro-ico" title="Telefon">📞</span>
+        <a href="tel:+40724212779">0724 212 779</a>
+      </div>
+
+      <div class="micro-row">
+        <span class="micro-ico mail" title="Email">✉️</span>
+        <a href="mailto:puieradu14@gmail.com">puieradu14@gmail.com</a>
+      </div>
     </div>
   </div>
 </body>
