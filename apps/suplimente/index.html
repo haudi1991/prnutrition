@@ -351,6 +351,13 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
+    /* links should open new tab & look ok */
+    a.out-link{
+      color: rgba(234,241,255,.86);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+
     /* ===== Table ===== */
     .callout{
       margin-top: 10px;
@@ -416,6 +423,32 @@
       box-shadow: 0 0 0 2px rgba(125,211,252,.18);
       background: rgba(255,255,255,.02);
     }
+
+    /* link cell (not contenteditable) */
+    td.link-cell{
+      position: relative;
+    }
+    td.link-cell .link-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .mini-edit{
+      cursor:pointer;
+      width: 28px;
+      height: 28px;
+      display:inline-grid;
+      place-items:center;
+      border:  1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.85);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1;
+      position: relative;
+    }
+    .mini-edit:hover{ background: rgba(255,255,255,.06); }
 
     /* delete column = fixed small */
     th.col-del, td.col-del{
@@ -507,7 +540,7 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- Inputs (keep simple) -->
+          <!-- Inputs -->
           <details class="accordion no-print" open>
             <summary>
               <div class="sum-left">
@@ -518,7 +551,6 @@
               <div class="sum-actions"></div>
             </summary>
 
-            <!-- ✅ AICI e fixul: grid2 => 2 coloane -->
             <div class="accordion-body">
               <div class="grid2">
                 <div>
@@ -592,18 +624,12 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions near table: + row, reset, print (one row) -->
+          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
-              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">
-                ＋<span class="sr-only">Add row</span>
-              </button>
-              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">
-                🗑️<span class="sr-only">Reset</span>
-              </button>
-              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">
-                🖨️<span class="sr-only">Print</span>
-              </button>
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
+              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
 
               <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
             </div>
@@ -670,6 +696,13 @@
         .replace(/ă/g,'a').replace(/â/g,'a').replace(/î/g,'i').replace(/ș/g,'s').replace(/ţ/g,'t').replace(/ț/g,'t')
         .replace(/[^a-z0-9]+/g,'-')
         .replace(/^-+|-+$/g,'');
+    }
+
+    function normalizeUrl(url){
+      const u = safeTrim(url);
+      if (!u) return '';
+      if (/^(https?:\/\/|mailto:)/i.test(u)) return u;
+      return 'https://' + u;
     }
 
     async function fetchJson(url){
@@ -803,11 +836,35 @@
 
         const meta = document.createElement('div');
         meta.className = 'meta';
-        meta.innerHTML =
-          `<div><b>Brand:</b> ${it.brand || '—'}</div>
-           <div><b>Doză:</b> ${it.dose || '—'}</div>
-           <div><b>Note:</b> ${it.notes || '—'}</div>
-           <div><b>Link:</b> ${it.link ? it.link : '—'}</div>`;
+
+        const line1 = document.createElement('div');
+        line1.innerHTML = `<b>Brand:</b> ${it.brand || '—'}`;
+        const line2 = document.createElement('div');
+        line2.innerHTML = `<b>Doză:</b> ${it.dose || '—'}`;
+        const line3 = document.createElement('div');
+        line3.innerHTML = `<b>Note:</b> ${it.notes || '—'}`;
+
+        const line4 = document.createElement('div');
+        const b = document.createElement('b');
+        b.textContent = 'Link: ';
+        line4.appendChild(b);
+
+        if (it.link){
+          const a = document.createElement('a');
+          a.className = 'out-link';
+          a.href = normalizeUrl(it.link);
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = it.link;
+          line4.appendChild(a);
+        } else {
+          line4.appendChild(document.createTextNode('—'));
+        }
+
+        meta.appendChild(line1);
+        meta.appendChild(line2);
+        meta.appendChild(line3);
+        meta.appendChild(line4);
 
         const actions = document.createElement('div');
         actions.className = 'actions';
@@ -829,6 +886,14 @@
       }
     }
 
+    function editLink(idx){
+      const cur = rows[idx]?.link || '';
+      const next = prompt('Editează link-ul (URL):', cur);
+      if (next === null) return;
+      rows[idx].link = safeTrim(next);
+      renderTable();
+    }
+
     function renderTable(){
       els.tbody.innerHTML = '';
 
@@ -848,7 +913,47 @@
         tr.appendChild(tdEditable('brand'));
         tr.appendChild(tdEditable('dose'));
         tr.appendChild(tdEditable('notes'));
-        tr.appendChild(tdEditable('link'));
+
+        // ✅ Link cell: click opens NEW TAB, edit via ✏️
+        const tdLink = document.createElement('td');
+        tdLink.className = 'link-cell';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'link-actions';
+
+        if (safeTrim(r.link)){
+          const a = document.createElement('a');
+          a.className = 'out-link';
+          a.href = normalizeUrl(r.link);
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = r.link;
+
+          // extra safety: prevent the page from navigating even if something weird happens
+          a.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+          });
+
+          wrap.appendChild(a);
+        } else {
+          const span = document.createElement('span');
+          span.textContent = '';
+          wrap.appendChild(span);
+        }
+
+        const editBtn = document.createElement('button');
+        editBtn.className = 'mini-edit no-print';
+        editBtn.type = 'button';
+        editBtn.textContent = '✏️';
+        editBtn.setAttribute('data-tip', 'Editează link');
+        editBtn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          editLink(idx);
+        });
+
+        wrap.appendChild(editBtn);
+        tdLink.appendChild(wrap);
+        tr.appendChild(tdLink);
 
         const tdRemove = document.createElement('td');
         tdRemove.className = 'no-print col-del';
@@ -878,9 +983,12 @@
       const td = e.target;
       if (!(td instanceof HTMLElement)) return;
       if (td.tagName !== 'TD') return;
+
       const field = td.dataset.field;
       const idx = Number(td.dataset.idx);
       if (!field || Number.isNaN(idx) || !rows[idx]) return;
+
+      // only for contenteditable cells (name/brand/dose/notes)
       rows[idx][field] = safeTrim(td.textContent);
     });
 
