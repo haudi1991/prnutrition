@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>prnutrition</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      padding: 26px 14px;
+    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
+    h1{ margin:0; letter-spacing:-0.02em; font-size: 32px; }
+    p{ color: var(--muted); margin: 10px 0 18px 0; max-width: 80ch; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+    a.card{
+      text-decoration:none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .title{ font-weight: 900; font-size: 16px; }
+    .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .pill{
+      width: fit-content;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.02);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>prnutrition</h1>
+    <p>Alege aplicația / documentul. (Tot ce e “per client” rămâne local în browser.)</p>
+
+    <div class="grid">
+      <a class="card" href="./apps/suplimente/">
+        <div class="title">Protocol suplimente</div>
+        <div class="sub">Catalog standard + completare rapidă + Print → Save PDF.</div>
+        <div class="pill">/apps/suplimente/</div>
+      </a>
+
+      <!-- pe viitor adaugi alte carduri aici -->
+      <a class="card" href="./data/catalog.json">
+        <div class="title">Catalog standard (JSON)</div>
+        <div class="sub">Fișierul de bază cu suplimente (read-only) folosit de aplicații.</div>
+        <div class="pill">/data/catalog.json</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
+
