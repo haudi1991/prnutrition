@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cum lucrăm împreună – procesul nutrițional</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.02);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    /* “Pagini” și separator – se văd în HTML, nu se printează */
+    .pages{ display:grid; gap: 18px; }
+    .page-divider{
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      opacity: .65;
+      width: 100%;
+      margin: 6px 0;
+    }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 80ch;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 4px;
+    }
+
+    .pill{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .section{ padding: 16px; }
+
+    .quote{
+      margin:0;
+      padding: 14px;
+      border-left: 4px solid var(--accent);
+      background: rgba(125,211,252,.07);
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .panel-title{
+      margin:0;
+      font-size: 14px;
+      color: rgba(234,241,255,.92);
+      font-weight: 850;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing: -0.01em;
+    }
+
+    .panel-sub{
+      margin:6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-size: 12px;
+      width: fit-content;
+      margin-top: 10px;
+    }
+
+    /* Timeline */
+    .timeline{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+
+    .t-item{
+      display:grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: var(--panel2);
+    }
+
+    .t-dot{
+      width:44px;height:44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#021018;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .02em;
+      flex: 0 0 auto;
+    }
+
+    .t-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:0;
+    }
+
+    .t-head strong{
+      font-size: 13.5px;
+      font-weight: 850;
+      color: rgba(234,241,255,.92);
+    }
+
+    .t-mini{
+      color: rgba(234,241,255,.58);
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .t-body{
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .t-list{
+      margin: 8px 0 0 18px;
+      padding:0;
+      color: rgba(234,241,255,.66);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .t-list li{ margin: 4px 0; }
+
+    .t-note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(167,243,208,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(234,241,255,.78);
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+
+    /* Grid helper */
+    .t-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .t-row{ grid-template-columns: 1fr 1fr; }
+    }
+    .t-row .t-item{ height: 100%; }
+
+    /* QR inside 1.1 */
+    .qr-inline{
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255,255,255,.12);
+      display:grid;
+      gap: 10px;
+    }
+
+    .qr-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 560px){
+      .qr-grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ✅ QR card: grid layout (mai “curat”) */
+    .qr-card{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items:center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 12px 14px;
+      min-height: 110px;
+    }
+
+    /* ✅ Cadru alb pentru scanare mai bună */
+    .qr-frame{
+      width: 104px;
+      height: 104px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      border: 1px solid rgba(0,0,0,.08);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .qr-img{
+      width: 100%;
+      height: 100%;
+      display:block;
+      border-radius: 10px;
+    }
+
+    .qr-meta{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .qr-meta strong{
+      display:block;
+      font-size: 13px;
+      color: rgba(234,241,255,.92);
+      line-height: 1.1;
+    }
+
+    .qr-meta a{
+      color: var(--text);
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.12);
+      padding:7px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      display:inline-block;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+
+    /* mic detaliu ca să arate “mai bine” și uniform */
+    .qr-card.ios{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    }
+
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.80);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* Etapa 2 cards */
+    .cards{
+      display:grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .big{
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 12px;
+      display:grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+    }
+
+    .big h3{
+      margin:0;
+      font-size: 14px;
+      font-weight: 900;
+      color: rgba(234,241,255,.92);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing: -0.01em;
+    }
+
+    .big p{
+      margin:6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .ico{
+      width:20px;height:20px;
+      opacity:.95;
+      flex: 0 0 auto;
+    }
+
+    /* Kit */
+    .kit{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,.12);
+    }
+
+    .kit-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 560px){
+      .kit-grid{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .kit-card{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 10px 12px;
+      min-height: 62px;
+    }
+
+    .kit-ico{
+      width:28px;height:28px;
+      border-radius: 10px;
+      display:grid;place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.10);
+      flex:0 0 auto;
+    }
+
+    .kit-card strong{
+      display:block;
+      font-size: 13px;
+      margin-bottom: 2px;
+      color: rgba(234,241,255,.90);
+    }
+    .kit-card span{
+      font-size: 12.5px;
+      color: rgba(234,241,255,.66);
+      line-height: 1.35;
+    }
+
+    /* Footer boxes */
+    .final-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 920px){
+      .final-row{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .final-box{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+      padding: 12px;
+    }
+
+    .final-box h3{
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 900;
+      color: rgba(234,241,255,.90);
+      letter-spacing: -0.01em;
+    }
+
+    .final-box ul{
+      margin: 0 0 0 18px;
+      padding:0;
+      color: rgba(234,241,255,.70);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .final-box li{ margin: 5px 0; }
+
+    /* =========================
+       PRINT: 2 pagini total
+       ========================= */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      @page{
+        size: A4 landscape;
+        margin: 6mm;
+      }
+
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .page-divider{ display:none !important; }
+
+      .page{
+        break-after: page !important;
+        page-break-after: always !important;
+      }
+      .page:last-child{
+        break-after: auto !important;
+        page-break-after: auto !important;
+      }
+
+      /* compact */
+      header{ margin-bottom: 10px !important; gap: 8px !important; }
+      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
+      h1{ font-size: 24px !important; }
+      .sub{ font-size: 12px !important; }
+      .pillrow{ display:none !important; }
+
+      .section{ padding: 12px !important; }
+      .quote{ padding: 10px !important; font-size: 12.5px !important; }
+
+      .panel{ padding: 10px !important; margin-top: 10px !important; }
+      .panel-title{ font-size: 13px !important; }
+      .panel-sub{ font-size: 12px !important; margin-top: 4px !important; }
+      .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
+
+      .timeline{ gap: 8px !important; margin-top: 10px !important; }
+
+      .t-item{ padding: 9px !important; gap: 10px !important; border-radius: 12px !important; }
+      .t-dot{ width:40px !important; height:40px !important; border-radius: 12px !important; }
+      .t-head strong{ font-size: 13px !important; }
+      .t-mini{ font-size: 11px !important; padding: 4px 8px !important; }
+      .t-body{ font-size: 12px !important; }
+      .t-list{ font-size: 12px !important; margin-top: 6px !important; }
+      .t-note{ font-size: 11.6px !important; padding: 8px 10px !important; margin-top: 8px !important; }
+
+      /* ✅ QR mai mare (dar încă safe pentru pagina 1) */
+      .qr-inline{ margin-top: 8px !important; padding-top: 8px !important; gap: 8px !important; }
+      .qr-card{ padding: 10px 12px !important; min-height: 102px !important; gap: 10px !important; }
+      .qr-frame{
+        width: 88px !important;
+        height: 88px !important;
+        padding: 7px !important;
+        border-radius: 12px !important;
+      }
+      .qr-img{ border-radius: 9px !important; }
+      .qr-meta strong{ font-size: 12px !important; }
+      .qr-meta a{ font-size: 11px !important; padding: 6px 8px !important; border-radius: 10px !important; }
+
+      .callout{ padding: 8px 10px !important; font-size: 12px !important; }
+
+      /* forțăm grid-uri în print */
+      .t-row{
+        display:grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap:10px !important;
+      }
+      .top-row{
+        grid-template-columns: 1.5fr .5fr !important;
+      }
+      .qr-grid{
+        grid-template-columns: 1fr 1fr !important;
+      }
+
+      /* Etapa 2: 2 coloane */
+      .cards{
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+
+      /* ✅ FINAL: “La ce să te aștepți” + “Ce NU facem” în paralel în PDF */
+      .final-row{
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        align-items: stretch !important;
+      }
+
+      .big{
+        padding: 10px !important;
+        gap: 10px !important;
+        border-radius: 14px !important;
+      }
+      .big h3{ font-size: 13px !important; }
+      .big p{ font-size: 12px !important; line-height: 1.35 !important; }
+      .big .t-dot{
+        width:38px !important; height:38px !important;
+        border-radius: 12px !important;
+        font-size: 11px !important;
+      }
+
+      .kit{ margin-top: 10px !important; padding-top: 10px !important; gap: 8px !important; }
+      .kit-card{ padding: 8px 10px !important; min-height: 52px !important; border-radius: 12px !important; }
+      .kit-card strong{ font-size: 12.5px !important; }
+      .kit-card span{ font-size: 11.6px !important; }
+
+      .final-row{ margin-top: 10px !important; }
+      .final-box{ padding: 10px !important; border-radius: 14px !important; }
+      .final-box h3{ font-size: 13px !important; margin-bottom: 6px !important; }
+      .final-box ul{ font-size: 12px !important; }
+
+      .t-item,.qr-card,.big,.final-box,.quote,.callout,.t-note,.kit-card{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="pages">
+
+      <!-- ================= PAGE 1 ================= -->
+      <div class="page">
+
+        <header>
+          <div class="badge">📌 Ce urmează după consult</div>
+          <h1>Cum lucrăm împreună – procesul nutrițional</h1>
+          <p class="sub">Lucrăm structurat, pas cu pas, pentru a construi o strategie nutrițională adaptată stilului tău de viață.</p>
+
+          <div class="pillrow">
+            <div class="pill">claritate</div>
+            <div class="pill">pași concreți</div>
+            <div class="pill">educație nutrițională</div>
+            <div class="pill">rezultate sustenabile</div>
+          </div>
+        </header>
+
+        <main class="card">
+          <section class="section">
+
+            <p class="quote">
+              Nu oferim planuri alimentare standard. Lucrăm prin educație nutrițională, pe baza datelor tale reale,
+              ca să construim obiceiuri și alegeri pe care le poți susține în viața de zi cu zi.
+            </p>
+
+            <div class="panel">
+              <h2 class="panel-title">Etapa 1 – Săptămâna de probă (5–7 zile)</h2>
+              <p class="panel-sub">Scopul este să colectăm <strong>date reale</strong> (fără să schimbi nimic intenționat).</p>
+              <div class="tag">🧠 Observare, nu schimbare</div>
+
+              <div class="timeline">
+
+                <!-- 1.1 + 1.2 -->
+                <div class="t-row top-row">
+
+                  <div class="t-item">
+                    <div class="t-dot">1.1</div>
+                    <div>
+                      <div class="t-head">
+                        <strong>Instalezi Eat &amp; Track</strong>
+                        <span class="t-mini">2 minute</span>
+                      </div>
+                      <div class="t-body">Instalează aplicația folosind codurile de mai jos.</div>
+
+                      <div class="qr-inline">
+                        <div class="panel-title" style="font-size:13px;">Instalare rapidă</div>
+                        <div class="qr-grid">
+
+                          <div class="qr-card">
+                            <div class="qr-frame">
+                              <img class="qr-img"
+                                   src="https://api.qrserver.com/v1/create-qr-code/?size=520x520&margin=0&data=https://play.google.com/store/apps/details?id=ro.eatntrack.eatntrack"
+                                   alt="Eat & Track Google Play">
+                            </div>
+                            <div class="qr-meta">
+                              <strong>Google Play</strong>
+                              <a href="https://play.google.com/store/apps/details?id=ro.eatntrack.eatntrack" target="_blank" rel="noopener">Deschide</a>
+                            </div>
+                          </div>
+
+                          <div class="qr-card ios">
+                            <div class="qr-frame">
+                              <img class="qr-img"
+                                   src="https://api.qrserver.com/v1/create-qr-code/?size=520x520&margin=0&data=https://apps.apple.com/us/app/eat-track/id1482365282"
+                                   alt="Eat & Track App Store">
+                            </div>
+                            <div class="qr-meta">
+                              <strong>App Store</strong>
+                              <a href="https://apps.apple.com/us/app/eat-track/id1482365282" target="_blank" rel="noopener">Deschide</a>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="t-item">
+                    <div class="t-dot">1.2</div>
+                    <div>
+                      <div class="t-head">
+                        <strong>Ne trimiți ID-ul din aplicație</strong>
+                        <span class="t-mini">o singură dată</span>
+                      </div>
+                      <div class="t-body">
+                        În Eat &amp; Track: <b>Profil</b> → iconița <b>„i”</b> (info) din dreapta sus → trimiți <b>ID-ul</b>.
+                      </div>
+                      <div class="t-note">Îl adăugăm în contul nostru de nutriționist ca să avem acces la datele tale.</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- 1.3 + 1.4 -->
+                <div class="t-row">
+                  <div class="t-item">
+                    <div class="t-dot">1.3</div>
+                    <div>
+                      <div class="t-head">
+                        <strong>Înregistrezi alimentația „normală”</strong>
+                        <span class="t-mini">zilnic</span>
+                      </div>
+                      <div class="t-body">Adaugi mesele exact așa cum mănânci de obicei.</div>
+                      <ul class="t-list">
+                        <li>nu schimbi nimic intenționat</li>
+                        <li>alimentele se cântăresc</li>
+                        <li>nu ținem cont în această săptămână de setările aplicației (calorii/macronutrienți)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="t-item">
+                    <div class="t-dot">1.4</div>
+                    <div>
+                      <div class="t-head">
+                        <strong>Te cântărești zilnic (aceeași rutină)</strong>
+                        <span class="t-mini">30 sec</span>
+                      </div>
+                      <ul class="t-list">
+                        <li>dimineața, după toaletă</li>
+                        <li>cât mai sumar îmbrăcat</li>
+                        <li>cântarul în același loc</li>
+                        <li>adaugi greutatea în aplicație în fiecare zi</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="callout">
+                <b>După această săptămână:</b> avem o imagine clară a rutinelor tale reale și trecem la optimizare
+                (analiză → ajustări → monitorizare).
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+      </div>
+
+      <div class="page-divider" aria-hidden="true"></div>
+
+      <!-- ================= PAGE 2 ================= -->
+      <div class="page">
+
+        <main class="card">
+          <section class="section">
+
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">Etapa 2 – De aici intrăm în acțiune</h2>
+              <p class="panel-sub">După săptămâna de probă, lucrăm pe baza datelor colectate și construim pași concreți.</p>
+              <div class="tag">⚙️ Clar → simplu → eficient</div>
+
+              <div class="cards">
+                <div class="big">
+                  <div class="t-dot" style="width:44px;height:44px;border-radius:14px;">2</div>
+                  <div>
+                    <h3>
+                      <span class="ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="11" cy="11" r="6" stroke="rgba(234,241,255,.85)" stroke-width="2"/>
+                          <path d="M20 20L16.5 16.5" stroke="rgba(167,243,208,.95)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                      </span>
+                      Analiză împreună
+                    </h3>
+                    <p>
+                      Începem cu o bază solidă: evaluăm aportul și macronutrienții, plus pattern-urile zilnice.
+                      După ce avem claritatea asta, trecem și la micronutrienți și fibre.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="big">
+                  <div class="t-dot" style="width:44px;height:44px;border-radius:14px;">3</div>
+                  <div>
+                    <h3>
+                      <span class="ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 3L2 8L12 13L22 8L12 3Z" stroke="rgba(234,241,255,.85)" stroke-width="2" stroke-linejoin="round"/>
+                          <path d="M6 10V16C6 17.1 8.7 19 12 19C15.3 19 18 17.1 18 16V10" stroke="rgba(167,243,208,.95)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                      </span>
+                      Ajustări &amp; educație
+                    </h3>
+                    <p>
+                      Optimizăm cantități, combinații și obiceiuri (fără restricții extreme) și facem educație nutrițională,
+                      ca să înțelegi „de ce”-ul din spatele alegerilor și să poți replica singur.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="big">
+                  <div class="t-dot" style="width:44px;height:44px;border-radius:14px;">4</div>
+                  <div>
+                    <h3>
+                      <span class="ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4 19V5" stroke="rgba(234,241,255,.85)" stroke-width="2" stroke-linecap="round"/>
+                          <path d="M4 19H20" stroke="rgba(234,241,255,.85)" stroke-width="2" stroke-linecap="round"/>
+                          <path d="M7 15L11 11L14 13L19 8" stroke="rgba(167,243,208,.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      Monitorizare &amp; raport
+                    </h3>
+                    <p>Urmărim progresul și ajustăm constant, în funcție de rezultate.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="kit">
+                <div class="panel-title" style="font-size:13px;">Kit minim</div>
+                <div class="kit-grid">
+                  <div class="kit-card">
+                    <div class="kit-ico">⚖️</div>
+                    <div>
+                      <strong>Cântar de bucătărie</strong>
+                      <span>pentru cântărirea alimentelor</span>
+                    </div>
+                  </div>
+                  <div class="kit-card">
+                    <div class="kit-ico">📏</div>
+                    <div>
+                      <strong>Cântar corporal</strong>
+                      <span>pentru cântărirea zilnică</span>
+                    </div>
+                  </div>
+                  <div class="kit-card">
+                    <div class="kit-ico">🧵</div>
+                    <div>
+                      <strong>Metru de croitorie</strong>
+                      <span>pentru măsurători (talie/șold etc.)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="callout" style="margin-top:12px;">
+                <b>Important:</b> progresul nu vine din „perfect”, ci din consecvență. Facem pași mici, măsurabili, care se pot susține.
+              </div>
+            </div>
+
+            <div class="final-row">
+              <div class="final-box">
+                <h3>La ce să te aștepți</h3>
+                <ul>
+                  <li>structură clară</li>
+                  <li>decizii bazate pe date</li>
+                  <li>suport constant</li>
+                </ul>
+              </div>
+
+              <div class="final-box">
+                <h3>Ce NU facem</h3>
+                <ul>
+                  <li>restricții extreme</li>
+                  <li>diete rigide</li>
+                  <li>soluții rapide</li>
+                </ul>
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+
+

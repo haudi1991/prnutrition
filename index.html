@@ -12,6 +12,7 @@
       --line:rgba(255,255,255,.10);
       --shadow: 0 14px 40px rgba(0,0,0,.35);
       --radius: 18px;
+      --panel: rgba(255,255,255,.03);
     }
     *{ box-sizing:border-box; }
     body{
@@ -25,8 +26,32 @@
       padding: 26px 14px;
     }
     .wrap{ max-width: 980px; margin: 0 auto; }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
     h1{ margin:0; letter-spacing:-0.02em; font-size: 32px; }
-    p{ color: var(--muted); margin: 10px 0 18px 0; max-width: 80ch; }
+    p{ color: var(--muted); margin: 6px 0 0 0; max-width: 90ch; }
+
+    .section-title{
+      margin: 18px 0 10px 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.82);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .section-title .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: rgba(125,211,252,.95);
+      box-shadow: 0 0 0 4px rgba(125,211,252,.10);
+    }
+
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -35,6 +60,7 @@
     @media (min-width: 820px){
       .grid{ grid-template-columns: 1fr 1fr; }
     }
+
     a.card{
       text-decoration:none;
       color: inherit;
@@ -46,8 +72,13 @@
       display:flex;
       flex-direction:column;
       gap:8px;
+      min-height: 120px;
     }
-    .title{ font-weight: 900; font-size: 16px; }
+    a.card:hover{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+
+    .title{ font-weight: 900; font-size: 16px; letter-spacing: -0.01em; }
     .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
     .pill{
       width: fit-content;
@@ -59,27 +90,63 @@
       background: rgba(255,255,255,.02);
       margin-top: 4px;
     }
+
+    .note{
+      margin-top: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: rgba(234,241,255,.72);
+      font-size: 13px;
+      line-height: 1.45;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>prnutrition</h1>
-    <p>Alege aplicația / documentul. (Tot ce e “per client” rămâne local în browser.)</p>
+    <header>
+      <h1>prnutrition</h1>
+      <p>Alege aplicația / documentul. (Tot ce e “per client” rămâne local în browser.)</p>
+    </header>
 
+    <!-- ================= APPS / DOCS ================= -->
+    <div class="section-title"><span class="dot"></span>Aplicații / Documente</div>
     <div class="grid">
       <a class="card" href="./apps/suplimente/">
         <div class="title">Protocol suplimente</div>
-        <div class="sub">Catalog standard + completare rapidă + Print → Save PDF.</div>
+        <div class="sub">Catalog standard + protocoale standard + completare rapidă + Print → Save PDF.</div>
         <div class="pill">/apps/suplimente/</div>
       </a>
 
-      <!-- pe viitor adaugi alte carduri aici -->
-      <a class="card" href="./data/catalog.json">
-        <div class="title">Catalog standard (JSON)</div>
-        <div class="sub">Fișierul de bază cu suplimente (read-only) folosit de aplicații.</div>
-        <div class="pill">/data/catalog.json</div>
+      <a class="card" href="./apps/proces/">
+        <div class="title">Cum lucrăm împreună</div>
+        <div class="sub">Document PDF-ready: procesul nutrițional, pași, așteptări, ce nu facem.</div>
+        <div class="pill">/apps/proces/</div>
       </a>
     </div>
+
+    <!-- ================= DATA (JSON) ================= -->
+    <div class="section-title" style="margin-top:22px;"><span class="dot"></span>Data (JSON)</div>
+    <div class="grid">
+      <a class="card" href="./data/catalog.json">
+        <div class="title">catalog.json</div>
+        <div class="sub">Catalog standard suplimente (read-only). Folosit de aplicația de suplimente.</div>
+        <div class="pill">/data/catalog.json</div>
+      </a>
+
+      <a class="card" href="./data/protocols.json">
+        <div class="title">protocols.json</div>
+        <div class="sub">Protocoale standard (read-only). Folosit de aplicația de suplimente (Adaugă protocol).</div>
+        <div class="pill">/data/protocols.json</div>
+      </a>
+    </div>
+
+    <div class="note">
+      <b>Notă:</b> Fișierele din <code>/data</code> sunt “publice” (GitHub Pages). Nu pune date personale acolo.
+      Pentru clienți, exportul e PDF + (opțional) backup.json local la tine.
+    </div>
+
   </div>
 </body>
 </html>
