@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Vitamina D3",
+    "dose": "2000 UI",
+    "whenHow": "dimineața, cu masă cu grăsimi",
+    "link": "https://gymbeam.ro/vitamina-d3-2000-iu-240-caps-now-foods.html",
+    "notes": "iarna / în funcție de analize"
+  },
+  {
+    "name": "Omega-3",
+    "dose": "1–2 g EPA+DHA",
+    "whenHow": "prânz/cină, cu mâncare",
+    "link": "",
+    "notes": "recuperare / inflamație"
+  },
+  {
+    "name": "Magneziu (glicinat)",
+    "dose": "200–400 mg",
+    "whenHow": "seara, cu apă",
+    "link": "",
+    "notes": "somn / relaxare"
+  },
+  {
+    "name": "Creatină monohidrat",
+    "dose": "3–5 g",
+    "whenHow": "zilnic, cu apă (oricând)",
+    "link": "",
+    "notes": "performanță / energie"
+  },
+  {
+    "name": "Zinc",
+    "dose": "10–15 mg",
+    "whenHow": "cu masă",
+    "link": "",
+    "notes": "nu pe termen lung zilnic"
+  },
+  {
+    "name": "Vitamina C",
+    "dose": "250–500 mg",
+    "whenHow": "oricând, cu apă",
+    "link": "",
+    "notes": "la nevoie"
+  },
+  {
+    "name": "Electroliți",
+    "dose": "1 porție",
+    "whenHow": "în timpul/antrenament sau după",
+    "link": "",
+    "notes": "hidratare / crampe"
+  },
+  {
+    "name": "Probiotic",
+    "dose": "conform etichetei",
+    "whenHow": "dimineața sau seara, constant",
+    "link": "",
+    "notes": "digestie (cure 4–8 săpt.)"
+  },
+  {
+    "name": "Ashwagandha",
+    "dose": "300–600 mg",
+    "whenHow": "seara sau după-amiază",
+    "link": "",
+    "notes": "stres / somn (după toleranță)"
+  },
+  {
+    "name": "Melatonină",
+    "dose": "0.5–2 mg",
+    "whenHow": "cu 30–60 min înainte de somn",
+    "link": "",
+    "notes": "doze mici, pe perioade scurte"
+  }
+]
+
