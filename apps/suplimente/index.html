@@ -370,12 +370,11 @@
             <table>
               <thead>
                 <tr>
-                  <th style="width:20%;">Supliment</th>
-                  <th style="width:14%;">Brand</th>
+                  <th style="width:22%;">Supliment</th>
+                  <th style="width:16%;">Brand</th>
                   <th style="width:12%;">Doză</th>
-                  <th style="width:20%;">Când/Cum</th>
+                  <th style="width:28%;">Note</th>
                   <th style="width:22%;">Link</th>
-                  <th>Note</th>
                   <th class="no-print" style="width:7%;"></th>
                 </tr>
               </thead>
@@ -441,7 +440,6 @@
         name,
         brand: safeTrim(it?.brand),
         dose: safeTrim(it?.dose),
-        whenHow: safeTrim(it?.whenHow),
         link: safeTrim(it?.link),
         notes: safeTrim(it?.notes),
       };
@@ -490,9 +488,8 @@
         name: safeTrim(r?.name),
         brand: safeTrim(r?.brand),
         dose: safeTrim(r?.dose),
-        whenHow: safeTrim(r?.whenHow),
-        link: safeTrim(r?.link),
         notes: safeTrim(r?.notes),
+        link: safeTrim(r?.link),
       });
       renderTable();
     }
@@ -507,11 +504,9 @@
         const id = safeTrim(ref);
         const it = catalogById.get(id);
         if (it){
-          // optional: avoid duplicates by same id+brand (simple)
           const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
           if (!exists) addCatalogItemToTable(it);
         } else {
-          // dacă lipsește din catalog, adăugăm un rând gol cu numele ca fallback
           addRow({ name: id });
         }
       }
@@ -521,7 +516,7 @@
     function renderCatalog(){
       const q = safeTrim(els.catalogSearch.value).toLowerCase();
       const filtered = !q ? catalog : catalog.filter(it => {
-        const blob = `${it.name} ${it.brand} ${it.dose} ${it.whenHow} ${it.link} ${it.notes}`.toLowerCase();
+        const blob = `${it.name} ${it.brand} ${it.dose} ${it.link} ${it.notes}`.toLowerCase();
         return blob.includes(q);
       });
 
@@ -540,7 +535,6 @@
         meta.innerHTML =
           `<div><b>Brand:</b> ${it.brand || '—'}</div>
            <div><b>Doză:</b> ${it.dose || '—'}</div>
-           <div><b>Când/Cum:</b> ${it.whenHow || '—'}</div>
            <div><b>Link:</b> ${it.link ? it.link : '—'}</div>
            <div><b>Note:</b> ${it.notes || '—'}</div>`;
 
@@ -581,9 +575,8 @@
         tr.appendChild(tdEditable('name'));
         tr.appendChild(tdEditable('brand'));
         tr.appendChild(tdEditable('dose'));
-        tr.appendChild(tdEditable('whenHow'));
-        tr.appendChild(tdEditable('link'));
         tr.appendChild(tdEditable('notes'));
+        tr.appendChild(tdEditable('link'));
 
         const tdRemove = document.createElement('td');
         tdRemove.className = 'no-print';
@@ -650,7 +643,6 @@
         const p = protocols[idx];
         if (!p) return;
 
-        // set goal from protocol if goal input is empty
         if (!safeTrim(els.goal.value) && safeTrim(p.goal)) {
           els.goal.value = p.goal;
         }
@@ -658,13 +650,11 @@
         renderHeader();
       });
 
-      // Load remote data, then reset UI to empty
       await loadData();
       resetAll();
     }
 
     init().catch(() => {
-      // if fetch fails, still allow manual table
       resetAll();
     });
   </script>

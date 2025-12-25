@@ -4,54 +4,48 @@
     "name": "Vitamina D3",
     "brand": "NOW Foods",
     "dose": "2000 UI",
-    "whenHow": "dimineața, cu masă cu grăsimi",
     "link": "https://gymbeam.ro/vitamina-d3-2000-iu-240-caps-now-foods.html",
-    "notes": "iarna / în funcție de analize"
+    "notes": "dimineața, cu masă cu grăsimi · iarna / în funcție de analize"
   },
   {
     "id": "omega-3",
     "name": "Omega-3",
     "brand": "Nordic Naturals",
     "dose": "1–2 g EPA+DHA",
-    "whenHow": "prânz/cină, cu mâncare",
     "link": "",
-    "notes": "recuperare / inflamație"
+    "notes": "prânz/cină, cu mâncare · recuperare / inflamație"
   },
   {
     "id": "magnesium-bisglycinate",
     "name": "Magneziu bisglicinat",
     "brand": "Doctor's Best",
     "dose": "200–350 mg Mg elementar",
-    "whenHow": "1–2h înainte de somn",
     "link": "",
-    "notes": "scade doza dacă deranjează digestiv"
+    "notes": "1–2h înainte de somn · scade doza dacă deranjează digestiv"
   },
   {
     "id": "l-theanine",
     "name": "L-teanină",
     "brand": "Jarrow",
     "dose": "100–200 mg",
-    "whenHow": "30–60 min înainte de somn, cu apă",
     "link": "",
-    "notes": "relaxare"
+    "notes": "30–60 min înainte de somn · relaxare"
   },
   {
     "id": "ashwagandha",
     "name": "Ashwagandha (standardizată)",
     "brand": "KSM-66",
     "dose": "300–600 mg",
-    "whenHow": "seara, cu mâncare (sau 300 mg x2/zi)",
     "link": "",
-    "notes": "evită în sarcină/alăptare; atenție la tiroidă"
+    "notes": "seara, cu mâncare (sau 300 mg x2/zi) · evită în sarcină/alăptare; atenție la tiroidă"
   },
   {
     "id": "gaba",
     "name": "GABA",
     "brand": "NOW Foods",
     "dose": "100–300 mg",
-    "whenHow": "30–60 min înainte de somn (mai ales în seri stresante)",
     "link": "",
-    "notes": "dovezi limitate; posibil GI/cefalee"
+    "notes": "30–60 min înainte de somn · dovezi limitate; posibil GI/cefalee"
   }
 ]
 
