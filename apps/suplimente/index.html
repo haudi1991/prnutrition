@@ -101,8 +101,11 @@
       color: rgba(234,241,255,.62);
       line-height: 1.4;
     }
+    .hint.bad{
+      color: rgba(255,220,220,.82);
+    }
 
-    /* ✅ 2 coloane pentru “Date” (Nume + Obiectiv) */
+    /* ✅ 2 coloane pentru “Date” */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -152,7 +155,7 @@
       opacity: 0;
       pointer-events: none;
 
-      max-width: 220px;
+      max-width: 240px;
       white-space: normal;
       text-align: center;
 
@@ -351,7 +354,7 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
-    /* links should open new tab & look ok */
+    /* links */
     a.out-link{
       color: rgba(234,241,255,.86);
       text-decoration: underline;
@@ -424,10 +427,7 @@
       background: rgba(255,255,255,.02);
     }
 
-    /* link cell (not contenteditable) */
-    td.link-cell{
-      position: relative;
-    }
+    /* link cell */
     td.link-cell .link-actions{
       display:flex;
       gap:8px;
@@ -450,7 +450,7 @@
     }
     .mini-edit:hover{ background: rgba(255,255,255,.06); }
 
-    /* delete column = fixed small */
+    /* delete column */
     th.col-del, td.col-del{
       width: 44px;
       text-align: right;
@@ -473,6 +473,29 @@
     .del-mini:hover{ background: rgba(255,255,255,.06); }
 
     .no-print { display: block; }
+
+    /* ===== Toast ===== */
+    .toast{
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      z-index: 9999;
+      max-width: min(520px, calc(100vw - 24px));
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(11,15,23,.92);
+      color: rgba(234,241,255,.88);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+    .toast.show{ display:block; }
+    .toast.bad{ border-color: rgba(255,160,160,.35); }
+    .toast.good{ border-color: rgba(167,243,208,.35); }
 
     /* =========================
        PRINT (PDF)
@@ -534,7 +557,6 @@
       <section class="section">
         <div class="panel">
 
-          <!-- Titlu pentru PDF (print only) -->
           <div class="print-title">
             Protocol suplimente – <span id="printName" class="muted">Client</span>
             <span id="printDate" class="date"></span>
@@ -593,6 +615,7 @@
             <div class="accordion-body">
               <select id="stdProtocolSelect"></select>
               <div class="hint">➕ = adaugă în tabel.</div>
+              <div id="protStatus" class="hint" style="margin-top:4px;"></div>
             </div>
           </details>
 
@@ -624,7 +647,6 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
               <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
@@ -656,6 +678,8 @@
     </main>
   </div>
 
+  <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
+
   <script>
     const els = {
       clientName: document.getElementById('clientName'),
@@ -674,12 +698,14 @@
       protDetails: document.getElementById('protDetails'),
       stdProtocolSelect: document.getElementById('stdProtocolSelect'),
       addProtocolBtn: document.getElementById('addProtocolBtn'),
+      protStatus: document.getElementById('protStatus'),
 
       catalogDetails: document.getElementById('catalogDetails'),
       catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
       tbody: document.getElementById('suppTbody'),
+      toast: document.getElementById('toast'),
     };
 
     const CATALOG_URL = '../../data/catalog.json';
@@ -703,6 +729,14 @@
       if (!u) return '';
       if (/^(https?:\/\/|mailto:)/i.test(u)) return u;
       return 'https://' + u;
+    }
+
+    function toast(msg, type='bad'){
+      els.toast.textContent = msg;
+      els.toast.classList.remove('bad','good','show');
+      els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
     }
 
     async function fetchJson(url){
@@ -732,15 +766,24 @@
       return '';
     }
 
+    // ✅ FIX + suport pentru items: ["id1","id2"] sau [{ref:"id"}]
     function getProtocolIds(p){
       if (Array.isArray(p?.items)) {
-        return p.items.map(x => safeTrim(x?.ref)).filter(Boolean);
-      }
-      if (Array.isArray(p?.rows)) {
-        return p.rows
-          .map(r => safeTrim(r?.id) || findCatalogIdByName(r?.name) || safeTrim(r?.name))
+        return p.items
+          .map(x => {
+            if (typeof x === 'string') return safeTrim(x);
+            if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
+            return '';
+          })
           .filter(Boolean);
       }
+
+      if (Array.isArray(p?.rows)) {
+        return p.rows
+          .map(r => safeTrim(r?.id) || safeTrim(r?.ref) || findCatalogIdByName(r?.name) || safeTrim(r?.name))
+          .filter(Boolean);
+      }
+
       return [];
     }
 
@@ -796,18 +839,34 @@
       syncButtons();
     }
 
-    function addProtocolToTable(p){
+    function getSelectedProtocol(){
+      const v = safeTrim(els.stdProtocolSelect.value);
+      if (!v) return null;
+      const idx = Number(v);
+      if (Number.isNaN(idx)) return null;
+      return protocols[idx] || null;
+    }
+
+    function getMissingFromProtocol(p){
       const ids = getProtocolIds(p);
+      const missing = ids.filter(id => !catalogById.has(id));
+      return { ids, missing };
+    }
+
+    // ✅ STRICT: dacă lipsește ceva din catalog => NU adaugă deloc
+    function addProtocolToTable(p){
+      const { ids, missing } = getMissingFromProtocol(p);
       if (!ids.length) return;
 
-      for (const idOrName of ids){
-        const it = catalogById.get(idOrName);
-        if (it){
-          const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
-          if (!exists) addRow(it);
-        } else {
-          addRow({ name: idOrName });
-        }
+      if (missing.length){
+        toast(`Protocolul nu poate fi adăugat. Lipsește din catalog: ${missing.join(', ')}`, 'bad');
+        return;
+      }
+
+      for (const id of ids){
+        const it = catalogById.get(id);
+        const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
+        if (!exists) addRow(it);
       }
 
       if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
@@ -815,6 +874,7 @@
       els.protDetails.open = false;
       renderHeader();
       syncButtons();
+      toast('Protocol adăugat în tabel.', 'good');
     }
 
     function renderCatalog(){
@@ -914,7 +974,6 @@
         tr.appendChild(tdEditable('dose'));
         tr.appendChild(tdEditable('notes'));
 
-        // ✅ Link cell: click opens NEW TAB, edit via ✏️
         const tdLink = document.createElement('td');
         tdLink.className = 'link-cell';
 
@@ -928,17 +987,10 @@
           a.target = '_blank';
           a.rel = 'noopener noreferrer';
           a.textContent = r.link;
-
-          // extra safety: prevent the page from navigating even if something weird happens
-          a.addEventListener('click', (ev) => {
-            ev.stopPropagation();
-          });
-
+          a.addEventListener('click', (ev) => ev.stopPropagation());
           wrap.appendChild(a);
         } else {
-          const span = document.createElement('span');
-          span.textContent = '';
-          wrap.appendChild(span);
+          wrap.appendChild(document.createTextNode(''));
         }
 
         const editBtn = document.createElement('button');
@@ -988,12 +1040,26 @@
       const idx = Number(td.dataset.idx);
       if (!field || Number.isNaN(idx) || !rows[idx]) return;
 
-      // only for contenteditable cells (name/brand/dose/notes)
       rows[idx][field] = safeTrim(td.textContent);
     });
 
     function syncButtons(){
-      els.addProtocolBtn.disabled = !safeTrim(els.stdProtocolSelect.value);
+      const p = getSelectedProtocol();
+      if (!p){
+        els.addProtocolBtn.disabled = true;
+        els.protStatus.textContent = '';
+      } else {
+        const { missing } = getMissingFromProtocol(p);
+        if (missing.length){
+          els.addProtocolBtn.disabled = true;
+          els.protStatus.textContent = `Lipsește din catalog: ${missing.join(', ')}`;
+          els.protStatus.classList.add('bad');
+        } else {
+          els.addProtocolBtn.disabled = false;
+          els.protStatus.textContent = '';
+          els.protStatus.classList.remove('bad');
+        }
+      }
       els.rowCount.textContent = String(rows.length);
     }
 
@@ -1050,10 +1116,7 @@
 
       els.stdProtocolSelect.addEventListener('change', syncButtons);
       els.addProtocolBtn.addEventListener('click', () => {
-        const v = els.stdProtocolSelect.value;
-        if (!v) return;
-        const idx = Number(v);
-        const p = protocols[idx];
+        const p = getSelectedProtocol();
         if (!p) return;
         addProtocolToTable(p);
       });
@@ -1065,6 +1128,7 @@
     init().catch(() => {
       setPrintDate();
       resetAll();
+      toast('Eroare la încărcare JSON (catalog/protocols).', 'bad');
     });
   </script>
 </body>
