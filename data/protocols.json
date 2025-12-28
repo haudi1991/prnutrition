@@ -7,7 +7,7 @@
   },
   {
     "id": "cardio-01",
-    "name": "Risc cardiovascular (Omega-3 + Monacolină K)",
+    "name": "Risc cardiovascular (Omega-3 + Monacolină K + Choline & Inositol)",
     "goal": "Risc cardiovascular: suport lipide (LDL / TG) + profil lipidic",
     "items": ["omega-3", "monacolina-k", "choline-inositol"]
   }

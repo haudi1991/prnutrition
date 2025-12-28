@@ -353,6 +353,10 @@
       position: relative;
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
+    .btn[disabled]{
+      opacity: .45;
+      cursor:not-allowed;
+    }
 
     /* links */
     a.out-link{
@@ -714,7 +718,7 @@
     let catalog = [];
     let catalogById = new Map();
     let protocols = [];
-    let rows = []; // in-memory only
+    let rows = []; // in-memory only: { _id?: string, name, brand, dose, notes, link }
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
     function slugify(s){
@@ -736,7 +740,7 @@
       els.toast.classList.remove('bad','good','show');
       els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
       clearTimeout(toast._t);
-      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 2600);
     }
 
     async function fetchJson(url){
@@ -766,7 +770,7 @@
       return '';
     }
 
-    // ✅ FIX + suport pentru items: ["id1","id2"] sau [{ref:"id"}]
+    // ✅ suport pentru items: ["id1","id2"] sau [{ref:"id"}]
     function getProtocolIds(p){
       if (Array.isArray(p?.items)) {
         return p.items
@@ -821,7 +825,21 @@
       els.goalOut.textContent = goal;
     }
 
+    // ✅ dedup helper (id sau semnătură)
+    function rowSignature(r){
+      return `${slugify(r?.name)}||${safeTrim(r?.brand).toLowerCase()}`;
+    }
+    function isCatalogItemInTable(item){
+      const id = safeTrim(item?.id);
+      if (id){
+        return rows.some(r => safeTrim(r?._id) === id);
+      }
+      const sig = rowSignature(item);
+      return rows.some(r => rowSignature(r) === sig);
+    }
+
     function addRow(r){
+      const _id = safeTrim(r?.id || r?._id);
       const name = safeTrim(r?.name);
       const brand = safeTrim(r?.brand);
       const dose = safeTrim(r?.dose);
@@ -829,14 +847,21 @@
       const link = safeTrim(r?.link);
       if (!(name || brand || dose || notes || link)) return false;
 
-      rows.push({ name, brand, dose, notes, link });
+      rows.push({ _id, name, brand, dose, notes, link });
       renderTable();
       return true;
     }
 
+    // ✅ dacă e deja în tabel, nu mai poți adăuga
     function addCatalogItemToTable(item){
+      if (isCatalogItemInTable(item)){
+        toast('Deja este în tabel.', 'bad');
+        return;
+      }
       addRow(item);
+      renderCatalog(); // update disabled state
       syncButtons();
+      toast('Adăugat în tabel.', 'good');
     }
 
     function getSelectedProtocol(){
@@ -854,6 +879,7 @@
     }
 
     // ✅ STRICT: dacă lipsește ceva din catalog => NU adaugă deloc
+    // ✅ + dedup pe _id (sau semnătură)
     function addProtocolToTable(p){
       const { ids, missing } = getMissingFromProtocol(p);
       if (!ids.length) return;
@@ -863,18 +889,27 @@
         return;
       }
 
+      let added = 0;
       for (const id of ids){
         const it = catalogById.get(id);
-        const exists = rows.some(r => slugify(r.name) === slugify(it.name) && safeTrim(r.brand) === safeTrim(it.brand));
-        if (!exists) addRow(it);
+        if (!it) continue;
+
+        // dedup by id first
+        const exists = rows.some(r => safeTrim(r._id) === it.id) || rows.some(r => rowSignature(r) === rowSignature(it));
+        if (!exists){
+          addRow(it);
+          added++;
+        }
       }
 
       if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
 
       els.protDetails.open = false;
       renderHeader();
+      renderCatalog(); // update disabled state
       syncButtons();
-      toast('Protocol adăugat în tabel.', 'good');
+
+      toast(added ? 'Protocol adăugat în tabel.' : 'Toate produsele din protocol sunt deja în tabel.', added ? 'good' : 'bad');
     }
 
     function renderCatalog(){
@@ -932,8 +967,12 @@
         const addBtn = document.createElement('button');
         addBtn.className = 'btn';
         addBtn.type = 'button';
-        addBtn.textContent = 'Adaugă';
-        addBtn.setAttribute('data-tip', 'Adaugă în tabel');
+
+        const exists = isCatalogItemInTable(it);
+        addBtn.disabled = exists;
+        addBtn.textContent = exists ? 'Deja' : 'Adaugă';
+        addBtn.setAttribute('data-tip', exists ? 'Este deja în tabel' : 'Adaugă în tabel');
+
         addBtn.addEventListener('click', () => addCatalogItemToTable(it));
 
         actions.appendChild(addBtn);
@@ -952,6 +991,7 @@
       if (next === null) return;
       rows[idx].link = safeTrim(next);
       renderTable();
+      renderCatalog(); // update disabled state
     }
 
     function renderTable(){
@@ -1018,6 +1058,7 @@
         btn.addEventListener('click', () => {
           rows.splice(idx, 1);
           renderTable();
+          renderCatalog(); // ✅ re-enable buttons in catalog
           syncButtons();
         });
 
@@ -1041,6 +1082,9 @@
       if (!field || Number.isNaN(idx) || !rows[idx]) return;
 
       rows[idx][field] = safeTrim(td.textContent);
+
+      // dacă user editează manual, actualizează catalog state (posibil să afecteze dedup by signature)
+      renderCatalog();
     });
 
     function syncButtons(){
@@ -1103,8 +1147,9 @@
       els.resetAll.addEventListener('click', resetAll);
 
       els.addEmptyRow.addEventListener('click', () => {
-        rows.push({ name:'', brand:'', dose:'', notes:'', link:'' });
+        rows.push({ _id:'', name:'', brand:'', dose:'', notes:'', link:'' });
         renderTable();
+        renderCatalog();
       });
 
       els.printBtn.addEventListener('click', () => window.print());
