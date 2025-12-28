@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Analize</title>
+  <title>Analize – protocol</title>
 
   <style>
     :root{
@@ -72,7 +72,7 @@
       padding: 14px;
     }
 
-    /* ===== Print-only title ===== */
+    /* Print-only title */
     .print-title{
       display:none;
       font-weight: 900;
@@ -95,7 +95,6 @@
       overflow:hidden;clip:rect(0,0,0,0);
       white-space:nowrap;border:0;
     }
-
     .hint{
       font-size: 12px;
       color: rgba(234,241,255,.62);
@@ -103,7 +102,6 @@
     }
     .hint.bad{ color: rgba(255,220,220,.82); }
 
-    /* 2 coloane pt Date */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -113,7 +111,7 @@
       .grid2{ grid-template-columns: 1fr 1fr; }
     }
 
-    /* ===== Icon buttons + tooltips ===== */
+    /* Icon buttons + tooltips */
     .icon-btn{
       cursor:pointer;
       width: 40px;
@@ -136,13 +134,8 @@
       border-color: rgba(125,211,252,.35);
       background: rgba(125,211,252,.10);
     }
-    .icon-btn[disabled]{
-      opacity: .45;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .icon-btn[disabled]{ opacity: .45; cursor: not-allowed; transform:none; }
 
-    /* tooltips */
     button[data-tip]{ position: relative; }
     button[data-tip]::after{
       content: attr(data-tip);
@@ -152,11 +145,9 @@
       transform: translateX(-50%) translateY(2px);
       opacity: 0;
       pointer-events: none;
-
       max-width: 240px;
       white-space: normal;
       text-align: center;
-
       font-size: 12px;
       line-height: 1.25;
       color: rgba(234,241,255,.92);
@@ -178,7 +169,6 @@
       transform: translateX(-50%) translateY(2px);
       opacity:0;
       pointer-events:none;
-
       width: 0; height: 0;
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
@@ -194,7 +184,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ===== Accordions ===== */
+    /* Accordions */
     details.accordion{
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
@@ -253,12 +243,7 @@
       align-items:center;
       flex: 0 0 auto;
     }
-
-    .accordion-body{
-      margin-top: 10px;
-      display:grid;
-      gap:10px;
-    }
+    .accordion-body{ margin-top: 10px; display:grid; gap:10px; }
 
     select{
       width:100%;
@@ -271,7 +256,7 @@
       outline: none;
     }
 
-    /* ===== Search ===== */
+    /* Search */
     .searchbox{
       display:flex;
       align-items:center;
@@ -302,7 +287,7 @@
       padding: 0;
     }
 
-    /* ===== Catalog cards ===== */
+    /* Catalog cards */
     .catalog-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -352,26 +337,18 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
-    /* links */
-    a.out-link{
-      color: rgba(234,241,255,.86);
-      text-decoration: underline;
-      word-break: break-all;
-    }
-
-    /* ===== Callout ===== */
     .callout{
       margin-top: 10px;
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(125,211,252,.06);
-      color: rgba(234,241,255,.82);
+      color: rgba(234,241,255,.80);
       font-size: 13px;
       line-height: 1.4;
     }
 
-    /* ===== Table ===== */
+    /* Table */
     .table-actions{
       margin-top: 10px;
       display:flex;
@@ -417,39 +394,12 @@
     }
     tbody tr:last-child td{ border-bottom: none; }
 
-    td[contenteditable="true"]{
-      outline: none;
-      border-radius: 8px;
-    }
+    td[contenteditable="true"]{ outline:none; border-radius: 8px; }
     td[contenteditable="true"]:focus{
       box-shadow: 0 0 0 2px rgba(125,211,252,.18);
       background: rgba(255,255,255,.02);
     }
 
-    /* link cell */
-    td.link-cell .link-actions{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .mini-edit{
-      cursor:pointer;
-      width: 28px;
-      height: 28px;
-      display:inline-grid;
-      place-items:center;
-      border:  1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      color: rgba(234,241,255,.85);
-      border-radius: 10px;
-      font-size: 14px;
-      line-height: 1;
-      position: relative;
-    }
-    .mini-edit:hover{ background: rgba(255,255,255,.06); }
-
-    /* delete column */
     th.col-del, td.col-del{
       width: 44px;
       text-align: right;
@@ -471,9 +421,10 @@
     }
     .del-mini:hover{ background: rgba(255,255,255,.06); }
 
-    .no-print { display: block; }
+    .no-print{ display:block; }
+    .client-hide{ } /* Notes intern */
 
-    /* ===== Toast ===== */
+    /* Toast */
     .toast{
       position: fixed;
       left: 12px;
@@ -496,7 +447,7 @@
     .toast.bad{ border-color: rgba(255,160,160,.35); }
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
-    /* ===== PRINT ===== */
+    /* PRINT */
     @media print {
       *{
         -webkit-print-color-adjust: exact !important;
@@ -514,7 +465,8 @@
       }
 
       header{ display:none !important; }
-      .no-print { display:none !important; }
+      .no-print{ display:none !important; }
+      .client-hide{ display:none !important; }
 
       button[data-tip]::before,
       button[data-tip]::after{ display:none !important; }
@@ -534,8 +486,6 @@
         break-inside: avoid !important;
         page-break-inside: avoid !important;
       }
-
-      a[href]::after{ content: "" !important; }
     }
   </style>
 </head>
@@ -543,7 +493,7 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="badge">🧪 Analize</div>
+      <div class="badge">🧪 Analize – protocol</div>
       <h1>Analize – <span id="clientNameOut">Client</span></h1>
       <p class="sub">
         Datele vin din <code>/data/analize_catalog.json</code> și <code>/data/analize_protocols.json</code>.
@@ -559,7 +509,7 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- Date -->
+          <!-- Inputs -->
           <details class="accordion no-print" open>
             <summary>
               <div class="sum-left">
@@ -573,9 +523,8 @@
             <div class="accordion-body">
               <div class="grid2">
                 <div>
-                  <div class="hint" style="margin-bottom:6px;">Nume pacient</div>
-                  <input
-                    id="clientName"
+                  <div class="hint" style="margin-bottom:6px;">Nume client</div>
+                  <input id="clientName"
                     style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
                     placeholder="Ex: Andrei Popescu"
                   />
@@ -583,10 +532,9 @@
 
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
-                  <input
-                    id="goal"
+                  <input id="goal"
                     style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
-                    placeholder="Ex: screening anual / oboseală / tiroidă etc."
+                    placeholder="Ex: energie, greutate, digestie, somn..."
                   />
                 </div>
               </div>
@@ -621,7 +569,7 @@
             <summary>
               <div class="sum-left">
                 <div class="chev">›</div>
-                <div class="sum-title">Catalog</div>
+                <div class="sum-title">Catalog analize</div>
                 <div class="sum-muted">(GitHub)</div>
               </div>
 
@@ -633,7 +581,7 @@
             <div class="accordion-body">
               <div class="searchbox">
                 <div class="mag" aria-hidden="true">🔎</div>
-                <input id="catalogSearch" placeholder="Caută rapid (ex: rbc, ast, crp, t4)" />
+                <input id="catalogSearch" placeholder="Caută rapid (ex: tsh, crp, urină, LDL)" />
               </div>
 
               <div class="catalog-grid" id="catalogList"></div>
@@ -641,19 +589,15 @@
           </details>
 
           <div class="callout">
-            <b>Obiectiv:</b> <span id="goalOut">—</span><br/>
-            <span style="color: rgba(234,241,255,.70); font-size:12px;">
-              Notă: interpretarea analizelor se face în context clinic, împreună cu medicul.
-            </span>
+            <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions -->
+          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
               <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
               <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
               <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
-
               <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
             </div>
           </div>
@@ -662,15 +606,13 @@
             <table>
               <thead>
                 <tr>
-                  <th style="width:18%;">Analiză</th>
-                  <th style="width:18%;">Ref</th>
-                  <th style="width:24%;">De ce</th>
-                  <th style="width:22%;">Note</th>
-                  <th style="width:18%;">Link</th>
+                  <th style="width:40%;">Analiză</th>
+                  <th style="width:40%;">Rezultat</th>
+                  <th class="client-hide" style="width:20%;">Notes (intern)</th>
                   <th class="no-print col-del"></th>
                 </tr>
               </thead>
-              <tbody id="tbody"></tbody>
+              <tbody id="labsTbody"></tbody>
             </table>
           </div>
 
@@ -705,25 +647,25 @@
       catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
-      tbody: document.getElementById('tbody'),
+      tbody: document.getElementById('labsTbody'),
       toast: document.getElementById('toast'),
     };
 
+    // ✅ nume fișiere conform cerinței
     const CATALOG_URL = '../../data/analize_catalog.json';
     const PROTOCOLS_URL = '../../data/analize_protocols.json';
 
     let catalog = [];
     let catalogById = new Map();
     let protocols = [];
-    let rows = []; // in-memory only
+    let rows = [];
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
-
-    function normalizeUrl(url){
-      const u = safeTrim(url);
-      if (!u) return '';
-      if (/^(https?:\/\/|mailto:)/i.test(u)) return u;
-      return 'https://' + u;
+    function slugify(s){
+      return safeTrim(s).toLowerCase()
+        .replace(/ă/g,'a').replace(/â/g,'a').replace(/î/g,'i').replace(/ș/g,'s').replace(/ţ/g,'t').replace(/ț/g,'t')
+        .replace(/[^a-z0-9]+/g,'-')
+        .replace(/^-+|-+$/g,'');
     }
 
     function toast(msg, type='bad'){
@@ -731,7 +673,7 @@
       els.toast.classList.remove('bad','good','show');
       els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
       clearTimeout(toast._t);
-      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 2600);
     }
 
     async function fetchJson(url){
@@ -741,28 +683,20 @@
     }
 
     function normalizeCatalogItem(it){
-      return {
-        id: safeTrim(it?.id),
-        name: safeTrim(it?.name),
-        ref: safeTrim(it?.ref),
-        why: safeTrim(it?.why),
-        notes: safeTrim(it?.notes),
-        link: safeTrim(it?.link),
-      };
+      const name = safeTrim(it?.name);
+      const id = safeTrim(it?.id) || slugify(name);
+      return { id, name, notes: safeTrim(it?.notes) };
     }
 
-    // suport items: ["id1","id2"] sau [{ref:"id"}]
     function getProtocolIds(p){
-      if (Array.isArray(p?.items)) {
-        return p.items
-          .map(x => {
-            if (typeof x === 'string') return safeTrim(x);
-            if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
-            return '';
-          })
-          .filter(Boolean);
-      }
-      return [];
+      if (!Array.isArray(p?.items)) return [];
+      return p.items
+        .map(x => {
+          if (typeof x === 'string') return safeTrim(x);
+          if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
+          return '';
+        })
+        .filter(Boolean);
     }
 
     async function loadCatalog(){
@@ -799,21 +733,35 @@
       els.goalOut.textContent = goal;
     }
 
-    function addRow(r){
-      const name = safeTrim(r?.name);
-      const ref = safeTrim(r?.ref);
-      const why = safeTrim(r?.why);
-      const notes = safeTrim(r?.notes);
-      const link = safeTrim(r?.link);
-      if (!(name || ref || why || notes || link)) return false;
+    function isDuplicateRow(next){
+      const nextId = safeTrim(next?.id);
+      const nextSlug = slugify(next?.name);
+      return rows.some(r => {
+        if (nextId && safeTrim(r.id) && safeTrim(r.id) === nextId) return true;
+        if (nextSlug && slugify(r.name) === nextSlug) return true;
+        return false;
+      });
+    }
 
-      rows.push({ name, ref, why, notes, link });
+    function addRow(r){
+      const id = safeTrim(r?.id);
+      const name = safeTrim(r?.name);
+      const result = safeTrim(r?.result);
+      const notes = safeTrim(r?.notes);
+
+      if (!(name || result || notes)) return false;
+
+      const candidate = { id, name, result, notes };
+      if (isDuplicateRow(candidate)) return false;
+
+      rows.push(candidate);
       renderTable();
       return true;
     }
 
     function addCatalogItemToTable(item){
-      addRow(item);
+      const ok = addRow({ id: item.id, name: item.name, result: '', notes: item.notes });
+      if (!ok) toast('Analiza există deja în tabel.', 'bad');
       syncButtons();
     }
 
@@ -836,18 +784,17 @@
       if (!ids.length) return;
 
       if (missing.length){
-        toast(`Protocolul nu poate fi adăugat. Lipsește din catalog: ${missing.join(', ')}`, 'bad');
+        els.protStatus.textContent = `Lipsește din catalog: ${missing.join(', ')}`;
+        els.protStatus.classList.add('bad');
+        toast('Protocol incomplet (lipsește ceva din catalog).', 'bad');
         return;
       }
 
       let added = 0;
       for (const id of ids){
         const it = catalogById.get(id);
-        const exists = rows.some(r => safeTrim(r.name).toLowerCase() === safeTrim(it.name).toLowerCase());
-        if (!exists){
-          addRow(it);
-          added++;
-        }
+        const ok = addRow({ id: it.id, name: it.name, result: '', notes: it.notes });
+        if (ok) added++;
       }
 
       if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
@@ -855,13 +802,15 @@
       els.protDetails.open = false;
       renderHeader();
       syncButtons();
-      toast(added ? 'Protocol adăugat în tabel.' : 'Protocolul era deja în tabel.', 'good');
+
+      if (added) toast(`Protocol adăugat (${added} rânduri).`, 'good');
+      else toast('Toate analizele din protocol erau deja în tabel.', 'bad');
     }
 
     function renderCatalog(){
       const q = safeTrim(els.catalogSearch.value).toLowerCase();
       const filtered = !q ? catalog : catalog.filter(it => {
-        const blob = `${it.name} ${it.ref} ${it.why} ${it.notes} ${it.link}`.toLowerCase();
+        const blob = `${it.name} ${it.notes}`.toLowerCase();
         return blob.includes(q);
       });
 
@@ -877,28 +826,7 @@
 
         const meta = document.createElement('div');
         meta.className = 'meta';
-        meta.innerHTML =
-          `<div><b>Ref:</b> ${it.ref || '—'}</div>
-           <div><b>De ce:</b> ${it.why || '—'}</div>
-           <div><b>Note:</b> ${it.notes || '—'}</div>`;
-
-        const linkLine = document.createElement('div');
-        const b = document.createElement('b');
-        b.textContent = 'Link: ';
-        linkLine.appendChild(b);
-
-        if (it.link){
-          const a = document.createElement('a');
-          a.className = 'out-link';
-          a.href = normalizeUrl(it.link);
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = it.link;
-          linkLine.appendChild(a);
-        } else {
-          linkLine.appendChild(document.createTextNode('—'));
-        }
-        meta.appendChild(linkLine);
+        meta.innerHTML = `<div><b>Notes (intern):</b> ${it.notes || '—'}</div>`;
 
         const actions = document.createElement('div');
         actions.className = 'actions';
@@ -920,67 +848,25 @@
       }
     }
 
-    function editLink(idx){
-      const cur = rows[idx]?.link || '';
-      const next = prompt('Editează link-ul (URL):', cur);
-      if (next === null) return;
-      rows[idx].link = safeTrim(next);
-      renderTable();
-    }
-
     function renderTable(){
       els.tbody.innerHTML = '';
 
       rows.forEach((r, idx) => {
         const tr = document.createElement('tr');
 
-        function tdEditable(field){
+        function tdEditable(field, className=''){
           const td = document.createElement('td');
           td.contentEditable = 'true';
           td.dataset.field = field;
           td.dataset.idx = String(idx);
+          if (className) td.className = className;
           td.textContent = r[field] || '';
           return td;
         }
 
         tr.appendChild(tdEditable('name'));
-        tr.appendChild(tdEditable('ref'));
-        tr.appendChild(tdEditable('why'));
-        tr.appendChild(tdEditable('notes'));
-
-        // link cell: open in new tab + edit via ✏️
-        const tdLink = document.createElement('td');
-        tdLink.className = 'link-cell';
-
-        const wrap = document.createElement('div');
-        wrap.className = 'link-actions';
-
-        if (safeTrim(r.link)){
-          const a = document.createElement('a');
-          a.className = 'out-link';
-          a.href = normalizeUrl(r.link);
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = r.link;
-          a.addEventListener('click', (ev) => ev.stopPropagation());
-          wrap.appendChild(a);
-        } else {
-          wrap.appendChild(document.createTextNode(''));
-        }
-
-        const editBtn = document.createElement('button');
-        editBtn.className = 'mini-edit no-print';
-        editBtn.type = 'button';
-        editBtn.textContent = '✏️';
-        editBtn.setAttribute('data-tip', 'Editează link');
-        editBtn.addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          editLink(idx);
-        });
-
-        wrap.appendChild(editBtn);
-        tdLink.appendChild(wrap);
-        tr.appendChild(tdLink);
+        tr.appendChild(tdEditable('result'));
+        tr.appendChild(tdEditable('notes', 'client-hide'));
 
         const tdRemove = document.createElement('td');
         tdRemove.className = 'no-print col-del';
@@ -1006,6 +892,14 @@
       syncButtons();
     }
 
+    // prev name to revert on duplicates
+    els.tbody.addEventListener('focusin', (e) => {
+      const td = e.target;
+      if (!(td instanceof HTMLElement)) return;
+      if (td.tagName !== 'TD') return;
+      if (td.dataset.field === 'name') td.dataset.prev = td.textContent || '';
+    });
+
     els.tbody.addEventListener('focusout', (e) => {
       const td = e.target;
       if (!(td instanceof HTMLElement)) return;
@@ -1015,7 +909,26 @@
       const idx = Number(td.dataset.idx);
       if (!field || Number.isNaN(idx) || !rows[idx]) return;
 
-      rows[idx][field] = safeTrim(td.textContent);
+      const next = safeTrim(td.textContent);
+
+      if (field === 'name') {
+        const prev = td.dataset.prev ?? rows[idx].name ?? '';
+        rows[idx].name = next;
+
+        const nextSlug = slugify(next);
+        if (nextSlug) {
+          const dup = rows.some((r, i) => i !== idx && slugify(r.name) === nextSlug);
+          if (dup) {
+            rows[idx].name = prev;
+            td.textContent = prev;
+            toast('Nu poți avea aceeași analiză de 2 ori.', 'bad');
+            return;
+          }
+        }
+        return;
+      }
+
+      rows[idx][field] = next;
     });
 
     function syncButtons(){
@@ -1076,14 +989,14 @@
       renderHeader();
       renderTable();
 
-      els.resetAll.addEventListener('click', resetAll);
+      document.getElementById('resetAll').addEventListener('click', resetAll);
 
-      els.addEmptyRow.addEventListener('click', () => {
-        rows.push({ name:'', ref:'', why:'', notes:'', link:'' });
+      document.getElementById('addEmptyRow').addEventListener('click', () => {
+        rows.push({ id:'', name:'', result:'', notes:'' });
         renderTable();
       });
 
-      els.printBtn.addEventListener('click', () => window.print());
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
 
       els.clientName.addEventListener('input', renderHeader);
       els.goal.addEventListener('input', renderHeader);
@@ -1104,7 +1017,7 @@
     init().catch(() => {
       setPrintDate();
       resetAll();
-      toast('Eroare la încărcare JSON (analize catalog/protocols).', 'bad');
+      toast('Eroare la încărcare JSON (analize_catalog / analize_protocols).', 'bad');
     });
   </script>
 </body>
