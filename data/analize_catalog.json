@@ -1,118 +1,113 @@
 [
   {
-    "id": "hemoleucograma-completa",
+    "id": "hemoleucograma-completa-hlg",
     "name": "Hemoleucogramă completă (HLG)",
-    "notes": "Include: RBC, Hb, HCT, WBC, PLT, indici eritrocitari etc."
+    "notes": "Panou de bază pentru sânge: eritrocite/leucocite/trombocite. Te ajută să vezi rapid anemie, infecție/inflamație, deshidratare sau alte deviații de status general."
   },
   {
     "id": "glicemie",
     "name": "Glicemie",
-    "notes": "De regulă se recoltează pe nemâncate (dacă medicul/laboratorul recomandă)."
+    "notes": "Zahărul din sânge. Util pentru screening prediabet/diabet și pentru context metabolic (energie, apetit, pofte)."
   },
   {
     "id": "colesterol-total",
     "name": "Colesterol total",
-    "notes": ""
+    "notes": "Indicator general lipidic. Îl interpretezi împreună cu LDL/HDL și trigliceridele pentru risc cardio-metabolic."
   },
   {
-    "id": "ldl-colesterol",
+    "id": "colesterol-ldl",
     "name": "Colesterol LDL",
-    "notes": "„Colesterol rău” (interpretare în context)."
+    "notes": "„Colesterolul rău” (orientativ). Ridicat = risc cardio-metabolic mai mare; se leagă mult de dietă, greutate, inflamație și genetic."
   },
   {
     "id": "trigliceride",
     "name": "Trigliceride",
-    "notes": ""
+    "notes": "Sensibile la exces de calorii, alcool, carbo rafinați și rezistență la insulină. Ridicate = risc metabolic mai mare."
   },
   {
-    "id": "vsh",
+    "id": "vsh-vhs",
     "name": "VHS / VSH (viteza de sedimentare a sângelui)",
-    "notes": ""
+    "notes": "Marker nespecific de inflamație. Util ca „semnal de fond” (infecție/inflamație), interpretat în context."
   },
   {
-    "id": "crp",
+    "id": "proteina-c-reactiva-crp",
     "name": "Proteina C reactivă (CRP)",
-    "notes": "Marker inflamator (interpretare clinică)."
+    "notes": "Marker de inflamație (mai „direct” decât VSH). Util în context de inflamație sistemică, infecții sau recuperare."
   },
   {
     "id": "sodiu",
-    "name": "Sodiu (Na)",
-    "notes": ""
+    "name": "Sodiu",
+    "notes": "Electrolit important pentru hidratare și echilibru fluidic. Interpretare în context (aport sare/fluide, rinichi, medicație)."
   },
   {
     "id": "potasiu",
-    "name": "Potasiu (K)",
-    "notes": ""
+    "name": "Potasiu",
+    "notes": "Electrolit important pentru funcție neuromusculară și cardiacă. Interpretare atentă (rinichi, medicație, suplimente)."
   },
   {
     "id": "calciu-seric-total",
     "name": "Calciu seric total",
-    "notes": "Valori orientative; folosește intervalul laboratorului."
+    "notes": "Nivelul total de calciu (legat de proteine + liber). Abateri pot sugera probleme de metabolism al calciului/vitamina D/paratiroidă (interpretare medicală)."
   },
   {
     "id": "calciu-ionic",
     "name": "Calciu ionic seric",
-    "notes": "Forma activă a calciului; interval orientativ."
-  },
-  {
-    "id": "tsh",
-    "name": "TSH",
-    "notes": "Hormoni tiroidieni – interpretare cu medicul."
-  },
-  {
-    "id": "ft4",
-    "name": "Free T4 (FT4)",
-    "notes": "Interval orientativ; folosește intervalul laboratorului."
-  },
-  {
-    "id": "hbsag",
-    "name": "Hepatita B – HBsAg",
-    "notes": "Marker hepatită B (în funcție de recomandare medicală)."
-  },
-  {
-    "id": "anti-hcv",
-    "name": "Hepatita C – Ac anti-HCV",
-    "notes": "Marker hepatită C (în funcție de recomandare medicală)."
-  },
-  {
-    "id": "anti-hbs",
-    "name": "Hepatita B – Ac anti-HBs",
-    "notes": "Indică imunitatea (vaccinare/infecție veche vindecată)."
-  },
-  {
-    "id": "bilirubina-directa",
-    "name": "Bilirubina directă",
-    "notes": "Reflectă sănătatea ficatului/tractului biliar."
+    "notes": "Forma activă (liberă) a calciului. Util când vrei o imagine mai „reală” decât calciul total (în funcție de context)."
   },
   {
     "id": "tgo-ast",
     "name": "TGO (AST)",
-    "notes": "Marker funcție hepatică (și muscular/cardiac în anumite contexte)."
+    "notes": "Enzimă asociată frecvent cu ficatul (dar și cu mușchiul). Crescut poate apărea în afectare hepatică sau musculară (context!)."
   },
   {
-    "id": "sumar-urina",
-    "name": "Sumar de urină (biochimie + sediment)",
-    "notes": "Leucocite/nitriți → suspiciune infecție; proteinurie → posibilă afectare renală."
+    "id": "bilirubina-directa",
+    "name": "Bilirubina directă",
+    "notes": "Reflectă funcția hepatică/tract biliar. Crescută poate sugera colestază/obstrucții biliare/hepatite (de interpretat medical)."
+  },
+  {
+    "id": "acr-albumina-creatinina-urinar",
+    "name": "Raport albumină/creatinină urinară (ACR)",
+    "notes": "Screening pentru afectare renală precoce (ex: diabet/HTA). Creșterea poate semnala microalbuminurie."
   },
   {
     "id": "albumina-urinara",
     "name": "Albumina urinară",
-    "notes": "Marker afectare renală precoce."
-  },
-  {
-    "id": "acr",
-    "name": "Raport albumină/creatinină urinară (ACR)",
-    "notes": "Screening afectare renală (diabet/HTA etc.)."
+    "notes": "Marker pentru afectare renală precoce. Valori crescute pot apărea în nefropatie diabetică/HTA (interpretare în context)."
   },
   {
     "id": "creatinina-urinara",
     "name": "Creatinină urinară",
-    "notes": "Valori orientative; interpretare în context."
+    "notes": "Reflectă eliminarea creatininei și ajută la contextul funcției renale; poate varia cu masa musculară și aportul proteic."
+  },
+  {
+    "id": "sumar-urina",
+    "name": "Sumar de urină (biochimie + sediment)",
+    "notes": "Overview pentru tract urinar: leucocite/nitriți (infecție), proteinurie (posibil rinichi). Util ca screening."
+  },
+  {
+    "id": "free-t4",
+    "name": "Free T4 (tiroxină liberă)",
+    "notes": "Indicator pentru funcția tiroidiană. Ridicat sugerează hipertiroidism, scăzut sugerează hipotiroidism (corelat cu TSH/clinic)."
+  },
+  {
+    "id": "tsh",
+    "name": "TSH",
+    "notes": "Hormon de reglaj tiroidian. Îl interpretezi împreună cu Free T4 (și simptome) pentru status tiroidian."
+  },
+  {
+    "id": "anti-hbs",
+    "name": "Virus hepatita B – anticorpi Anti-HBs",
+    "notes": "Arată imunitatea față de hepatita B (vaccinare sau infecție trecută vindecată). Absența sugerează susceptibilitate."
+  },
+  {
+    "id": "markeri-hepatita-c",
+    "name": "Marker hepatita C (screening)",
+    "notes": "Screening pentru hepatita C (de obicei anticorpi). Interpretare + confirmare se fac medical."
   },
   {
     "id": "free-psa",
     "name": "Free PSA",
-    "notes": "Marker prostată (în funcție de vârstă/indicație)."
+    "notes": "Sănătatea prostatei. Raport scăzut Free PSA / PSA total poate sugera risc mai mare (de interpretat urologic)."
   }
 ]
 
