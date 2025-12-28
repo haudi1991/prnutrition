@@ -24,6 +24,14 @@
     "notes": "1 capsula dimineata, 1 seara"
   },
   {
+    "id": "choline-inositol",
+    "name": "Choline & Inositol",
+    "brand": "NOW Foods",
+    "dose": "1 capsulă/zi (250 mg colină + 250 mg inozitol)",
+    "link": "https://gymbeam.ro/choline-inositol-500-mg-now-foods.html",
+    "notes": "1 capsulă pe zi (per capsulă: 250 mg colină + 250 mg inozitol)"
+  },
+  {
     "id": "magnesium-bisglycinate",
     "name": "Magneziu bisglicinat",
     "brand": "Doctor's Best",
