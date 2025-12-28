@@ -18,6 +18,7 @@
       --accent2: rgba(167,243,208,.95);
     }
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
@@ -28,7 +29,7 @@
       color:var(--text);
       padding: 26px 14px;
     }
-    .wrap{ max-width: 980px; margin: 0 auto; }
+    .wrap{ max-width: 1020px; margin: 0 auto; }
 
     header{
       display:flex;
@@ -53,40 +54,94 @@
       background: var(--accent);
       box-shadow: 0 0 0 4px rgba(125,211,252,.10);
     }
+    h1{ margin:0; letter-spacing:-0.02em; font-size: 34px; }
+    p{ color: var(--muted); margin: 0; max-width: 92ch; font-size: 13px; line-height: 1.45; }
 
-    h1{ margin:0; letter-spacing:-0.02em; font-size: 32px; }
-    p{ color: var(--muted); margin: 0; max-width: 90ch; font-size: 13px; line-height: 1.45; }
-
+    /* ===== Modern section blocks ===== */
+    .section{
+      margin-top: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius: 18px;
+      overflow:hidden;
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    }
+    .section-head{
+      padding: 14px 14px 12px 14px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+    }
+    .section-head .left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width: 0;
+    }
     .section-title{
-      margin: 18px 0 10px 0;
-      font-size: 13px;
-      color: rgba(234,241,255,.82);
-      font-weight: 900;
-      letter-spacing: -0.01em;
       display:flex;
       align-items:center;
-      justify-content:space-between;
       gap:10px;
+      font-weight: 950;
+      letter-spacing: -0.01em;
+      color: rgba(234,241,255,.92);
+      font-size: 14px;
+      margin:0;
+      white-space: nowrap;
     }
-    .section-title small{
-      color: rgba(234,241,255,.52);
+    .section-sub{
+      font-size: 12px;
+      color: rgba(234,241,255,.58);
       font-weight: 700;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
       font-size: 11px;
+      color: rgba(234,241,255,.72);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      flex: 0 0 auto;
+    }
+    .tag .t-dot{
+      width:8px;height:8px;border-radius:999px;
+      background: rgba(125,211,252,.9);
+      box-shadow: 0 0 0 4px rgba(125,211,252,.10);
+    }
+    .tag.docs .t-dot{
+      background: rgba(167,243,208,.9);
+      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
     }
 
+    .section-body{
+      padding: 14px;
+    }
+
+    /* ===== Cards grid ===== */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
       gap: 12px;
     }
-    @media (min-width: 820px){
+    @media (min-width: 860px){
       .grid{ grid-template-columns: 1fr 1fr; }
     }
 
     a.card{
       text-decoration:none;
       color: inherit;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,.10);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 16px;
@@ -96,15 +151,31 @@
       min-height: 132px;
       position: relative;
       overflow:hidden;
-    }
-
-    .card.app{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
     }
-
     a.card:hover{
       transform: translateY(-1px);
       transition: transform .12s ease;
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .card.app::before,
+    .card.doc::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      pointer-events:none;
+      opacity:.55;
+      background:
+        radial-gradient(500px 260px at 20% 10%, rgba(125,211,252,.18), transparent 55%),
+        radial-gradient(420px 240px at 90% 20%, rgba(167,243,208,.12), transparent 58%);
+      mask: linear-gradient(#000, transparent 75%);
+    }
+    .card.doc::before{
+      opacity:.45;
+      background:
+        radial-gradient(520px 260px at 18% 8%, rgba(167,243,208,.16), transparent 58%),
+        radial-gradient(420px 240px at 92% 22%, rgba(125,211,252,.10), transparent 60%);
     }
 
     .topline{
@@ -113,31 +184,33 @@
       justify-content:space-between;
       gap:10px;
     }
-
     .title{
-      font-weight: 900;
+      font-weight: 950;
       font-size: 16px;
       letter-spacing: -0.01em;
       display:flex;
       align-items:center;
       gap:10px;
     }
-
     .ico{
-      width:28px;height:28px;
+      width:30px;height:30px;
       border-radius: 12px;
       display:grid; place-items:center;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
       flex:0 0 auto;
+      font-size: 16px;
     }
     .ico.app{
       background: rgba(125,211,252,.10);
       border-color: rgba(125,211,252,.18);
     }
+    .ico.doc{
+      background: rgba(167,243,208,.09);
+      border-color: rgba(167,243,208,.16);
+    }
 
     .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
-
     .row{
       display:flex;
       align-items:center;
@@ -146,17 +219,15 @@
       margin-top:auto;
       flex-wrap:wrap;
     }
-
     .pill{
       width: fit-content;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,.10);
       border-radius: 999px;
       padding: 6px 10px;
       font-size: 12px;
-      color: var(--muted);
+      color: rgba(234,241,255,.62);
       background: rgba(255,255,255,.02);
     }
-
     .open{
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.03);
@@ -164,7 +235,7 @@
       border-radius: 12px;
       padding: 7px 10px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: -0.01em;
       display:inline-flex;
       align-items:center;
@@ -174,7 +245,7 @@
 
     /* ===== Collapsible JSON block ===== */
     details.data-accordion{
-      margin-top: 18px;
+      margin-top: 16px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
       border-radius: 16px;
@@ -214,7 +285,7 @@
     details[open] .chev{ transform: rotate(90deg); }
 
     .sum-title{
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -0.01em;
       color: rgba(234,241,255,.90);
       font-size: 13px;
@@ -237,7 +308,7 @@
       border-radius: 999px;
       padding: 4px 8px;
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -0.01em;
       flex: 0 0 auto;
     }
@@ -246,7 +317,6 @@
       padding: 12px 12px 14px 12px;
       border-top: 1px solid rgba(255,255,255,.08);
     }
-
     .data-wrap{
       border: 1px dashed rgba(255,255,255,.14);
       background: rgba(255,255,255,.015);
@@ -257,7 +327,7 @@
     .grid.data-grid{
       gap: 10px;
     }
-    @media (min-width: 820px){
+    @media (min-width: 860px){
       .grid.data-grid{ grid-template-columns: 1fr 1fr; }
     }
 
@@ -290,9 +360,7 @@
       background: rgba(255,255,255,.02);
       border-color: rgba(255,255,255,.10);
     }
-    a.card.data .title{
-      font-size: 14px;
-    }
+    a.card.data .title{ font-size: 14px; }
     a.card.data .ico{
       width: 24px; height: 24px;
       border-radius: 10px;
@@ -319,22 +387,8 @@
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
-
-    .micro-left{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      padding-top: 2px;
-    }
-
-    .micro-row{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      line-height: 1.15;
-      white-space: nowrap;
-    }
-
+    .micro-left{ display:flex; flex-direction:column; gap:8px; padding-top: 2px; }
+    .micro-row{ display:flex; align-items:center; gap:8px; line-height: 1.15; white-space: nowrap; }
     .micro-ico{
       width: 20px;
       height: 20px;
@@ -350,28 +404,24 @@
       background: rgba(167,243,208,.12);
       border-color: rgba(167,243,208,.18);
     }
-
     .micro-name{
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -0.01em;
       color: rgba(234,241,255,.86);
     }
-
     .micro-contact a{
       color: rgba(234,241,255,.90);
       text-decoration:none;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -0.01em;
     }
-    .micro-contact a:hover{
-      text-decoration: underline;
-    }
-
+    .micro-contact a:hover{ text-decoration: underline; }
     @media (max-width: 520px){
       .micro-contact{ right: 10px; bottom: 10px; }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -380,54 +430,105 @@
       <p>Alege aplicația sau documentul pe care vrei să-l folosești.</p>
     </header>
 
-    <div class="section-title">
-      <span>Aplicații / Documente</span>
-      <small>pentru lucru + PDF</small>
-    </div>
+    <!-- ✅ SECTION: APLICAȚII -->
+    <section class="section">
+      <div class="section-head">
+        <div class="left">
+          <h2 class="section-title">Aplicații</h2>
+          <div class="section-sub">tool-uri pentru completare + Print → PDF</div>
+        </div>
+        <span class="tag"><span class="t-dot"></span> TOOL</span>
+      </div>
 
-    <div class="grid">
-      <a class="card app" href="./apps/suplimente/">
-        <div class="topline">
-          <div class="title">
-            <span class="ico app">💊</span>
-            Protocol suplimente
-          </div>
-          <span class="open">Deschide →</span>
-        </div>
-        <div class="sub">Catalog standard + protocoale standard + completare rapidă + Print → Save PDF.</div>
-        <div class="row">
-          <div class="pill">/apps/suplimente/</div>
-        </div>
-      </a>
+      <div class="section-body">
+        <div class="grid">
+          <a class="card app" href="./apps/suplimente/">
+            <div class="topline">
+              <div class="title">
+                <span class="ico app">💊</span>
+                Protocol suplimente
+              </div>
+              <span class="open">Deschide →</span>
+            </div>
+            <div class="sub">Catalog standard + protocoale standard + completare rapidă + Print → Save PDF.</div>
+            <div class="row">
+              <div class="pill">/apps/suplimente/</div>
+            </div>
+          </a>
 
-      <a class="card app" href="./apps/analize/">
-        <div class="topline">
-          <div class="title">
-            <span class="ico app">🧪</span>
-            Analize
-          </div>
-          <span class="open">Deschide →</span>
-        </div>
-        <div class="sub">Catalog analize + protocoale (bază) + completare rezultate + Print → Save PDF.</div>
-        <div class="row">
-          <div class="pill">/apps/analize/</div>
-        </div>
-      </a>
+          <a class="card app" href="./apps/analize/">
+            <div class="topline">
+              <div class="title">
+                <span class="ico app">🧪</span>
+                Analize
+              </div>
+              <span class="open">Deschide →</span>
+            </div>
+            <div class="sub">Catalog analize + protocoale (bază) + completare rezultate + Print → Save PDF.</div>
+            <div class="row">
+              <div class="pill">/apps/analize/</div>
+            </div>
+          </a>
 
-      <a class="card app" href="./apps/proces/">
-        <div class="topline">
-          <div class="title">
-            <span class="ico app">📄</span>
-            Cum lucrăm împreună
-          </div>
-          <span class="open">Deschide →</span>
+          <!-- Placeholders (opțional, pentru viitor)
+          <a class="card app" href="./apps/calculator/">
+            <div class="topline">
+              <div class="title">
+                <span class="ico app">🧮</span>
+                Calculator macro
+              </div>
+              <span class="open">Deschide →</span>
+            </div>
+            <div class="sub">Calorii + P/C/F + recomandări rapide (PDF-ready).</div>
+            <div class="row"><div class="pill">/apps/calculator/</div></div>
+          </a>
+          -->
         </div>
-        <div class="sub">Document PDF-ready: procesul nutrițional, pași, așteptări, ce nu facem.</div>
-        <div class="row">
-          <div class="pill">/apps/proces/</div>
+      </div>
+    </section>
+
+    <!-- ✅ SECTION: DOCUMENTE -->
+    <section class="section">
+      <div class="section-head">
+        <div class="left">
+          <h2 class="section-title">Documente</h2>
+          <div class="section-sub">materiale PDF-ready (fără completare)</div>
         </div>
-      </a>
-    </div>
+        <span class="tag docs"><span class="t-dot"></span> PDF</span>
+      </div>
+
+      <div class="section-body">
+        <div class="grid">
+          <a class="card doc" href="./apps/proces/">
+            <div class="topline">
+              <div class="title">
+                <span class="ico doc">📄</span>
+                Cum lucrăm împreună
+              </div>
+              <span class="open">Deschide →</span>
+            </div>
+            <div class="sub">Document PDF-ready: procesul nutrițional, pași, așteptări, ce nu facem.</div>
+            <div class="row">
+              <div class="pill">/apps/proces/</div>
+            </div>
+          </a>
+
+          <!-- Placeholder (opțional, pentru viitor)
+          <a class="card doc" href="./apps/teorie-macro/">
+            <div class="topline">
+              <div class="title">
+                <span class="ico doc">🥗</span>
+                Macronutrienți – teorie
+              </div>
+              <span class="open">Deschide →</span>
+            </div>
+            <div class="sub">Explicații + exemple + reguli simple (PDF-ready).</div>
+            <div class="row"><div class="pill">/apps/teorie-macro/</div></div>
+          </a>
+          -->
+        </div>
+      </div>
+    </section>
 
     <!-- ✅ COLLAPSIBLE JSON (default closed) -->
     <details class="data-accordion">
@@ -454,9 +555,7 @@
                 <span class="open">Deschide</span>
               </div>
               <div class="sub">Catalog standard suplimente (read-only).</div>
-              <div class="row">
-                <div class="pill">/data/catalog.json</div>
-              </div>
+              <div class="row"><div class="pill">/data/catalog.json</div></div>
             </a>
 
             <a class="card data" href="./data/protocols.json">
@@ -468,9 +567,7 @@
                 <span class="open">Deschide</span>
               </div>
               <div class="sub">Protocoale standard suplimente (read-only).</div>
-              <div class="row">
-                <div class="pill">/data/protocols.json</div>
-              </div>
+              <div class="row"><div class="pill">/data/protocols.json</div></div>
             </a>
 
             <a class="card data" href="./data/analize_catalog.json">
@@ -482,9 +579,7 @@
                 <span class="open">Deschide</span>
               </div>
               <div class="sub">Catalog standard analize (read-only).</div>
-              <div class="row">
-                <div class="pill">/data/analize_catalog.json</div>
-              </div>
+              <div class="row"><div class="pill">/data/analize_catalog.json</div></div>
             </a>
 
             <a class="card data" href="./data/analize_protocols.json">
@@ -496,9 +591,7 @@
                 <span class="open">Deschide</span>
               </div>
               <div class="sub">Protocoale standard analize (read-only).</div>
-              <div class="row">
-                <div class="pill">/data/analize_protocols.json</div>
-              </div>
+              <div class="row"><div class="pill">/data/analize_protocols.json</div></div>
             </a>
           </div>
         </div>
