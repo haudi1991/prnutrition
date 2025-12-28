@@ -77,7 +77,7 @@
       display:none;
       font-weight: 900;
       letter-spacing: -0.01em;
-      margin: 0 0 8px 0;
+      margin: 0 0 10px 0;
     }
     .print-title .muted{ color: rgba(234,241,255,.80); }
     .print-title .date{
@@ -86,14 +86,6 @@
       font-size: 12px;
       color: rgba(234,241,255,.65);
       margin-top: 6px;
-    }
-
-    .print-goal{
-      display:none;
-      margin: 0 0 10px 0;
-      color: rgba(234,241,255,.72);
-      font-size: 12.5px;
-      line-height: 1.35;
     }
 
     .sr-only{
@@ -109,7 +101,9 @@
       color: rgba(234,241,255,.62);
       line-height: 1.4;
     }
-    .hint.bad{ color: rgba(255,220,220,.82); }
+    .hint.bad{
+      color: rgba(255,220,220,.82);
+    }
 
     /* ✅ 2 coloane pentru “Date” */
     .grid2{
@@ -119,17 +113,6 @@
     }
     @media (min-width: 820px){
       .grid2{ grid-template-columns: 1fr 1fr; }
-    }
-
-    input{
-      width:100%;
-      font:inherit;
-      color:var(--text);
-      background:rgba(255,255,255,.02);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:12px;
-      padding:10px 10px;
-      outline:none;
     }
 
     /* ===== Icon buttons + tooltips ===== */
@@ -161,7 +144,6 @@
       transform: none;
     }
 
-    /* tooltips */
     button[data-tip]{ position: relative; }
     button[data-tip]::after{
       content: attr(data-tip);
@@ -272,6 +254,7 @@
       align-items:center;
       flex: 0 0 auto;
     }
+
     .accordion-body{
       margin-top: 10px;
       display:grid;
@@ -320,7 +303,7 @@
       padding: 0;
     }
 
-    /* ===== Catalog ===== */
+    /* ===== Catalog list ===== */
     .catalog-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -370,7 +353,7 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
-    /* ===== Callout ===== */
+    /* ===== Callout + Table ===== */
     .callout{
       margin-top: 10px;
       padding: 10px 12px;
@@ -382,7 +365,6 @@
       line-height: 1.4;
     }
 
-    /* ===== Table ===== */
     .table-actions{
       margin-top: 10px;
       display:flex;
@@ -485,7 +467,9 @@
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
     /* =========================
-       PRINT (PDF) — FIX: fără „blank page gap”
+       PRINT (PDF) — IMPORTANT:
+       - allow table to flow across pages
+       - hide internal notes + all UI
        ========================= */
     @media print {
       *{
@@ -494,9 +478,8 @@
       }
       @page{
         size: A4 portrait;
-        margin: 10mm;
+        margin: 8mm;
       }
-
       html, body{
         background: var(--bg) !important;
         color: var(--text) !important;
@@ -510,43 +493,25 @@
       button[data-tip]::before,
       button[data-tip]::after{ display:none !important; }
 
-      .wrap{ max-width: none !important; margin: 0 !important; }
-      .section{ padding: 0 !important; }
-      .panel{
-        padding: 0 !important;
-        border: none !important;
-        background: transparent !important;
-      }
-      .card{
-        box-shadow: none !important;
-        border: none !important;
-        background: transparent !important;
-      }
+      .section{ padding: 10px !important; }
+      .panel{ padding: 10px !important; }
 
       .print-title{
         display:block !important;
         font-size: 20px !important;
-        margin-bottom: 6px !important;
-      }
-      .print-goal{
-        display:block !important;
       }
 
-      .callout{
-        margin-top: 8px !important;
-        margin-bottom: 8px !important;
-      }
-
+      /* ✅ let long tables split across pages (no big blank pages) */
       .table-wrap{
-        margin-top: 8px !important;
-        overflow: visible !important;
-        border-radius: 0 !important;
+        break-inside: auto !important;
+        page-break-inside: auto !important;
       }
+      thead{ display: table-header-group; }
+      tfoot{ display: table-footer-group; }
+      tbody tr{ break-inside: avoid; page-break-inside: avoid; }
 
       table{ font-size: 12px !important; }
-      thead{ display: table-header-group !important; }
-      tr{ page-break-inside: avoid !important; }
-      thead th, tbody td{ padding: 7px 8px !important; }
+      thead th, tbody td{ padding: 8px 8px !important; }
 
       a[href]::after{ content: "" !important; }
     }
@@ -567,16 +532,12 @@
       <section class="section">
         <div class="panel">
 
-          <!-- Titlu pentru PDF (print only) -->
           <div class="print-title">
             Analize – <span id="printName" class="muted">Client</span>
             <span id="printDate" class="date"></span>
           </div>
-          <div class="print-goal">
-            <b>Obiectiv:</b> <span id="printGoal">—</span>
-          </div>
 
-          <!-- Date -->
+          <!-- Inputs -->
           <details class="accordion no-print" open>
             <summary>
               <div class="sum-left">
@@ -591,12 +552,20 @@
               <div class="grid2">
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Nume client</div>
-                  <input id="clientName" placeholder="Ex: Andrei Popescu" />
+                  <input
+                    id="clientName"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: Andrei Popescu"
+                  />
                 </div>
 
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
-                  <input id="goal" placeholder="Ex: screening anual, oboseală, metabolic..." />
+                  <input
+                    id="goal"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: screening, energie, oboseală, tiroidă..."
+                  />
                 </div>
               </div>
             </div>
@@ -613,14 +582,14 @@
 
               <div class="sum-actions">
                 <button class="icon-btn primary" id="addProtocolBtn" type="button" disabled data-tip="Adaugă protocol">
-                  ➕<span class="sr-only">Adaugă protocol</span>
+                  ➕<span class="sr-only">Add protocol</span>
                 </button>
               </div>
             </summary>
 
             <div class="accordion-body">
               <select id="stdProtocolSelect"></select>
-              <div class="hint">➕ = adaugă în tabel.</div>
+              <div class="hint">➕ = adaugă analizele în tabel (fără dubluri).</div>
               <div id="protStatus" class="hint" style="margin-top:4px;"></div>
             </div>
           </details>
@@ -633,16 +602,15 @@
                 <div class="sum-title">Catalog</div>
                 <div class="sum-muted">(GitHub)</div>
               </div>
-
               <div class="sum-actions">
-                <div class="hint">Click pe “Adaugă”.</div>
+                <div class="hint">Adaugă din listă.</div>
               </div>
             </summary>
 
             <div class="accordion-body">
               <div class="searchbox">
                 <div class="mag" aria-hidden="true">🔎</div>
-                <input id="catalogSearch" placeholder="Caută rapid (ex: glicemie, crp, tsh)" />
+                <input id="catalogSearch" placeholder="Caută rapid (ex: tsh, crp, glicemie)" />
               </div>
 
               <div class="catalog-grid" id="catalogList"></div>
@@ -653,10 +621,10 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions -->
+          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
-              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Rând gol</span></button>
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
               <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
               <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
 
@@ -664,16 +632,17 @@
             </div>
           </div>
 
-          <!-- Table -->
           <div class="table-wrap" aria-label="Tabel analize">
             <table>
               <thead>
                 <tr>
-                  <th>Analiză</th>
+                  <th style="width:62%;">Analiză</th>
+                  <!-- ✅ pentru tine, NU apare la print -->
+                  <th class="no-print" style="width:38%;">Note (intern)</th>
                   <th class="no-print col-del"></th>
                 </tr>
               </thead>
-              <tbody id="tbody"></tbody>
+              <tbody id="analizeTbody"></tbody>
             </table>
           </div>
 
@@ -691,7 +660,6 @@
       clientNameOut: document.getElementById('clientNameOut'),
       printName: document.getElementById('printName'),
       goalOut: document.getElementById('goalOut'),
-      printGoal: document.getElementById('printGoal'),
       printDate: document.getElementById('printDate'),
 
       resetAll: document.getElementById('resetAll'),
@@ -709,7 +677,7 @@
       catalogSearch: document.getElementById('catalogSearch'),
       catalogList: document.getElementById('catalogList'),
 
-      tbody: document.getElementById('tbody'),
+      tbody: document.getElementById('analizeTbody'),
       toast: document.getElementById('toast'),
     };
 
@@ -719,7 +687,7 @@
     let catalog = [];
     let catalogById = new Map();
     let protocols = [];
-    let rows = []; // { id?: string, name: string }
+    let rows = []; // in-memory only: {id, name, notes}
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
     function slugify(s){
@@ -753,39 +721,101 @@
       };
     }
 
-    function findCatalogIdByName(name){
-      const s = slugify(name);
-      for (const it of catalog){
-        if (slugify(it.name) === s) return it.id;
-      }
-      return '';
+    function rowKey(r){
+      const id = safeTrim(r?.id);
+      if (id) return 'id:' + id;
+      return 'name:' + slugify(r?.name || '');
     }
 
+    function matchCatalogByName(name){
+      const s = slugify(name);
+      return catalog.find(it => slugify(it.name) === s) || null;
+    }
+
+    function addRow(r){
+      const name = safeTrim(r?.name);
+      const notes = safeTrim(r?.notes);
+      const id = safeTrim(r?.id);
+
+      if (!name && !notes) return false;
+
+      // prevent duplicates
+      const key = rowKey({ id, name });
+      if (rows.some(x => rowKey(x) === key)){
+        toast('Deja există în tabel.', 'bad');
+        return false;
+      }
+
+      rows.push({ id, name, notes });
+      renderTable();
+      return true;
+    }
+
+    function addCatalogItemToTable(item){
+      addRow(item);
+      syncButtons();
+    }
+
+    // protocol items: ["id1","id2"] or [{ref:"id"}] etc.
     function getProtocolIds(p){
       if (Array.isArray(p?.items)) {
         return p.items
-          .map(x => typeof x === 'string' ? safeTrim(x) : safeTrim(x?.ref || x?.id || x?.name || ''))
+          .map(x => {
+            if (typeof x === 'string') return safeTrim(x);
+            if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
+            return '';
+          })
+          .filter(Boolean);
+      }
+      if (Array.isArray(p?.rows)) {
+        return p.rows
+          .map(r => safeTrim(r?.id) || safeTrim(r?.ref) || safeTrim(r?.name))
           .filter(Boolean);
       }
       return [];
     }
 
-    async function loadCatalog(){
-      const raw = await fetchJson(CATALOG_URL);
-      catalog = Array.isArray(raw) ? raw.map(normalizeCatalogItem) : [];
-      catalogById = new Map(catalog.map(x => [x.id, x]));
+    function getSelectedProtocol(){
+      const v = safeTrim(els.stdProtocolSelect.value);
+      if (!v) return null;
+      const idx = Number(v);
+      if (Number.isNaN(idx)) return null;
+      return protocols[idx] || null;
     }
 
-    async function loadProtocols(){
-      const raw = await fetchJson(PROTOCOLS_URL);
-      protocols = Array.isArray(raw) ? raw : [];
+    function getMissingFromProtocol(p){
+      const ids = getProtocolIds(p);
+      const missing = ids.filter(id => !catalogById.has(id));
+      return { ids, missing };
     }
 
-    async function initData(){
-      await Promise.all([loadCatalog(), loadProtocols()]);
-      renderProtocolSelect();
-      renderCatalog();
+    function addProtocolToTable(p){
+      const { ids, missing } = getMissingFromProtocol(p);
+      if (!ids.length) return;
+
+      if (missing.length){
+        toast(`Nu pot adăuga protocolul. Lipsește din catalog: ${missing.join(', ')}`, 'bad');
+        return;
+      }
+
+      let added = 0;
+      for (const id of ids){
+        const it = catalogById.get(id);
+        if (!it) continue;
+        const key = rowKey({ id: it.id, name: it.name });
+        if (rows.some(r => rowKey(r) === key)) continue;
+        rows.push({ id: it.id, name: it.name, notes: it.notes || '' });
+        added++;
+      }
+
+      if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
+
+      renderHeader();
+      renderTable();
       syncButtons();
+      els.protDetails.open = false;
+
+      toast(added ? 'Protocol adăugat.' : 'Nimic de adăugat (toate existau).', added ? 'good' : 'bad');
     }
 
     function renderProtocolSelect(){
@@ -809,85 +839,6 @@
       els.clientNameOut.textContent = name;
       els.printName.textContent = name;
       els.goalOut.textContent = goal;
-      els.printGoal.textContent = goal;
-    }
-
-    function rowKey(r){
-      const id = safeTrim(r?.id);
-      const name = safeTrim(r?.name);
-      return id || slugify(name);
-    }
-
-    function hasRowKey(key){
-      if (!key) return false;
-      return rows.some(r => rowKey(r) === key);
-    }
-
-    function addRow({ id='', name='' }){
-      const nm = safeTrim(name);
-      const rid = safeTrim(id) || findCatalogIdByName(nm);
-      const key = rid || slugify(nm);
-
-      if (!nm) return false;
-
-      if (hasRowKey(key)){
-        toast('Analiza este deja în tabel.', 'bad');
-        return false;
-      }
-
-      rows.push({ id: rid, name: nm });
-      renderTable();
-      return true;
-    }
-
-    function addCatalogItemToTable(item){
-      addRow({ id: item.id, name: item.name });
-      syncButtons();
-    }
-
-    function getSelectedProtocol(){
-      const v = safeTrim(els.stdProtocolSelect.value);
-      if (!v) return null;
-      const idx = Number(v);
-      if (Number.isNaN(idx)) return null;
-      return protocols[idx] || null;
-    }
-
-    function getMissingFromProtocol(p){
-      const ids = getProtocolIds(p);
-      const missing = ids.filter(id => !catalogById.has(id));
-      return { ids, missing };
-    }
-
-    // dacă lipsește ceva din catalog => NU adaugă deloc
-    function addProtocolToTable(p){
-      const { ids, missing } = getMissingFromProtocol(p);
-      if (!ids.length) return;
-
-      if (missing.length){
-        toast(`Protocolul nu poate fi adăugat. Lipsește din catalog: ${missing.join(', ')}`, 'bad');
-        return;
-      }
-
-      let added = 0;
-      for (const id of ids){
-        const it = catalogById.get(id);
-        if (!it) continue;
-        const key = it.id;
-        if (!hasRowKey(key)){
-          rows.push({ id: it.id, name: it.name });
-          added++;
-        }
-      }
-
-      if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
-
-      renderTable();
-      els.protDetails.open = false;
-      renderHeader();
-      syncButtons();
-
-      toast(added ? 'Protocol adăugat în tabel.' : 'Protocolul era deja în tabel.', added ? 'good' : 'bad');
     }
 
     function renderCatalog(){
@@ -909,7 +860,7 @@
 
         const meta = document.createElement('div');
         meta.className = 'meta';
-        meta.innerHTML = `<div><b>Note (intern):</b> ${it.notes || '—'}</div>`;
+        meta.textContent = it.notes ? it.notes : '—';
 
         const actions = document.createElement('div');
         actions.className = 'actions';
@@ -931,12 +882,19 @@
       }
     }
 
+    function pruneEmptyRows(){
+      const before = rows.length;
+      rows = rows.filter(r => safeTrim(r?.name));
+      if (rows.length !== before) renderTable();
+    }
+
     function renderTable(){
       els.tbody.innerHTML = '';
 
       rows.forEach((r, idx) => {
         const tr = document.createElement('tr');
 
+        // Analiza (editable)
         const tdName = document.createElement('td');
         tdName.contentEditable = 'true';
         tdName.dataset.field = 'name';
@@ -944,6 +902,16 @@
         tdName.textContent = r.name || '';
         tr.appendChild(tdName);
 
+        // Note (intern) (editable, but NOT printed)
+        const tdNotes = document.createElement('td');
+        tdNotes.className = 'no-print';
+        tdNotes.contentEditable = 'true';
+        tdNotes.dataset.field = 'notes';
+        tdNotes.dataset.idx = String(idx);
+        tdNotes.textContent = r.notes || '';
+        tr.appendChild(tdNotes);
+
+        // delete button (NOT printed)
         const tdRemove = document.createElement('td');
         tdRemove.className = 'no-print col-del';
 
@@ -968,43 +936,68 @@
       syncButtons();
     }
 
-    function enforceNoDuplicateAt(idx){
-      const r = rows[idx];
-      if (!r) return;
-
-      const name = safeTrim(r.name);
-      const possibleId = findCatalogIdByName(name);
-      r.id = possibleId || safeTrim(r.id);
-
-      const key = rowKey(r);
-      if (!key) return;
-
-      // count occurrences of this key
-      let count = 0;
-      for (let i=0;i<rows.length;i++){
-        if (rowKey(rows[i]) === key) count++;
-      }
-
-      if (count > 1){
-        rows[idx].name = '';
-        rows[idx].id = '';
-        toast('Analiza există deja în tabel (nu permitem dubluri).', 'bad');
-        renderTable();
-      }
-    }
+    // store previous on focusin to allow revert (anti-duplicate)
+    els.tbody.addEventListener('focusin', (e) => {
+      const td = e.target;
+      if (!(td instanceof HTMLElement)) return;
+      if (td.tagName !== 'TD') return;
+      td.dataset.prev = td.textContent ?? '';
+    });
 
     els.tbody.addEventListener('focusout', (e) => {
       const td = e.target;
       if (!(td instanceof HTMLElement)) return;
       if (td.tagName !== 'TD') return;
 
+      const field = td.dataset.field;
       const idx = Number(td.dataset.idx);
-      if (Number.isNaN(idx) || !rows[idx]) return;
+      if (!field || Number.isNaN(idx) || !rows[idx]) return;
 
-      rows[idx].name = safeTrim(td.textContent);
-      enforceNoDuplicateAt(idx);
+      const prev = td.dataset.prev ?? '';
+      const next = safeTrim(td.textContent);
 
-      // dacă rândul a rămas gol după enforce, îl păstrăm (poți completa altceva)
+      if (field === 'name'){
+        // if empty, keep it (will be pruned on print)
+        // duplicate check
+        const tmp = { ...rows[idx], name: next, id: rows[idx].id };
+        const k = rowKey(tmp);
+
+        const dup = rows.some((r, j) => j !== idx && rowKey(r) === k);
+        if (dup && next){
+          toast('Analiza există deja în tabel (dublură).', 'bad');
+          td.textContent = prev;
+          return;
+        }
+
+        rows[idx].name = next;
+
+        // if looks like a catalog item, auto-fill id + notes (only if notes empty)
+        const match = next ? matchCatalogByName(next) : null;
+        if (match){
+          // if that id already exists elsewhere, revert
+          const wouldKey = rowKey({ id: match.id, name: match.name });
+          const idDup = rows.some((r, j) => j !== idx && rowKey(r) === wouldKey);
+          if (idDup){
+            toast('Analiza din catalog există deja în tabel.', 'bad');
+            td.textContent = prev;
+            rows[idx].name = safeTrim(prev);
+            return;
+          }
+
+          rows[idx].id = match.id;
+          rows[idx].name = match.name;
+          if (!safeTrim(rows[idx].notes)) rows[idx].notes = match.notes || '';
+          // reflect normalized name/notes
+          renderTable();
+          return;
+        } else {
+          // manual -> clear id (so key becomes name-based)
+          rows[idx].id = '';
+        }
+      } else if (field === 'notes'){
+        rows[idx].notes = next;
+      }
+
       syncButtons();
     });
 
@@ -1054,6 +1047,17 @@
       syncButtons();
     }
 
+    async function initData(){
+      const [catRaw, protRaw] = await Promise.all([fetchJson(CATALOG_URL), fetchJson(PROTOCOLS_URL)]);
+      catalog = Array.isArray(catRaw) ? catRaw.map(normalizeCatalogItem) : [];
+      catalogById = new Map(catalog.map(x => [x.id, x]));
+      protocols = Array.isArray(protRaw) ? protRaw : [];
+
+      renderProtocolSelect();
+      renderCatalog();
+      syncButtons();
+    }
+
     async function init(){
       setPrintDate();
       renderHeader();
@@ -1062,12 +1066,16 @@
       els.resetAll.addEventListener('click', resetAll);
 
       els.addEmptyRow.addEventListener('click', () => {
-        // rând manual
-        rows.push({ id:'', name:'' });
+        // allow manual rows (but keep clean on print)
+        rows.push({ id:'', name:'', notes:'' });
         renderTable();
       });
 
-      els.printBtn.addEventListener('click', () => window.print());
+      els.printBtn.addEventListener('click', () => {
+        pruneEmptyRows();     // remove blank rows before printing
+        setPrintDate();       // update date
+        window.print();
+      });
 
       els.clientName.addEventListener('input', renderHeader);
       els.goal.addEventListener('input', renderHeader);
@@ -1088,7 +1096,7 @@
     init().catch(() => {
       setPrintDate();
       resetAll();
-      toast('Eroare la încărcare JSON (analize_catalog / analize_protocols).', 'bad');
+      toast('Eroare la încărcare JSON (analize_catalog/analize_protocols).', 'bad');
     });
   </script>
 </body>
