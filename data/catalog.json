@@ -10,11 +10,18 @@
   {
     "id": "omega-3",
     "name": "Omega-3",
-    "brand": "Nordic Naturals",
-    "dose": "1–2 g EPA+DHA",
-    "link": "",
-    "notes": "prânz/cină, cu mâncare · recuperare / inflamație"
+    "brand": "NOW Foods",
+    "dose": "3000mg",
+    "link": "https://gymbeam.ro/omega-3-now-foods.html",
+    "notes": "1000mg dimineata cu micul dejun, 2000mg seara, creste HDL colesterolul bun"
   },
+  {
+    "id": "monacolina-k",
+    "name": "Monacolina K Extract de orez rosu fermentat",
+    "brand": "NOW Foods",
+    "dose": "",
+    "link": "https://www.emag.ro/red-yeast-rice-drojdie-de-orez-rosu-600-mg-now-foods-60-capsule-2761/pd/DFHLZ7MBM/",
+    "notes": "1 capsula dimineata, 1 seara"
   {
     "id": "magnesium-bisglycinate",
     "name": "Magneziu bisglicinat",
