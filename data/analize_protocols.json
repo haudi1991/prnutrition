@@ -1,0 +1,42 @@
+[
+  {
+    "id": "annual-basic",
+    "name": "Anual – uzual (bază)",
+    "goal": "Set uzual de analize anuale (screening general).",
+    "items": [
+      "glicemie",
+      "colesterol-total",
+      "ldl",
+      "trigliceride",
+      "vhs",
+      "crp",
+      "sodiu",
+      "potasiu",
+      "calciu-total",
+      "free-t4",
+      "anti-hbs",
+      "marker-hepatita-c",
+      "hemoleucograma",
+      "sumar-urina"
+    ]
+  },
+  {
+    "id": "hemoleucograma-focus",
+    "name": "Hemoleucogramă – focus interpretare",
+    "goal": "Parametri cheie: RBC/HCT/WBC/PLT (orientativ).",
+    "items": ["rbc", "hct", "wbc", "plt"]
+  },
+  {
+    "id": "ficat-focus",
+    "name": "Ficat – markeri de bază",
+    "goal": "Markeri orientativi din document.",
+    "items": ["tgo-ast", "bilirubina-directa"]
+  },
+  {
+    "id": "rinichi-focus",
+    "name": "Rinichi – screening",
+    "goal": "Screening afectare renală precoce.",
+    "items": ["sumar-urina", "acr", "albumina-urinara"]
+  }
+]
+

@@ -1,0 +1,188 @@
+[
+  {
+    "id": "hemoleucograma",
+    "name": "Hemoleucogramă completă",
+    "ref": "conform laboratorului",
+    "why": "Imagine generală: anemii, infecții/inflamații, trombocite etc.",
+    "notes": "Interpretarea se face în context clinic, împreună cu medicul.",
+    "link": ""
+  },
+  {
+    "id": "rbc",
+    "name": "RBC (eritrocite)",
+    "ref": "F: 4.2–5.4 mil/mm³ · B: 4.7–6.1 mil/mm³",
+    "why": "Scăzut: poate sugera anemie; crescut: deshidratare/hipoxie etc.",
+    "notes": "Valori orientative din document; intervalele pot varia între laboratoare.",
+    "link": ""
+  },
+  {
+    "id": "hct",
+    "name": "HCT (hematocrit)",
+    "ref": "F: 35–45% · B: 40.7–50.3%",
+    "why": "Scăzut: anemii/hemoragii; crescut: deshidratare/oxigenare deficitară.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "wbc",
+    "name": "WBC (leucocite)",
+    "ref": "4,500–10,000 /mm³",
+    "why": "Crescut: infecții/inflamații/alergii; scăzut: afectare medulară etc.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "plt",
+    "name": "PLT (trombocite)",
+    "ref": "150,000–400,000 /mm³",
+    "why": "Scăzut: fragilitate/riscuri hemoragice; crescut: infecții/deregleri etc.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+
+  {
+    "id": "glicemie",
+    "name": "Glicemie",
+    "ref": "conform laboratorului",
+    "why": "Glicemie crescută poate indica prediabet/diabet.",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "colesterol-total",
+    "name": "Colesterol total",
+    "ref": "conform laboratorului",
+    "why": "Monitorizare risc cardiovascular (interpretare cu medicul).",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "ldl",
+    "name": "LDL (colesterol „rău”)",
+    "ref": "conform laboratorului",
+    "why": "Factor major de risc cardiovascular.",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "trigliceride",
+    "name": "Trigliceride",
+    "ref": "conform laboratorului",
+    "why": "Profil lipidic / risc metabolic.",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "vhs",
+    "name": "VHS (viteza de sedimentare)",
+    "ref": "conform laboratorului",
+    "why": "Marker inflamator nespecific.",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "crp",
+    "name": "Proteina C-reactivă (CRP)",
+    "ref": "conform laboratorului",
+    "why": "Marker inflamator.",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "sodiu",
+    "name": "Sodiu (Na)",
+    "ref": "conform laboratorului",
+    "why": "Electrolit (echilibru hidric/neuromuscular).",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "potasiu",
+    "name": "Potasiu (K)",
+    "ref": "conform laboratorului",
+    "why": "Electrolit (ritm cardiac/neuromuscular).",
+    "notes": "Analiză uzuală anuală.",
+    "link": ""
+  },
+  {
+    "id": "calciu-total",
+    "name": "Calciu seric total",
+    "ref": "8.5–10.2 mg/dL",
+    "why": "Hipercalcemie/hipocalcemie (cauze multiple).",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "calciu-ionic",
+    "name": "Calciu ionic seric",
+    "ref": "4.6–5.3 mg/dL",
+    "why": "Forma activă a calciului (nelegată de proteine).",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "tgo-ast",
+    "name": "TGO (AST)",
+    "ref": "5–40 U/L",
+    "why": "Marker funcție hepatică (poate crește și în afectare musculară).",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "bilirubina-directa",
+    "name": "Bilirubină directă",
+    "ref": "< 0.3 mg/dL",
+    "why": "Sănătatea ficatului/tractului biliar.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "free-t4",
+    "name": "Free T4",
+    "ref": "0.8–1.8 ng/dL",
+    "why": "Funcție tiroidiană (interpretare cu medicul).",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "anti-hbs",
+    "name": "Anti-HBs (imunitate Hepatita B)",
+    "ref": "> 10 mIU/mL = protecție",
+    "why": "Arată imunitate (vaccinare sau infecție vindecată).",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "marker-hepatita-c",
+    "name": "Markeri Hepatita C",
+    "ref": "conform laboratorului",
+    "why": "Screening hepatită C (interpretare cu medicul).",
+    "notes": "Analiză uzuală anuală (în funcție de context).",
+    "link": ""
+  },
+  {
+    "id": "sumar-urina",
+    "name": "Sumar de urină (biochimie + sediment)",
+    "ref": "conform laboratorului",
+    "why": "Tract urinar: infecții (leucocite/nitriți), proteinurie etc.",
+    "notes": "Util pentru screening general.",
+    "link": ""
+  },
+  {
+    "id": "acr",
+    "name": "ACR (albumină/creatinină urinară)",
+    "ref": "< 30 mg/g creatinină",
+    "why": "Detectează precoce afectare renală.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  },
+  {
+    "id": "albumina-urinara",
+    "name": "Albumină urinară (24h)",
+    "ref": "< 30 mg/24h",
+    "why": "Marker afectare renală precoce.",
+    "notes": "Valori orientative din document.",
+    "link": ""
+  }
+]
+

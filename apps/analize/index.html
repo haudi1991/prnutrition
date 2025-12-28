@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Analize</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    header{
+      display:flex; flex-direction:column; gap:10px;
+      margin-bottom:14px;
+    }
+    .badge{
+      display:inline-flex; align-items:center;
+      font-size: 12px; color: var(--muted);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 90ch;
+      font-size: 13px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .section{ padding: 16px; }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+    }
+
+    /* ===== Print-only title ===== */
+    .print-title{
+      display:none;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px 0;
+    }
+    .print-title .muted{ color: rgba(234,241,255,.80); }
+    .print-title .date{
+      float:right;
+      font-weight: 650;
+      font-size: 12px;
+      color: rgba(234,241,255,.65);
+      margin-top: 6px;
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: rgba(234,241,255,.62);
+      line-height: 1.4;
+    }
+    .hint.bad{ color: rgba(255,220,220,.82); }
+
+    /* 2 coloane pt Date */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .grid2{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== Icon buttons + tooltips ===== */
+    .icon-btn{
+      cursor:pointer;
+      width: 40px;
+      height: 40px;
+      display:inline-grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.88);
+      border-radius: 12px;
+      font: inherit;
+      font-size: 18px;
+      line-height: 1;
+      user-select: none;
+      position: relative;
+    }
+    .icon-btn:hover{ background: rgba(255,255,255,.06); }
+    .icon-btn:active{ transform: translateY(1px); }
+    .icon-btn.primary{
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.10);
+    }
+    .icon-btn[disabled]{
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* tooltips */
+    button[data-tip]{ position: relative; }
+    button[data-tip]::after{
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      transform: translateX(-50%) translateY(2px);
+      opacity: 0;
+      pointer-events: none;
+
+      max-width: 240px;
+      white-space: normal;
+      text-align: center;
+
+      font-size: 12px;
+      line-height: 1.25;
+      color: rgba(234,241,255,.92);
+      background: rgba(11,15,23,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 7px 9px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.40);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 9999;
+    }
+    button[data-tip]::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom: calc(100% + 6px);
+      transform: translateX(-50%) translateY(2px);
+      opacity:0;
+      pointer-events:none;
+
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(255,255,255,.14);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 9998;
+    }
+    button[data-tip]:hover::after,
+    button[data-tip]:hover::before,
+    button[data-tip]:focus-visible::after,
+    button[data-tip]:focus-visible::before{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== Accordions ===== */
+    details.accordion{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    details.accordion + details.accordion{ margin-top: 10px; }
+
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+
+    .sum-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .chev{
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.75);
+      flex: 0 0 auto;
+      font-size: 14px;
+    }
+    details[open] .chev{ transform: rotate(90deg); }
+    .sum-title{
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: rgba(234,241,255,.92);
+      white-space: nowrap;
+    }
+    .sum-muted{
+      color: rgba(234,241,255,.60);
+      font-weight: 650;
+      font-size: 12px;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sum-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex: 0 0 auto;
+    }
+
+    .accordion-body{
+      margin-top: 10px;
+      display:grid;
+      gap:10px;
+    }
+
+    select{
+      width:100%;
+      font: inherit;
+      color: var(--text);
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding: 10px 10px;
+      outline: none;
+    }
+
+    /* ===== Search ===== */
+    .searchbox{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    .searchbox .mag{
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.70);
+      flex: 0 0 auto;
+    }
+    .searchbox input{
+      width:100%;
+      font: inherit;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0;
+    }
+
+    /* ===== Catalog cards ===== */
+    .catalog-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 820px){
+      .catalog-grid{ grid-template-columns: 1fr 1fr; }
+    }
+    .item{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      padding: 10px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .item .name{
+      font-weight: 850;
+      color: rgba(234,241,255,.92);
+      letter-spacing: -0.01em;
+    }
+    .item .meta{
+      font-size: 12px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .item .actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top: 6px;
+    }
+    .btn{
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      font: inherit;
+      font-size: 13px;
+      white-space: nowrap;
+      position: relative;
+    }
+    .btn:hover{ background: rgba(255,255,255,.06); }
+
+    /* links */
+    a.out-link{
+      color: rgba(234,241,255,.86);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+
+    /* ===== Callout ===== */
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.82);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* ===== Table ===== */
+    .table-actions{
+      margin-top: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap: wrap;
+    }
+    .table-actions .left-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap: wrap;
+    }
+
+    .table-wrap{
+      margin-top: 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.02);
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th{
+      text-align:left;
+      font-weight: 850;
+      color: rgba(234,241,255,.90);
+      background: rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 10px 10px;
+      vertical-align: top;
+    }
+    tbody td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      color: rgba(234,241,255,.78);
+      vertical-align: top;
+      word-break: break-word;
+    }
+    tbody tr:last-child td{ border-bottom: none; }
+
+    td[contenteditable="true"]{
+      outline: none;
+      border-radius: 8px;
+    }
+    td[contenteditable="true"]:focus{
+      box-shadow: 0 0 0 2px rgba(125,211,252,.18);
+      background: rgba(255,255,255,.02);
+    }
+
+    /* link cell */
+    td.link-cell .link-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .mini-edit{
+      cursor:pointer;
+      width: 28px;
+      height: 28px;
+      display:inline-grid;
+      place-items:center;
+      border:  1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.85);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1;
+      position: relative;
+    }
+    .mini-edit:hover{ background: rgba(255,255,255,.06); }
+
+    /* delete column */
+    th.col-del, td.col-del{
+      width: 44px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .del-mini{
+      cursor:pointer;
+      width: 28px;
+      height: 28px;
+      display:inline-grid;
+      place-items:center;
+      border:  1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.85);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1;
+      position: relative;
+    }
+    .del-mini:hover{ background: rgba(255,255,255,.06); }
+
+    .no-print { display: block; }
+
+    /* ===== Toast ===== */
+    .toast{
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      z-index: 9999;
+      max-width: min(520px, calc(100vw - 24px));
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(11,15,23,.92);
+      color: rgba(234,241,255,.88);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+    .toast.show{ display:block; }
+    .toast.bad{ border-color: rgba(255,160,160,.35); }
+    .toast.good{ border-color: rgba(167,243,208,.35); }
+
+    /* ===== PRINT ===== */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page{
+        size: A4 landscape;
+        margin: 6mm;
+      }
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header{ display:none !important; }
+      .no-print { display:none !important; }
+
+      button[data-tip]::before,
+      button[data-tip]::after{ display:none !important; }
+
+      .section{ padding: 12px !important; }
+      .panel{ padding: 10px !important; }
+
+      .print-title{
+        display:block !important;
+        font-size: 20px !important;
+      }
+
+      table{ font-size: 12px !important; }
+      thead th, tbody td{ padding: 8px 8px !important; }
+
+      .table-wrap, .panel, .callout{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">🧪 Analize</div>
+      <h1>Analize – <span id="clientNameOut">Client</span></h1>
+      <p class="sub">
+        Datele vin din <code>/data/analize_catalog.json</code> și <code>/data/analize_protocols.json</code>.
+      </p>
+    </header>
+
+    <main class="card">
+      <section class="section">
+        <div class="panel">
+
+          <div class="print-title">
+            Analize – <span id="printName" class="muted">Client</span>
+            <span id="printDate" class="date"></span>
+          </div>
+
+          <!-- Date -->
+          <details class="accordion no-print" open>
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Date</div>
+                <div class="sum-muted">client + obiectiv</div>
+              </div>
+              <div class="sum-actions"></div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="grid2">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Nume pacient</div>
+                  <input
+                    id="clientName"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: Andrei Popescu"
+                  />
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
+                  <input
+                    id="goal"
+                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
+                    placeholder="Ex: screening anual / oboseală / tiroidă etc."
+                  />
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Protocoale -->
+          <details class="accordion no-print" id="protDetails">
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Protocoale</div>
+                <div class="sum-muted">(GitHub)</div>
+              </div>
+
+              <div class="sum-actions">
+                <button class="icon-btn primary" id="addProtocolBtn" type="button" disabled data-tip="Adaugă protocol">
+                  ➕<span class="sr-only">Add protocol</span>
+                </button>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <select id="stdProtocolSelect"></select>
+              <div class="hint">➕ = adaugă în tabel.</div>
+              <div id="protStatus" class="hint" style="margin-top:4px;"></div>
+            </div>
+          </details>
+
+          <!-- Catalog -->
+          <details class="accordion no-print" id="catalogDetails" open>
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Catalog</div>
+                <div class="sum-muted">(GitHub)</div>
+              </div>
+
+              <div class="sum-actions">
+                <div class="hint">Click pe “Adaugă”.</div>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="searchbox">
+                <div class="mag" aria-hidden="true">🔎</div>
+                <input id="catalogSearch" placeholder="Caută rapid (ex: rbc, ast, crp, t4)" />
+              </div>
+
+              <div class="catalog-grid" id="catalogList"></div>
+            </div>
+          </details>
+
+          <div class="callout">
+            <b>Obiectiv:</b> <span id="goalOut">—</span><br/>
+            <span style="color: rgba(234,241,255,.70); font-size:12px;">
+              Notă: interpretarea analizelor se face în context clinic, împreună cu medicul.
+            </span>
+          </div>
+
+          <!-- Actions -->
+          <div class="table-actions no-print">
+            <div class="left-actions">
+              <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
+              <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+              <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
+
+              <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
+            </div>
+          </div>
+
+          <div class="table-wrap" aria-label="Tabel analize">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:18%;">Analiză</th>
+                  <th style="width:18%;">Ref</th>
+                  <th style="width:24%;">De ce</th>
+                  <th style="width:22%;">Note</th>
+                  <th style="width:18%;">Link</th>
+                  <th class="no-print col-del"></th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
+
+  <script>
+    const els = {
+      clientName: document.getElementById('clientName'),
+      goal: document.getElementById('goal'),
+      clientNameOut: document.getElementById('clientNameOut'),
+      printName: document.getElementById('printName'),
+      goalOut: document.getElementById('goalOut'),
+      printDate: document.getElementById('printDate'),
+
+      resetAll: document.getElementById('resetAll'),
+      rowCount: document.getElementById('rowCount'),
+
+      addEmptyRow: document.getElementById('addEmptyRow'),
+      printBtn: document.getElementById('printBtn'),
+
+      protDetails: document.getElementById('protDetails'),
+      stdProtocolSelect: document.getElementById('stdProtocolSelect'),
+      addProtocolBtn: document.getElementById('addProtocolBtn'),
+      protStatus: document.getElementById('protStatus'),
+
+      catalogDetails: document.getElementById('catalogDetails'),
+      catalogSearch: document.getElementById('catalogSearch'),
+      catalogList: document.getElementById('catalogList'),
+
+      tbody: document.getElementById('tbody'),
+      toast: document.getElementById('toast'),
+    };
+
+    const CATALOG_URL = '../../data/analize_catalog.json';
+    const PROTOCOLS_URL = '../../data/analize_protocols.json';
+
+    let catalog = [];
+    let catalogById = new Map();
+    let protocols = [];
+    let rows = []; // in-memory only
+
+    function safeTrim(x){ return (x ?? '').toString().trim(); }
+
+    function normalizeUrl(url){
+      const u = safeTrim(url);
+      if (!u) return '';
+      if (/^(https?:\/\/|mailto:)/i.test(u)) return u;
+      return 'https://' + u;
+    }
+
+    function toast(msg, type='bad'){
+      els.toast.textContent = msg;
+      els.toast.classList.remove('bad','good','show');
+      els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
+    }
+
+    async function fetchJson(url){
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`${url} -> ${res.status}`);
+      return await res.json();
+    }
+
+    function normalizeCatalogItem(it){
+      return {
+        id: safeTrim(it?.id),
+        name: safeTrim(it?.name),
+        ref: safeTrim(it?.ref),
+        why: safeTrim(it?.why),
+        notes: safeTrim(it?.notes),
+        link: safeTrim(it?.link),
+      };
+    }
+
+    // suport items: ["id1","id2"] sau [{ref:"id"}]
+    function getProtocolIds(p){
+      if (Array.isArray(p?.items)) {
+        return p.items
+          .map(x => {
+            if (typeof x === 'string') return safeTrim(x);
+            if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
+            return '';
+          })
+          .filter(Boolean);
+      }
+      return [];
+    }
+
+    async function loadCatalog(){
+      const raw = await fetchJson(CATALOG_URL);
+      catalog = Array.isArray(raw) ? raw.map(normalizeCatalogItem) : [];
+      catalogById = new Map(catalog.map(x => [x.id, x]));
+    }
+
+    async function loadProtocols(){
+      const raw = await fetchJson(PROTOCOLS_URL);
+      protocols = Array.isArray(raw) ? raw : [];
+    }
+
+    function renderProtocolSelect(){
+      els.stdProtocolSelect.innerHTML = '';
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '— Selectează protocol —';
+      els.stdProtocolSelect.appendChild(opt0);
+
+      protocols.forEach((p, idx) => {
+        const opt = document.createElement('option');
+        opt.value = String(idx);
+        opt.textContent = p?.name || p?.id || `Protocol ${idx+1}`;
+        els.stdProtocolSelect.appendChild(opt);
+      });
+    }
+
+    function renderHeader(){
+      const name = safeTrim(els.clientName.value) || 'Client';
+      const goal = safeTrim(els.goal.value) || '—';
+      els.clientNameOut.textContent = name;
+      els.printName.textContent = name;
+      els.goalOut.textContent = goal;
+    }
+
+    function addRow(r){
+      const name = safeTrim(r?.name);
+      const ref = safeTrim(r?.ref);
+      const why = safeTrim(r?.why);
+      const notes = safeTrim(r?.notes);
+      const link = safeTrim(r?.link);
+      if (!(name || ref || why || notes || link)) return false;
+
+      rows.push({ name, ref, why, notes, link });
+      renderTable();
+      return true;
+    }
+
+    function addCatalogItemToTable(item){
+      addRow(item);
+      syncButtons();
+    }
+
+    function getSelectedProtocol(){
+      const v = safeTrim(els.stdProtocolSelect.value);
+      if (!v) return null;
+      const idx = Number(v);
+      if (Number.isNaN(idx)) return null;
+      return protocols[idx] || null;
+    }
+
+    function getMissingFromProtocol(p){
+      const ids = getProtocolIds(p);
+      const missing = ids.filter(id => !catalogById.has(id));
+      return { ids, missing };
+    }
+
+    function addProtocolToTable(p){
+      const { ids, missing } = getMissingFromProtocol(p);
+      if (!ids.length) return;
+
+      if (missing.length){
+        toast(`Protocolul nu poate fi adăugat. Lipsește din catalog: ${missing.join(', ')}`, 'bad');
+        return;
+      }
+
+      let added = 0;
+      for (const id of ids){
+        const it = catalogById.get(id);
+        const exists = rows.some(r => safeTrim(r.name).toLowerCase() === safeTrim(it.name).toLowerCase());
+        if (!exists){
+          addRow(it);
+          added++;
+        }
+      }
+
+      if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
+
+      els.protDetails.open = false;
+      renderHeader();
+      syncButtons();
+      toast(added ? 'Protocol adăugat în tabel.' : 'Protocolul era deja în tabel.', 'good');
+    }
+
+    function renderCatalog(){
+      const q = safeTrim(els.catalogSearch.value).toLowerCase();
+      const filtered = !q ? catalog : catalog.filter(it => {
+        const blob = `${it.name} ${it.ref} ${it.why} ${it.notes} ${it.link}`.toLowerCase();
+        return blob.includes(q);
+      });
+
+      els.catalogList.innerHTML = '';
+
+      for (const it of filtered){
+        const box = document.createElement('div');
+        box.className = 'item';
+
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = it.name || '—';
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.innerHTML =
+          `<div><b>Ref:</b> ${it.ref || '—'}</div>
+           <div><b>De ce:</b> ${it.why || '—'}</div>
+           <div><b>Note:</b> ${it.notes || '—'}</div>`;
+
+        const linkLine = document.createElement('div');
+        const b = document.createElement('b');
+        b.textContent = 'Link: ';
+        linkLine.appendChild(b);
+
+        if (it.link){
+          const a = document.createElement('a');
+          a.className = 'out-link';
+          a.href = normalizeUrl(it.link);
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = it.link;
+          linkLine.appendChild(a);
+        } else {
+          linkLine.appendChild(document.createTextNode('—'));
+        }
+        meta.appendChild(linkLine);
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        const addBtn = document.createElement('button');
+        addBtn.className = 'btn';
+        addBtn.type = 'button';
+        addBtn.textContent = 'Adaugă';
+        addBtn.setAttribute('data-tip', 'Adaugă în tabel');
+        addBtn.addEventListener('click', () => addCatalogItemToTable(it));
+
+        actions.appendChild(addBtn);
+
+        box.appendChild(name);
+        box.appendChild(meta);
+        box.appendChild(actions);
+
+        els.catalogList.appendChild(box);
+      }
+    }
+
+    function editLink(idx){
+      const cur = rows[idx]?.link || '';
+      const next = prompt('Editează link-ul (URL):', cur);
+      if (next === null) return;
+      rows[idx].link = safeTrim(next);
+      renderTable();
+    }
+
+    function renderTable(){
+      els.tbody.innerHTML = '';
+
+      rows.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+
+        function tdEditable(field){
+          const td = document.createElement('td');
+          td.contentEditable = 'true';
+          td.dataset.field = field;
+          td.dataset.idx = String(idx);
+          td.textContent = r[field] || '';
+          return td;
+        }
+
+        tr.appendChild(tdEditable('name'));
+        tr.appendChild(tdEditable('ref'));
+        tr.appendChild(tdEditable('why'));
+        tr.appendChild(tdEditable('notes'));
+
+        // link cell: open in new tab + edit via ✏️
+        const tdLink = document.createElement('td');
+        tdLink.className = 'link-cell';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'link-actions';
+
+        if (safeTrim(r.link)){
+          const a = document.createElement('a');
+          a.className = 'out-link';
+          a.href = normalizeUrl(r.link);
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = r.link;
+          a.addEventListener('click', (ev) => ev.stopPropagation());
+          wrap.appendChild(a);
+        } else {
+          wrap.appendChild(document.createTextNode(''));
+        }
+
+        const editBtn = document.createElement('button');
+        editBtn.className = 'mini-edit no-print';
+        editBtn.type = 'button';
+        editBtn.textContent = '✏️';
+        editBtn.setAttribute('data-tip', 'Editează link');
+        editBtn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          editLink(idx);
+        });
+
+        wrap.appendChild(editBtn);
+        tdLink.appendChild(wrap);
+        tr.appendChild(tdLink);
+
+        const tdRemove = document.createElement('td');
+        tdRemove.className = 'no-print col-del';
+
+        const btn = document.createElement('button');
+        btn.className = 'del-mini';
+        btn.type = 'button';
+        btn.textContent = '🗑️';
+        btn.setAttribute('data-tip', 'Șterge rând');
+        btn.addEventListener('click', () => {
+          rows.splice(idx, 1);
+          renderTable();
+          syncButtons();
+        });
+
+        tdRemove.appendChild(btn);
+        tr.appendChild(tdRemove);
+
+        els.tbody.appendChild(tr);
+      });
+
+      els.rowCount.textContent = String(rows.length);
+      syncButtons();
+    }
+
+    els.tbody.addEventListener('focusout', (e) => {
+      const td = e.target;
+      if (!(td instanceof HTMLElement)) return;
+      if (td.tagName !== 'TD') return;
+
+      const field = td.dataset.field;
+      const idx = Number(td.dataset.idx);
+      if (!field || Number.isNaN(idx) || !rows[idx]) return;
+
+      rows[idx][field] = safeTrim(td.textContent);
+    });
+
+    function syncButtons(){
+      const p = getSelectedProtocol();
+      if (!p){
+        els.addProtocolBtn.disabled = true;
+        els.protStatus.textContent = '';
+        els.protStatus.classList.remove('bad');
+      } else {
+        const { missing } = getMissingFromProtocol(p);
+        if (missing.length){
+          els.addProtocolBtn.disabled = true;
+          els.protStatus.textContent = `Lipsește din catalog: ${missing.join(', ')}`;
+          els.protStatus.classList.add('bad');
+        } else {
+          els.addProtocolBtn.disabled = false;
+          els.protStatus.textContent = '';
+          els.protStatus.classList.remove('bad');
+        }
+      }
+      els.rowCount.textContent = String(rows.length);
+    }
+
+    function setPrintDate(){
+      try{
+        const d = new Date();
+        els.printDate.textContent = d.toLocaleDateString('ro-RO');
+      }catch(e){
+        els.printDate.textContent = '';
+      }
+    }
+
+    function resetAll(){
+      els.clientName.value = '';
+      els.goal.value = '';
+      els.catalogSearch.value = '';
+      els.stdProtocolSelect.value = '';
+      rows = [];
+
+      renderHeader();
+      renderCatalog();
+      renderTable();
+
+      els.protDetails.open = false;
+      els.catalogDetails.open = true;
+      syncButtons();
+    }
+
+    async function initData(){
+      await Promise.all([loadCatalog(), loadProtocols()]);
+      renderProtocolSelect();
+      renderCatalog();
+      syncButtons();
+    }
+
+    async function init(){
+      setPrintDate();
+      renderHeader();
+      renderTable();
+
+      els.resetAll.addEventListener('click', resetAll);
+
+      els.addEmptyRow.addEventListener('click', () => {
+        rows.push({ name:'', ref:'', why:'', notes:'', link:'' });
+        renderTable();
+      });
+
+      els.printBtn.addEventListener('click', () => window.print());
+
+      els.clientName.addEventListener('input', renderHeader);
+      els.goal.addEventListener('input', renderHeader);
+
+      els.catalogSearch.addEventListener('input', renderCatalog);
+
+      els.stdProtocolSelect.addEventListener('change', syncButtons);
+      els.addProtocolBtn.addEventListener('click', () => {
+        const p = getSelectedProtocol();
+        if (!p) return;
+        addProtocolToTable(p);
+      });
+
+      await initData();
+      resetAll();
+    }
+
+    init().catch(() => {
+      setPrintDate();
+      resetAll();
+      toast('Eroare la încărcare JSON (analize catalog/protocols).', 'bad');
+    });
+  </script>
+</body>
+</html>
+
