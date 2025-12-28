@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Macronutrienți – Consultația 1</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --accent: rgba(167,243,208,.95);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(167,243,208,.14), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(125,211,252,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    header{
+      display:flex; flex-direction:column; gap:10px;
+      margin-bottom:14px;
+    }
+    .badge{
+      width: fit-content;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.82);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .badge .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
+    }
+    h1{
+      margin:0;
+      letter-spacing:-0.02em;
+      font-size: clamp(24px, 2.8vw, 34px);
+    }
+    p{ color: var(--muted); margin: 0; max-width: 92ch; font-size: 13px; line-height: 1.45; }
+
+    .card{
+      margin-top: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      overflow:hidden;
+    }
+    .section{ padding: 16px; }
+
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .chip{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.72);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      width: fit-content;
+      white-space: nowrap;
+    }
+    .chip.call{
+      border-color: rgba(167,243,208,.18);
+      background: rgba(167,243,208,.08);
+    }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+    }
+
+    h2{
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+    ul{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(234,241,255,.80);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    li{ margin: 6px 0; }
+    .muted{ color: rgba(234,241,255,.62); }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .box{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+      padding: 12px 12px;
+    }
+    .box b{ color: rgba(234,241,255,.90); }
+
+    .no-print{ display:block; }
+
+    /* ===== PRINT ===== */
+    @media print{
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page{
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .no-print{ display:none !important; }
+      .section{ padding: 12px !important; }
+      .panel{ padding: 10px !important; }
+      .card, .panel, .box{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge"><span class="dot"></span> Document · Macronutrienți</div>
+      <h1>Macronutrienți – Consultația 1</h1>
+      <p>
+        Folosit în call-ul de <b>Consultația 1</b> (după ~1 săptămână de probă), ca să aliniem principiile și să facem setările practice.
+      </p>
+    </header>
+
+    <main class="card">
+      <section class="section">
+        <div class="toprow">
+          <span class="chip call">Call: Cons
+

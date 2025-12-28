@@ -124,9 +124,7 @@
       box-shadow: 0 0 0 4px rgba(167,243,208,.10);
     }
 
-    .section-body{
-      padding: 14px;
-    }
+    .section-body{ padding: 14px; }
 
     /* ===== Cards grid ===== */
     .grid{
@@ -211,6 +209,7 @@
     }
 
     .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
+
     .row{
       display:flex;
       align-items:center;
@@ -241,6 +240,30 @@
       align-items:center;
       gap:8px;
       width: fit-content;
+    }
+
+    /* ✅ Call chips (pentru “se știe pentru ce call e”) */
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .chip{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.70);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .chip.call{
+      border-color: rgba(167,243,208,.18);
+      background: rgba(167,243,208,.08);
+      color: rgba(234,241,255,.78);
     }
 
     /* ===== Collapsible JSON block ===== */
@@ -324,9 +347,7 @@
       padding: 12px;
     }
 
-    .grid.data-grid{
-      gap: 10px;
-    }
+    .grid.data-grid{ gap: 10px; }
     @media (min-width: 860px){
       .grid.data-grid{ grid-template-columns: 1fr 1fr; }
     }
@@ -452,7 +473,10 @@
             </div>
             <div class="sub">Catalog standard + protocoale standard + completare rapidă + Print → Save PDF.</div>
             <div class="row">
-              <div class="pill">/apps/suplimente/</div>
+              <div class="chips">
+                <span class="chip">PDF-ready</span>
+                <span class="pill">/apps/suplimente/</span>
+              </div>
             </div>
           </a>
 
@@ -466,23 +490,12 @@
             </div>
             <div class="sub">Catalog analize + protocoale (bază) + completare rezultate + Print → Save PDF.</div>
             <div class="row">
-              <div class="pill">/apps/analize/</div>
-            </div>
-          </a>
-
-          <!-- Placeholders (opțional, pentru viitor)
-          <a class="card app" href="./apps/calculator/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico app">🧮</span>
-                Calculator macro
+              <div class="chips">
+                <span class="chip">PDF-ready</span>
+                <span class="pill">/apps/analize/</span>
               </div>
-              <span class="open">Deschide →</span>
             </div>
-            <div class="sub">Calorii + P/C/F + recomandări rapide (PDF-ready).</div>
-            <div class="row"><div class="pill">/apps/calculator/</div></div>
           </a>
-          -->
         </div>
       </div>
     </section>
@@ -492,7 +505,7 @@
       <div class="section-head">
         <div class="left">
           <h2 class="section-title">Documente</h2>
-          <div class="section-sub">materiale prezentari</div>
+          <div class="section-sub">materiale pentru call-uri (print/PDF)</div>
         </div>
         <span class="tag docs"><span class="t-dot"></span> DOCS</span>
       </div>
@@ -507,25 +520,31 @@
               </div>
               <span class="open">Deschide →</span>
             </div>
-            <div class="sub">Document PDF-ready: procesul nutrițional, pași, așteptări, ce nu facem.</div>
+            <div class="sub">Procesul + pașii + așteptări. Folosit în call-ul de Anamneză (start).</div>
             <div class="row">
-              <div class="pill">/apps/proces/</div>
+              <div class="chips">
+                <span class="chip call">Call: Anamneză</span>
+                <span class="pill">/docs/proces/</span>
+              </div>
             </div>
           </a>
 
-          <!-- Placeholder (opțional, pentru viitor)
-          <a class="card doc" href="./apps/teorie-macro/">
+          <a class="card doc" href="./docs/macronutrienti/">
             <div class="topline">
               <div class="title">
                 <span class="ico doc">🥗</span>
-                Macronutrienți – teorie
+                Macronutrienți
               </div>
               <span class="open">Deschide →</span>
             </div>
-            <div class="sub">Explicații + exemple + reguli simple (PDF-ready).</div>
-            <div class="row"><div class="pill">/apps/teorie-macro/</div></div>
+            <div class="sub">Teorie + reguli simple + exemple. Folosit în Consultația 1 (după 1 săpt. de probă).</div>
+            <div class="row">
+              <div class="chips">
+                <span class="chip call">Call: Consultația 1</span>
+                <span class="pill">/docs/macronutrienti/</span>
+              </div>
+            </div>
           </a>
-          -->
         </div>
       </div>
     </section>
