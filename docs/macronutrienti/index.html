@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Macronutrienți · Educație nutrițională</title>
+  <title>Macronutrienți · Script pentru call</title>
 
   <style>
     :root{
@@ -34,8 +34,8 @@
     }
 
     .wrap{ max-width: 980px; margin: 0 auto; }
-
     .pages{ display:grid; gap: 18px; }
+
     .page-divider{
       height: 2px;
       border-radius: 999px;
@@ -63,7 +63,7 @@
       border-radius: 999px;
       background: rgba(255,255,255,.03);
       width: fit-content;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing:-0.01em;
     }
     .badge .dot{
@@ -99,7 +99,7 @@
       border-radius: 999px;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 950;
     }
 
     .card{
@@ -132,7 +132,7 @@
       margin:0;
       font-size: 14px;
       color: rgba(234,241,255,.92);
-      font-weight: 950;
+      font-weight: 1000;
       display:flex;
       align-items:center;
       gap:10px;
@@ -159,7 +159,7 @@
       font-size: 12px;
       width: fit-content;
       margin-top: 10px;
-      font-weight: 950;
+      font-weight: 1000;
     }
 
     .grid{
@@ -199,7 +199,7 @@
       padding: 5px 9px;
       border-radius: 999px;
       white-space: nowrap;
-      font-weight: 900;
+      font-weight: 950;
     }
 
     .box p{
@@ -233,6 +233,32 @@
       background: rgba(255,125,125,.07);
       border-color: rgba(255,255,255,.10);
     }
+
+    /* Script blocks (ce citești tu) */
+    .script{
+      margin-top: 10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+    }
+    .script .label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-weight: 1000;
+      color: rgba(234,241,255,.92);
+      letter-spacing:-0.01em;
+      font-size: 13px;
+      margin:0 0 6px 0;
+    }
+    .script p{
+      margin: 0;
+      color: rgba(234,241,255,.78);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .script p + p{ margin-top: 8px; }
 
     .steps{
       margin-top: 10px;
@@ -312,9 +338,7 @@
       .footer-row{ grid-template-columns: 1fr 1fr; }
     }
 
-    /* =========================
-       PRINT
-       ========================= */
+    /* PRINT */
     @media print{
       *{
         -webkit-print-color-adjust: exact !important;
@@ -331,7 +355,6 @@
         padding: 0 !important;
       }
       .page-divider{ display:none !important; }
-
       .page{
         break-after: page !important;
         page-break-after: always !important;
@@ -354,6 +377,10 @@
       .panel-sub{ font-size: 12px !important; }
       .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
 
+      .script{ padding: 10px !important; }
+      .script .label{ font-size: 12px !important; }
+      .script p{ font-size: 12px !important; }
+
       .step{ padding: 10px !important; gap: 10px !important; }
       .dot{ width:38px !important; height:38px !important; border-radius: 12px !important; font-size: 11px !important; }
 
@@ -367,11 +394,10 @@
 
       .callout{ padding: 8px 10px !important; font-size: 12px !important; }
 
-      .card, .panel, .box, .step, .kcal-card, .quote, .callout{
+      .card, .panel, .box, .step, .kcal-card, .quote, .callout, .script{
         break-inside: avoid !important;
         page-break-inside: avoid !important;
       }
-
       a[href]::after{ content:"" !important; }
     }
   </style>
@@ -384,18 +410,18 @@
       <!-- ================= PAGE 1 ================= -->
       <div class="page">
         <header>
-          <div class="badge"><span class="dot"></span> Educație nutrițională · Macronutrienți</div>
-          <h1>Macronutrienți: structură clară, reguli simple</h1>
+          <div class="badge"><span class="dot"></span> Script pentru call · Macronutrienți</div>
+          <h1>Macronutrienți: explicat simplu, ca să luăm decizii bune</h1>
           <p class="sub">
-            Scopul acestui material este să-ți explice pe înțeles cum folosim macronutrienții (proteine, carbohidrați, grăsimi)
-            ca să obținem rezultate sustenabile — fără perfecționism și fără „diete magice”.
+            Documentul ăsta e pentru mine (în call), ca să îți explic logic de ce setăm țintele așa și cum le folosim în practică.
+            Nu urmărim perfecțiune, urmărim consecvență și rezultate sustenabile.
           </p>
 
           <div class="pillrow">
             <div class="pill">4/4/9 kcal</div>
-            <div class="pill">g/kg</div>
+            <div class="pill">proteină = prioritate</div>
+            <div class="pill">carbo = flexibil</div>
             <div class="pill">media săptămânală</div>
-            <div class="pill">ajustări mici</div>
           </div>
         </header>
 
@@ -403,133 +429,123 @@
           <section class="section">
 
             <p class="quote">
-              Nu urmărim perfecțiune zilnică. Urmărim <b>trendul</b> (media săptămânală) și <b>aderența</b>.
-              Construim un sistem simplu pe care îl poți susține luni de zile, nu un sprint de 10 zile.
+              Înainte să intrăm în cifre: dacă planul e greu de ținut, nu contează cât e de „corect”.
+              Noi construim un sistem care se poate susține, și îl ajustăm din date reale.
             </p>
 
             <div class="panel" style="margin-top:12px;">
-              <h2 class="panel-title">Agenda (linear, fără sărim între capitole)</h2>
-              <p class="panel-sub">Parcurgem pe rând: baza → fiecare macronutrient → setări → cum măsurăm progresul.</p>
-              <div class="steps">
-                <div class="step">
-                  <div class="dot">1</div>
-                  <div>
-                    <strong>Baza: caloriile și regula 4/4/9</strong>
-                    <span>Ce înseamnă energie și de ce macronutrienții sunt “pârghii” pentru foame, performanță și compoziție.</span>
-                  </div>
-                </div>
-                <div class="step">
-                  <div class="dot">2</div>
-                  <div>
-                    <strong>Proteine</strong>
-                    <span>Rol, ținte uzuale, distribuție, surse, greșeli frecvente.</span>
-                  </div>
-                </div>
-                <div class="step">
-                  <div class="dot">3</div>
-                  <div>
-                    <strong>Carbohidrați</strong>
-                    <span>Rol, când îi creștem/scădem, surse și cum îi facem “ușor de ținut”.</span>
-                  </div>
-                </div>
-                <div class="step">
-                  <div class="dot">4</div>
-                  <div>
-                    <strong>Grăsimi</strong>
-                    <span>Rol, minim util, surse și “calorii invizibile”.</span>
-                  </div>
-                </div>
+              <h2 class="panel-title">Cum o să decurgă explicația (în ordine)</h2>
+              <p class="panel-sub">Baza → fiecare macronutrient pe rând → cum setăm țintele → cum urmărim progresul.</p>
+
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „Îți explic astăzi macronutrienții într-un mod simplu și practic. Mai întâi îți arăt baza — ce înseamnă energia și regula 4/4/9.
+                  După aceea luăm fiecare macronutrient pe rând: proteine, carbohidrați, grăsimi.
+                  La final îți arăt ordinea în care setăm țintele și cum măsurăm progresul fără stres.”
+                </p>
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">1) Baza: energia (caloriile) + macronutrienții</h2>
-              <p class="panel-sub">
-                Schimbarea în greutate e influențată de balanța energetică. Macronutrienții sunt modul prin care controlăm
-                <b>foamea</b>, <b>energia</b>, <b>recuperarea</b> și <b>aderența</b>.
-              </p>
-              <div class="tag">📌 4 / 4 / 9 kcal</div>
+              <h2 class="panel-title">1) Baza: caloriile și regula 4 / 4 / 9</h2>
+              <p class="panel-sub">Caloriile sunt totalul. Macronutrienții sunt „cum arată” caloriile: foame, energie, recuperare.</p>
+              <div class="tag">📌 Proteine 4 · Carbo 4 · Grăsimi 9</div>
+
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „Caloriile sunt totalul de energie. Dacă totalul e prea mare pentru nevoile tale, în timp crești în greutate; dacă e mai mic, în timp scazi.
+                  Diferența importantă e că macronutrienții influențează cât de ușor îți este să ții acel total.
+                  De exemplu: proteina te ajută mult cu sațietatea, carbohidrații te ajută cu energie și performanță, iar grăsimile sunt esențiale pentru funcții hormonale și vitamine.
+                  Deci noi nu ne uităm doar la total, ci și la cum îl construim ca să fie sustenabil.”
+                </p>
+              </div>
 
               <div class="kcal">
                 <div class="kcal-card">
                   <b>Proteine</b>
                   <div class="big">4 kcal / gram</div>
-                  <div class="small">Sunt “structură”: mușchi, enzime, sațietate.</div>
+                  <div class="small">Sațietate + masă slabă + recuperare.</div>
                 </div>
                 <div class="kcal-card">
                   <b>Carbohidrați</b>
                   <div class="big">4 kcal / gram</div>
-                  <div class="small">Sunt “combustibil”: glicogen, performanță, energie.</div>
+                  <div class="small">Energie + glicogen + randament.</div>
                 </div>
                 <div class="kcal-card">
                   <b>Grăsimi</b>
                   <div class="big">9 kcal / gram</div>
-                  <div class="small">Sunt “esențial”: hormoni + vitamine A, D, E, K.</div>
+                  <div class="small">Hormoni + vitamine A/D/E/K + sațietate.</div>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Practic:</b> noi nu “ghicim” la infinit. Setăm un punct de start → urmărim 1–2 săptămâni → ajustăm mic.
-                Asta e diferența între “plan” și “sistem”.
+                <b>Ideea cheie:</b> nu căutăm „setarea perfectă”. Setăm un punct de start bun și apoi ajustăm în pași mici, pe baza datelor.
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">2) Proteine</h2>
-              <p class="panel-sub">
-                Proteina este, de cele mai multe ori, macronutrientul cu cel mai mare impact asupra compoziției corporale și a sațietății.
-                Din acest motiv, o tratăm ca “prioritate”.
-              </p>
-              <div class="tag">⭐ Prioritate în majoritatea planurilor</div>
+              <h2 class="panel-title">2) Proteine (prioritatea noastră în majoritatea cazurilor)</h2>
+              <p class="panel-sub">Proteina este „ancora” planului: ajută cel mai mult la sațietate și compoziție corporală.</p>
+              <div class="tag">⭐ Proteină: prima pe care o „închidem”</div>
+
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „În practică, proteina este macronutrientul cu cel mai mare impact pe două lucruri: cât de bine îți ții planul și cât de bine îți păstrezi masa slabă.
+                  În deficit, corpul nu pierde doar grăsime; poate pierde și din masă slabă dacă nu are semnalul potrivit.
+                  Iar proteina este exact semnalul ăsta. Plus că te satură mai bine, deci nu ajungi să compensezi prin gustări.”
+                </p>
+                <p>
+                  „Din motivul ăsta, noi începem cu proteina și o facem predictibilă: o pui în 3–5 mese, în porții decente.
+                  Și încă ceva important: prefer să fie realist și repetabil decât perfect pe hârtie și imposibil în viață.”
+                </p>
+              </div>
 
               <div class="grid">
                 <div class="box">
-                  <h3>Roluri cheie <span class="mini">de ce contează</span></h3>
+                  <h3>Ținte uzuale <span class="mini">g/kg</span></h3>
                   <ul>
-                    <li>susține <b>masa slabă</b> (în special în deficit)</li>
-                    <li>crește <b>sațietatea</b> (îți e mai ușor să ții planul)</li>
-                    <li>ajută <b>recuperarea</b> și adaptarea la antrenament</li>
-                    <li>are <b>efect termic</b> mai mare (cost de digestie)</li>
+                    <li>întreținere / recompoziție: ~<b>1.6–2.2 g/kg</b></li>
+                    <li>deficit: frecvent ~<b>1.8–2.4 g/kg</b> (în funcție de context)</li>
+                    <li>abordare: interval + creștere progresivă dacă e nevoie</li>
                   </ul>
                 </div>
 
                 <div class="box">
-                  <h3>Ținte uzuale <span class="mini">g/kg</span></h3>
+                  <h3>Cum o facem ușoară <span class="mini">practic</span></h3>
                   <ul>
-                    <li><b>întreținere / recompoziție:</b> ~1.6–2.2 g/kg</li>
-                    <li><b>deficit:</b> frecvent ~1.8–2.4 g/kg (în funcție de context)</li>
-                    <li><b>regulă simplă:</b> mai bine un interval realist, decât un “fix” imposibil</li>
+                    <li>aleg 2–3 surse preferate și le rotim</li>
+                    <li>pun proteină în fiecare masă (nu „doar seara”)</li>
+                    <li>când e nevoie: folosim instrumente (iaurt high-protein / pudră), fără dramă</li>
                   </ul>
-                  <p style="margin-top:8px;">
-                    Distribuție practică: 3–5 mese, iar în fiecare masă “o porție serioasă” de proteină.
-                  </p>
                 </div>
               </div>
 
               <div class="grid">
                 <div class="box">
-                  <h3>Surse utile <span class="mini">exemple</span></h3>
+                  <h3>Surse simple <span class="mini">exemple</span></h3>
                   <ul>
                     <li>carne slabă, pește, ouă</li>
-                    <li>lactate (iaurt grecesc, brânză cottage, skyr)</li>
-                    <li>leguminoase (linte, năut, fasole) + combinații</li>
-                    <li>opțional: pudră proteică (instrument, nu “magie”)</li>
+                    <li>iaurt grecesc/skyr/cottage</li>
+                    <li>leguminoase + combinații</li>
+                    <li>opțional: pudră proteică (doar ca ajutor)</li>
                   </ul>
                 </div>
 
                 <div class="box">
-                  <h3>Greșeli frecvente <span class="mini">de evitat</span></h3>
+                  <h3>Greșeli care strică aderența <span class="mini">frecvent</span></h3>
                   <ul>
-                    <li>proteină “doar seara” (ziua rămâi flămând)</li>
-                    <li>porții mici + “ciugulit” (nu ai sațietate)</li>
-                    <li>te bazezi pe aplicație, dar nu cântărești (datele devin zgomot)</li>
+                    <li>mese „fără proteină” → foame + gustări</li>
+                    <li>porții mici toată ziua → nu apare sațietatea</li>
+                    <li>estimări „din ochi” la alimente dense → cifrele devin haotice</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Regulă simplă în viața reală:</b> dacă ai o masă “fără proteină”, acea masă devine ușor “foame” + gustări.
-                De obicei, aici se pierde aderența.
+                <b>Mesajul meu în call:</b> dacă proteina e stabilă și bine distribuită, tot planul devine mai ușor.
               </div>
             </div>
 
@@ -545,194 +561,170 @@
           <section class="section">
 
             <div class="panel" style="margin-top:0;">
-              <h2 class="panel-title">3) Carbohidrați</h2>
-              <p class="panel-sub">
-                Carbohidrații sunt, în principal, combustibil. Îi folosim inteligent pentru energie stabilă, performanță și stare de bine.
-              </p>
-              <div class="tag">⚡ Combustibil & performanță</div>
+              <h2 class="panel-title">3) Carbohidrați (combustibilul)</h2>
+              <p class="panel-sub">Carbohidrații nu sunt „răi”. Îi folosim ca să ai energie și să menții planul.</p>
+              <div class="tag">⚡ Energie · Performanță · Stare de bine</div>
 
-              <div class="grid">
-                <div class="box">
-                  <h3>Ce fac, pe scurt <span class="mini">rol</span></h3>
-                  <ul>
-                    <li>refac <b>glicogenul</b> (energie pentru efort)</li>
-                    <li>susțin <b>performanța</b> și activitatea zilnică</li>
-                    <li>ajută la <b>recuperare</b> când sunt combinați cu proteina</li>
-                    <li>carbo “buni” vin cu <b>fibre</b> → sațietate mai bună</li>
-                  </ul>
-                </div>
-
-                <div class="box">
-                  <h3>Când îi ajustăm <span class="mini">practic</span></h3>
-                  <ul>
-                    <li>îi creștem când: activitate/antrenament mai mare, oboseală, aderență scăzută</li>
-                    <li>îi scădem când: foamea e mică dar caloriile se duc “ușor” peste</li>
-                    <li>nu demonizăm “seara” — contează totalul și contextul</li>
-                  </ul>
-                </div>
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „Carbohidrații sunt, în principal, combustibil. Când ai activitate sau antrenamente, ei îți susțin randamentul și recuperarea.
+                  Eu nu îi văd ca pe ceva de eliminat, ci ca pe un instrument pe care îl ajustăm ca să îți fie ușor să funcționezi.”
+                </p>
+                <p>
+                  „Practic, după ce proteina e pusă la punct, carbohidrații sunt cei pe care îi facem mai flexibili:
+                  îi creștem când ai nevoie de energie sau când aderența scade, și îi scădem când caloriile urcă ‘din comoditate’.”
+                </p>
               </div>
 
               <div class="grid">
                 <div class="box">
-                  <h3>Surse recomandate <span class="mini">densitate</span></h3>
+                  <h3>Ce fac concret <span class="mini">pe scurt</span></h3>
                   <ul>
-                    <li>cartofi, orez, ovăz, pâine/cereale integrale</li>
-                    <li>fructe, legume</li>
-                    <li>leguminoase</li>
+                    <li>refac glicogenul (energie pentru efort)</li>
+                    <li>susțin performanța la sală și în ziua de lucru</li>
+                    <li>carbo de calitate vin cu fibre → sațietate</li>
                   </ul>
                 </div>
 
                 <div class="box">
-                  <h3>Atenție la… <span class="mini">capcane</span></h3>
+                  <h3>Capcane comune <span class="mini">atenție</span></h3>
                   <ul>
-                    <li>“calorii lichide” (sucuri, băuturi îndulcite)</li>
+                    <li>calorii lichide (sucuri, cafele cu mult zahăr)</li>
                     <li>gustări ultra-procesate (foame revine repede)</li>
-                    <li>porții “din ochi” la alimente dense</li>
+                    <li>porții „din ochi” la produse dense</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Ideea:</b> carbohidrații sunt instrument. Îi folosim ca să-ți fie mai ușor să funcționezi și să ai aderență, nu ca să te încurce.
+                <b>Mesajul meu în call:</b> carbohidrații devin „butonul de fine-tuning” după ce proteina e stabilă.
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">4) Grăsimi</h2>
-              <p class="panel-sub">
-                Grăsimile sunt esențiale. Le ținem peste un minim util și alegem surse care ajută sănătatea metabolică.
-              </p>
+              <h2 class="panel-title">4) Grăsimi (esențial, dar dense caloric)</h2>
+              <p class="panel-sub">Le păstrăm peste un minim util și avem grijă la „caloriile invizibile”.</p>
               <div class="tag">🧠 Hormoni · Vitamine · Sațietate</div>
 
-              <div class="grid">
-                <div class="box">
-                  <h3>Roluri cheie <span class="mini">esențial</span></h3>
-                  <ul>
-                    <li>absorbția vitaminelor <b>A, D, E, K</b></li>
-                    <li>susțin producția hormonală (pe termen lung)</li>
-                    <li>contribuie la sațietate (mai ales în mese mixte)</li>
-                  </ul>
-                </div>
-                <div class="box">
-                  <h3>Minim util <span class="mini">g/kg</span></h3>
-                  <ul>
-                    <li>frecvent: <b>≥ 0.6 g/kg</b> (în funcție de context)</li>
-                    <li>nu le coborâm prea jos doar ca “să iasă caloriile”</li>
-                    <li>caloriile la grăsimi sunt dense → porțiile contează</li>
-                  </ul>
-                </div>
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „Grăsimile sunt esențiale, deci nu vrem să le coborâm prea jos. Ele ajută la hormoni și la absorbția unor vitamine importante.
+                  Partea practică: sunt foarte dense caloric — 9 kcal pe gram — deci porțiile contează mult.”
+                </p>
+                <p>
+                  „De aceea setăm un minim util și apoi suntem atenți la lucrurile care se adună fără să le simți: uleiuri, sosuri, ronțăieli.
+                  Nu pentru că sunt ‘interzise’, ci pentru că pot scoate totalul din zona în care vrem să fim.”
+                </p>
               </div>
 
               <div class="grid">
                 <div class="box">
-                  <h3>Surse recomandate <span class="mini">calitate</span></h3>
+                  <h3>Minim util <span class="mini">g/kg</span></h3>
                   <ul>
-                    <li>ulei de măsline, avocado, măsline</li>
-                    <li>nuci/semințe (porții moderate)</li>
-                    <li>pește gras (omega-3) când e posibil</li>
+                    <li>frecvent: <b>≥ 0.6 g/kg</b> (în funcție de context)</li>
+                    <li>nu le tăiem agresiv doar ca să iasă caloriile</li>
                   </ul>
                 </div>
 
                 <div class="box">
-                  <h3>“Calorii invizibile” <span class="mini">de urmărit</span></h3>
+                  <h3>„Calorii invizibile” <span class="mini">de urmărit</span></h3>
                   <ul>
-                    <li>uleiuri, sosuri, “un pic de…” (se adună rapid)</li>
-                    <li>ronțăieli (nuci, unt de arahide) fără porție clară</li>
-                    <li>mâncare “healthy” dar foarte densă caloric</li>
+                    <li>uleiuri, dressing, sosuri</li>
+                    <li>nuci/unt de arahide fără porție clară</li>
+                    <li>„healthy” dar foarte dens (granola, mixuri)</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout warn">
-                <b>Notă:</b> dacă există condiții medicale/medicație/recomandări clinice, țintele se personalizează strict.
-                Documentul de față este educațional.
+                <b>Notă:</b> dacă există condiții medicale/medicație/recomandări clinice, adaptăm țintele strict personalizat.
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">5) Cum setăm țintele (ordine clară, fără confuzie)</h2>
-              <p class="panel-sub">
-                Setările sunt punctul de start. Cheia este ordinea de lucru + ajustări mici pe baza mediei săptămânale.
-              </p>
-              <div class="tag">✅ Ordine simplă: Proteină → Grăsimi (minim) → Carbo (flexibil)</div>
+              <h2 class="panel-title">5) Cum setăm țintele (ordinea care nu dă greș)</h2>
+              <p class="panel-sub">Proteină → minim de grăsimi → carbohidrați ca variabilă.</p>
+              <div class="tag">✅ Ordine: Proteină → Grăsimi (minim) → Carbo (flexibil)</div>
+
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „Acum partea practică: eu setez țintele într-o ordine clară. Încep cu proteina, pentru că ea îți stabilizează foamea și compoziția.
+                  După aceea setez un minim de grăsimi, pentru că sunt esențiale pe termen lung.
+                  Și ce rămâne din bugetul de calorii îl facem carbohidrați, ca să îi putem urca sau coborî în funcție de activitate și preferințe.”
+                </p>
+                <p>
+                  „Apoi, în loc să judecăm o zi, ne uităm la media săptămânală. Dacă progresul e prea lent sau prea rapid, ajustăm mici:
+                  fie puțin din carbo, fie puțin din total, fără să stricăm proteina și minimul de grăsimi.”
+                </p>
+              </div>
 
               <div class="steps">
                 <div class="step">
                   <div class="dot">1</div>
                   <div>
-                    <strong>Stabilim caloriile de start</strong>
-                    <span>Nu trebuie perfecte. Alegem un punct realist, apoi validăm în 1–2 săptămâni cu date.</span>
+                    <strong>Calorii de start</strong>
+                    <span>Un punct realist, validat cu date (nu „perfecțiune” din prima).</span>
                   </div>
                 </div>
                 <div class="step">
                   <div class="dot">2</div>
                   <div>
-                    <strong>Setăm proteina (interval)</strong>
-                    <span>Ținta de proteină e constantă și predictibilă. Aderența crește când proteina e bine distribuită.</span>
+                    <strong>Proteina (interval)</strong>
+                    <span>Ținta cea mai importantă pentru sațietate și masă slabă.</span>
                   </div>
                 </div>
                 <div class="step">
                   <div class="dot">3</div>
                   <div>
-                    <strong>Setăm minimul de grăsimi</strong>
-                    <span>Le păstrăm peste minimul util. Asta protejează planul pe termen lung.</span>
+                    <strong>Grăsimi (minim)</strong>
+                    <span>Le ținem peste minim, ca planul să fie sănătos și sustenabil.</span>
                   </div>
                 </div>
                 <div class="step">
                   <div class="dot">4</div>
                   <div>
-                    <strong>Restul îl facem carbohidrați</strong>
-                    <span>Carbo devine variabila de ajustare: creștem/scădem în funcție de activitate și foame.</span>
+                    <strong>Carbo (flexibil)</strong>
+                    <span>Aici facem fine-tuning în funcție de energie și aderență.</span>
                   </div>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Regulă de aur:</b> dacă “nu iese” perfect într-o zi, nu compensăm agresiv. Ne interesează media săptămânală.
+                <b>Regulă simplă:</b> nu „reparăm” o zi imperfectă cu extreme. Corectăm trendul, nu emoția zilei.
               </div>
             </div>
 
             <div class="panel">
               <h2 class="panel-title">6) Cum măsurăm progresul (fără stres)</h2>
-              <p class="panel-sub">
-                Un plan bun se vede în trend, nu în perfecțiunea de azi. Urmărim consistența și ajustăm fără dramă.
-              </p>
+              <p class="panel-sub">Trend, aderență, context (somn/foame/energie). Ajustări mici.</p>
 
-              <div class="grid">
-                <div class="box">
-                  <h3>Ce urmărim <span class="mini">realist</span></h3>
-                  <ul>
-                    <li>media săptămânală la greutate (trend)</li>
-                    <li>aderență (cât de des poți respecta țintele)</li>
-                    <li>foame/energie/somn (context)</li>
-                    <li>performanță și recuperare (dacă te antrenezi)</li>
-                  </ul>
-                </div>
-                <div class="box">
-                  <h3>Cum ajustăm <span class="mini">simplu</span></h3>
-                  <ul>
-                    <li>ajustări mici (nu “reset total”)</li>
-                    <li>o singură schimbare odată (altfel nu știm ce a funcționat)</li>
-                    <li>prioritate: să fie ușor de ținut, nu “perfect pe hârtie”</li>
-                  </ul>
-                </div>
+              <div class="script">
+                <div class="label">🗣️ Script (citește)</div>
+                <p>
+                  „În final, vreau să fim pe aceeași pagină cu progresul: nu mă interesează o zi, mă interesează trendul.
+                  Ne uităm la media săptămânală a greutății, la cât de ușor îți ții țintele și la cum te simți.
+                  Dacă planul e greu de ținut, nu e un ‘eșec’ — e un semnal că ajustăm parametrii ca să fie sustenabil.”
+                </p>
               </div>
 
               <div class="footer-row">
                 <div class="box">
-                  <h3>La ce să te aștepți <span class="mini">clar</span></h3>
+                  <h3>Ce urmărim <span class="mini">realist</span></h3>
                   <ul>
-                    <li>structură + logică ușor de urmat</li>
-                    <li>decizii bazate pe date, nu pe impuls</li>
-                    <li>pași mici, dar constanți</li>
+                    <li>media săptămânală la greutate (trend)</li>
+                    <li>aderență (cât de repetabil e planul)</li>
+                    <li>foame/energie/somn (context)</li>
                   </ul>
                 </div>
                 <div class="box">
-                  <h3>Ce NU urmărim <span class="mini">evităm</span></h3>
+                  <h3>Ce evităm <span class="mini">capcane</span></h3>
                   <ul>
                     <li>restricții extreme “ca să meargă mai repede”</li>
-                    <li>diete rigide care nu se pot susține</li>
                     <li>vinovăție pentru zile imperfecte</li>
+                    <li>schimbări masive peste noapte</li>
                   </ul>
                 </div>
               </div>
