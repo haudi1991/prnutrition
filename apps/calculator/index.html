@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Calculatoare Nutriție · TDEE · IMC · Macronutrienți</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.02);
+      --bad: rgba(255,160,160,.35);
+      --good: rgba(167,243,208,.35);
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    header{
+      display:flex; flex-direction:column; gap:10px;
+      margin-bottom:14px;
+    }
+    .badge{
+      display:inline-flex; align-items:center;
+      font-size: 12px; color: var(--muted);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 92ch;
+      font-size: 13px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .section{ padding: 16px; }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+    }
+
+    /* ===== Print-only title ===== */
+    .print-title{
+      display:none;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px 0;
+    }
+    .print-title .muted{ color: rgba(234,241,255,.80); }
+    .print-title .date{
+      float:right;
+      font-weight: 650;
+      font-size: 12px;
+      color: rgba(234,241,255,.65);
+      margin-top: 6px;
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: rgba(234,241,255,.62);
+      line-height: 1.4;
+    }
+    .hint.bad{ color: rgba(255,220,220,.86); }
+    .hint.good{ color: rgba(200,255,235,.86); }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .grid2{ grid-template-columns: 1fr 1fr; }
+    }
+    .grid3{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .grid3{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    /* ===== Inputs ===== */
+    input, select{
+      width:100%;
+      font: inherit;
+      color: var(--text);
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding: 10px 10px;
+      outline: none;
+    }
+    input:focus, select:focus{
+      box-shadow: 0 0 0 2px rgba(125,211,252,.18);
+      border-color: rgba(125,211,252,.25);
+    }
+    input[disabled]{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+    .unit{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .unit .u{
+      flex: 0 0 auto;
+      font-size: 12px;
+      color: rgba(234,241,255,.60);
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
+    }
+
+    /* ===== Icon buttons + tooltips ===== */
+    .icon-btn{
+      cursor:pointer;
+      width: 40px;
+      height: 40px;
+      display:inline-grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.88);
+      border-radius: 12px;
+      font: inherit;
+      font-size: 18px;
+      line-height: 1;
+      user-select: none;
+      position: relative;
+    }
+    .icon-btn:hover{ background: rgba(255,255,255,.06); }
+    .icon-btn:active{ transform: translateY(1px); }
+    .icon-btn.primary{
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.10);
+    }
+    .icon-btn[disabled]{
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn{
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      font: inherit;
+      font-size: 13px;
+      white-space: nowrap;
+      position: relative;
+    }
+    .btn:hover{ background: rgba(255,255,255,.06); }
+    .btn.primary{
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.10);
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,.02);
+    }
+
+    button[data-tip]{ position: relative; }
+    button[data-tip]::after{
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      transform: translateX(-50%) translateY(2px);
+      opacity: 0;
+      pointer-events: none;
+
+      max-width: 280px;
+      white-space: normal;
+      text-align: center;
+
+      font-size: 12px;
+      line-height: 1.25;
+      color: rgba(234,241,255,.92);
+      background: rgba(11,15,23,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      padding: 7px 9px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.40);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 9999;
+    }
+    button[data-tip]::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom: calc(100% + 6px);
+      transform: translateX(-50%) translateY(2px);
+      opacity:0;
+      pointer-events:none;
+
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(255,255,255,.14);
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 9998;
+    }
+    button[data-tip]:hover::after,
+    button[data-tip]:hover::before,
+    button[data-tip]:focus-visible::after,
+    button[data-tip]:focus-visible::before{
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== Accordions ===== */
+    details.accordion{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    details.accordion + details.accordion{ margin-top: 10px; }
+
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+
+    .sum-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .chev{
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.75);
+      flex: 0 0 auto;
+      font-size: 14px;
+    }
+    details[open] .chev{ transform: rotate(90deg); }
+    .sum-title{
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: rgba(234,241,255,.92);
+      white-space: nowrap;
+    }
+    .sum-muted{
+      color: rgba(234,241,255,.60);
+      font-weight: 650;
+      font-size: 12px;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sum-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex: 0 0 auto;
+    }
+    .accordion-body{
+      margin-top: 10px;
+      display:grid;
+      gap:10px;
+    }
+
+    /* ===== Callouts ===== */
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.80);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .callout.small{
+      font-size: 12.5px;
+      color: rgba(234,241,255,.72);
+      background: rgba(255,255,255,.02);
+    }
+
+    /* ===== Tables ===== */
+    .table-wrap{
+      margin-top: 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.02);
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th{
+      text-align:left;
+      font-weight: 850;
+      color: rgba(234,241,255,.90);
+      background: rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 10px 10px;
+      vertical-align: top;
+    }
+    tbody td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      color: rgba(234,241,255,.78);
+      vertical-align: top;
+      word-break: break-word;
+    }
+    tbody tr:last-child td{ border-bottom: none; }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 820px){
+      .kpi{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .kpi .box{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      padding: 10px 12px;
+    }
+    .kpi .t{
+      font-size: 12px;
+      color: rgba(234,241,255,.65);
+      margin-bottom: 6px;
+      font-weight: 650;
+    }
+    .kpi .v{
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .kpi .s{
+      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(234,241,255,.55);
+    }
+
+    .row-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 10px;
+    }
+    .row-actions .left, .row-actions .right{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      background: rgba(255,255,255,.02);
+      color: rgba(234,241,255,.75);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .pill.good{ border-color: var(--good); }
+    .pill.bad{ border-color: var(--bad); }
+
+    .no-print { display: block; }
+
+    /* ===== Toast ===== */
+    .toast{
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      z-index: 9999;
+      max-width: min(520px, calc(100vw - 24px));
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(11,15,23,.92);
+      color: rgba(234,241,255,.88);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+    .toast.show{ display:block; }
+    .toast.bad{ border-color: rgba(255,160,160,.35); }
+    .toast.good{ border-color: rgba(167,243,208,.35); }
+
+    /* ===== Highlight for BMI row ===== */
+    tr.active td{
+      background: rgba(125,211,252,.08);
+      color: rgba(234,241,255,.92);
+    }
+
+    /* =========================
+       PRINT (PDF)
+       ========================= */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page{
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header{ display:none !important; }
+      .no-print { display:none !important; }
+
+      button[data-tip]::before,
+      button[data-tip]::after{ display:none !important; }
+
+      .section{ padding: 10px !important; }
+      .panel{ padding: 10px !important; }
+
+      .print-title{
+        display:block !important;
+        font-size: 20px !important;
+      }
+
+      .table-wrap{
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+      }
+      thead{ display: table-header-group; }
+      tfoot{ display: table-footer-group; }
+      tbody tr{ break-inside: avoid; page-break-inside: avoid; }
+
+      table{ font-size: 12px !important; }
+      thead th, tbody td{ padding: 8px 8px !important; }
+
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">🧮 Calculatoare Nutriție</div>
+      <h1>TDEE · IMC · Macronutrienți — <span id="clientNameOut">Client</span></h1>
+      <p class="sub">
+        Calculator bazat pe: Mifflin–St Jeor → TDEE (× activitate) → obiectiv (±500) → distribuție macro → conversie grame.
+        Include și IMC + tabel de interpretare. (Instrument educațional, nu recomandare medicală.)
+      </p>
+    </header>
+
+    <main class="card">
+      <section class="section">
+        <div class="panel">
+
+          <div class="print-title">
+            Raport — <span id="printName" class="muted">Client</span>
+            <span id="printDate" class="date"></span>
+          </div>
+
+          <!-- ===== DATE CLIENT ===== -->
+          <details class="accordion no-print" open>
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Date</div>
+                <div class="sum-muted">client + antropometrie</div>
+              </div>
+              <div class="sum-actions"></div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="grid2">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Nume client</div>
+                  <input id="clientName" placeholder="Ex: Andrei Popescu" />
+                </div>
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Context / notițe (opțional)</div>
+                  <input id="context" placeholder="Ex: recompoziție, energie, sport..." />
+                </div>
+              </div>
+
+              <div class="grid3">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Sex</div>
+                  <select id="sex">
+                    <option value="male">Masculin</option>
+                    <option value="female">Feminin</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Vârstă</div>
+                  <div class="unit">
+                    <input id="age" inputmode="numeric" placeholder="Ex: 32" />
+                    <div class="u">ani</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Înălțime</div>
+                  <div class="unit">
+                    <input id="height" inputmode="decimal" placeholder="Ex: 178" />
+                    <div class="u">cm</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Greutate</div>
+                  <div class="unit">
+                    <input id="weight" inputmode="decimal" placeholder="Ex: 82.5" />
+                    <div class="u">kg</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Factor activitate</div>
+                  <select id="activity">
+                    <option value="1.2">Sedentar (1.20)</option>
+                    <option value="1.375">Ușor activ (1.375)</option>
+                    <option value="1.55" selected>Moderat activ (1.55)</option>
+                    <option value="1.725">Foarte activ (1.725)</option>
+                    <option value="1.9">Extrem activ (1.90)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Rotunjire</div>
+                  <select id="rounding">
+                    <option value="standard" selected>Standard (kcal întregi, g 0.1)</option>
+                    <option value="strict">Strict (kcal 10, g 1)</option>
+                    <option value="none">Fără (mai exact)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="callout small">
+                <b>Formule:</b> BMR (Mifflin–St Jeor) → TDEE = BMR × activitate → obiectiv (±500 kcal) → macro (%) → grame.
+              </div>
+            </div>
+          </details>
+
+          <!-- ===== CALCUL TDEE + PLAN ===== -->
+          <details class="accordion no-print" open>
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Calculator TDEE + Plan macro</div>
+                <div class="sum-muted">menținere / scădere / creștere</div>
+              </div>
+              <div class="sum-actions">
+                <button class="icon-btn primary" id="calcBtn" type="button" data-tip="Calculează raportul">🧮<span class="sr-only">Calculează</span></button>
+                <button class="icon-btn" id="printBtn" type="button" data-tip="Printează PDF">🖨️<span class="sr-only">Print</span></button>
+                <button class="icon-btn" id="resetBtn" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="grid2">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Obiectiv caloric</div>
+                  <select id="goalMode">
+                    <option value="maint" selected>Menținere (TDEE)</option>
+                    <option value="cut">Scădere (TDEE - 500)</option>
+                    <option value="bulk">Creștere (TDEE + 500)</option>
+                    <option value="custom">Custom (TDEE ± …)</option>
+                  </select>
+                  <div id="customDeltaWrap" style="display:none; margin-top:10px;">
+                    <div class="hint" style="margin-bottom:6px;">Delta custom (ex: -300 sau +250)</div>
+                    <div class="unit">
+                      <input id="customDelta" inputmode="decimal" placeholder="-300" />
+                      <div class="u">kcal</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Distribuție macro</div>
+                  <select id="macroPreset">
+                    <option value="moderate" selected>Moderat: 30% P · 35% G · 35% C</option>
+                    <option value="lowcarb">Scăzut carbs: 40% P · 40% G · 20% C</option>
+                    <option value="highcarb">Crescut carbs: 30% P · 20% G · 50% C</option>
+                    <option value="custom">Custom (procente)</option>
+                  </select>
+
+                  <div id="customMacroWrap" style="display:none; margin-top:10px;">
+                    <div class="grid3">
+                      <div>
+                        <div class="hint" style="margin-bottom:6px;">Proteine (%)</div>
+                        <input id="pPct" inputmode="decimal" placeholder="30" />
+                      </div>
+                      <div>
+                        <div class="hint" style="margin-bottom:6px;">Grăsimi (%)</div>
+                        <input id="fPct" inputmode="decimal" placeholder="35" />
+                      </div>
+                      <div>
+                        <div class="hint" style="margin-bottom:6px;">Carbo (%)</div>
+                        <input id="cPct" inputmode="decimal" placeholder="35" />
+                      </div>
+                    </div>
+                    <div class="hint" id="pctSumHint" style="margin-top:8px;">Suma: —</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row-actions">
+                <div class="left">
+                  <span class="pill" id="statusPill">Completează datele pentru calcul.</span>
+                </div>
+                <div class="right">
+                  <button class="btn ghost" id="copyBtn" type="button">Copiază raport</button>
+                </div>
+              </div>
+
+              <div class="kpi" aria-label="Rezumat KPI">
+                <div class="box">
+                  <div class="t">BMR (kcal/zi)</div>
+                  <div class="v" id="bmrOut">—</div>
+                  <div class="s">Mifflin–St Jeor</div>
+                </div>
+                <div class="box">
+                  <div class="t">TDEE (kcal/zi)</div>
+                  <div class="v" id="tdeeOut">—</div>
+                  <div class="s">BMR × activitate</div>
+                </div>
+                <div class="box">
+                  <div class="t">Calorii țintă (kcal/zi)</div>
+                  <div class="v" id="kcalOut">—</div>
+                  <div class="s" id="goalOut">—</div>
+                </div>
+              </div>
+
+              <div class="table-wrap" aria-label="Macronutrienți (plan)">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:34%;">Macro</th>
+                      <th style="width:22%;">% din calorii</th>
+                      <th style="width:22%;">kcal</th>
+                      <th style="width:22%;">g</th>
+                    </tr>
+                  </thead>
+                  <tbody id="macroTbody">
+                    <tr><td colspan="4">—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="grid2" style="margin-top:10px;">
+                <div class="panel" style="background: rgba(255,255,255,.02);">
+                  <div class="hint" style="margin-bottom:6px;"><b>IMC (BMI)</b></div>
+                  <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
+                    <div style="flex:1 1 180px;">
+                      <div class="hint">IMC</div>
+                      <div style="font-size:22px; font-weight:900;" id="bmiOut">—</div>
+                    </div>
+                    <div style="flex:2 1 240px;">
+                      <div class="hint">Interpretare</div>
+                      <div style="font-size:14px; font-weight:850; color: rgba(234,241,255,.88);" id="bmiCatOut">—</div>
+                      <div class="hint" id="bmiNoteOut" style="margin-top:4px;">—</div>
+                    </div>
+                  </div>
+
+                  <div class="table-wrap" aria-label="Tabel IMC" style="margin-top:10px;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style="width:40%;">Interval IMC</th>
+                          <th style="width:60%;">Categorie</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bmiTbody"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="panel" style="background: rgba(255,255,255,.02);">
+                  <div class="hint" style="margin-bottom:6px;"><b>Raport (preview)</b></div>
+                  <div class="hint" style="margin-bottom:8px;">Asta este versiunea “print-ready”. Butoanele sunt ascunse la print.</div>
+                  <div class="callout" id="reportPreview" style="margin-top:0;">—</div>
+                </div>
+              </div>
+
+            </div>
+          </details>
+
+          <!-- ===== CALCULATOR MACRO (GENERAL) ===== -->
+          <details class="accordion no-print" id="macroCalcDetails">
+            <summary>
+              <div class="sum-left">
+                <div class="chev">›</div>
+                <div class="sum-title">Calculator macronutrienți (general)</div>
+                <div class="sum-muted">calorii ↔ procente ↔ grame</div>
+              </div>
+              <div class="sum-actions">
+                <button class="icon-btn" id="macroResetBtn" type="button" data-tip="Reset macro calculator">🧼<span class="sr-only">Reset</span></button>
+              </div>
+            </summary>
+
+            <div class="accordion-body">
+              <div class="grid2">
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Calorii (țintă / total)</div>
+                  <div class="unit">
+                    <input id="mcKcal" inputmode="decimal" placeholder="Ex: 2200" />
+                    <div class="u">kcal</div>
+                  </div>
+                  <div class="hint" style="margin-top:6px;">Dacă introduci calorii + grame, îți arăt diferența și poți “scala” automat.</div>
+                </div>
+
+                <div>
+                  <div class="hint" style="margin-bottom:6px;">Mod de introducere</div>
+                  <select id="mcMode">
+                    <option value="pct" selected>Introdu procente → calculează grame</option>
+                    <option value="g">Introdu grame → calculează procente + kcal</option>
+                  </select>
+                  <div class="hint" id="mcModeHint" style="margin-top:6px;">Procentele trebuie să însumeze ~100%.</div>
+                </div>
+              </div>
+
+              <div id="mcPctWrap">
+                <div class="grid3">
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Proteine (%)</div>
+                    <input id="mcPPct" inputmode="decimal" placeholder="Ex: 30" />
+                  </div>
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Grăsimi (%)</div>
+                    <input id="mcFPct" inputmode="decimal" placeholder="Ex: 35" />
+                  </div>
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Carbo (%)</div>
+                    <input id="mcCPct" inputmode="decimal" placeholder="Ex: 35" />
+                  </div>
+                </div>
+                <div class="row-actions">
+                  <div class="left">
+                    <span class="pill" id="mcPctSum">Suma: —</span>
+                  </div>
+                  <div class="right">
+                    <button class="btn primary" id="mcCalcFromPct" type="button">Calculează</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="mcGWrap" style="display:none;">
+                <div class="grid3">
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Proteine (g)</div>
+                    <input id="mcPG" inputmode="decimal" placeholder="Ex: 150" />
+                  </div>
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Grăsimi (g)</div>
+                    <input id="mcFG" inputmode="decimal" placeholder="Ex: 80" />
+                  </div>
+                  <div>
+                    <div class="hint" style="margin-bottom:6px;">Carbo (g)</div>
+                    <input id="mcCG" inputmode="decimal" placeholder="Ex: 200" />
+                  </div>
+                </div>
+
+                <div class="row-actions">
+                  <div class="left">
+                    <span class="pill" id="mcDeltaPill">Total: —</span>
+                  </div>
+                  <div class="right">
+                    <button class="btn" id="mcFillCarb" type="button" data-tip="Completează carbo cu restul de kcal (din țintă), păstrând P/F">Completează carbo</button>
+                    <button class="btn primary" id="mcScaleToKcal" type="button" data-tip="Scalează P/F/C proporțional ca să atingă kcal țintă">Scalează la kcal</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-wrap" aria-label="Rezultat macro (general)">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:34%;">Macro</th>
+                      <th style="width:22%;">%</th>
+                      <th style="width:22%;">kcal</th>
+                      <th style="width:22%;">g</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mcTbody">
+                    <tr><td colspan="4">—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="callout small">
+                <b>Conversie:</b> Proteine & Carbo: kcal ÷ 4 · Grăsimi: kcal ÷ 9.
+              </div>
+            </div>
+          </details>
+
+          <!-- ===== RAPORT PRINT (always visible in print) ===== -->
+          <div class="panel" style="margin-top:10px;">
+            <div class="hint"><b>Raport</b> (acesta se vede și la Print)</div>
+            <div class="callout" id="reportFinal">Completează datele și apasă “🧮”.</div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
+
+  <script>
+    const els = {
+      clientName: document.getElementById('clientName'),
+      context: document.getElementById('context'),
+      clientNameOut: document.getElementById('clientNameOut'),
+      printName: document.getElementById('printName'),
+      printDate: document.getElementById('printDate'),
+
+      sex: document.getElementById('sex'),
+      age: document.getElementById('age'),
+      height: document.getElementById('height'),
+      weight: document.getElementById('weight'),
+      activity: document.getElementById('activity'),
+      rounding: document.getElementById('rounding'),
+
+      goalMode: document.getElementById('goalMode'),
+      customDeltaWrap: document.getElementById('customDeltaWrap'),
+      customDelta: document.getElementById('customDelta'),
+
+      macroPreset: document.getElementById('macroPreset'),
+      customMacroWrap: document.getElementById('customMacroWrap'),
+      pPct: document.getElementById('pPct'),
+      fPct: document.getElementById('fPct'),
+      cPct: document.getElementById('cPct'),
+      pctSumHint: document.getElementById('pctSumHint'),
+
+      calcBtn: document.getElementById('calcBtn'),
+      printBtn: document.getElementById('printBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      copyBtn: document.getElementById('copyBtn'),
+
+      statusPill: document.getElementById('statusPill'),
+      bmrOut: document.getElementById('bmrOut'),
+      tdeeOut: document.getElementById('tdeeOut'),
+      kcalOut: document.getElementById('kcalOut'),
+      goalOut: document.getElementById('goalOut'),
+
+      macroTbody: document.getElementById('macroTbody'),
+
+      bmiOut: document.getElementById('bmiOut'),
+      bmiCatOut: document.getElementById('bmiCatOut'),
+      bmiNoteOut: document.getElementById('bmiNoteOut'),
+      bmiTbody: document.getElementById('bmiTbody'),
+
+      reportPreview: document.getElementById('reportPreview'),
+      reportFinal: document.getElementById('reportFinal'),
+
+      toast: document.getElementById('toast'),
+
+      // Macro calculator (general)
+      mcKcal: document.getElementById('mcKcal'),
+      mcMode: document.getElementById('mcMode'),
+      mcModeHint: document.getElementById('mcModeHint'),
+      mcPctWrap: document.getElementById('mcPctWrap'),
+      mcGWrap: document.getElementById('mcGWrap'),
+      mcPPct: document.getElementById('mcPPct'),
+      mcFPct: document.getElementById('mcFPct'),
+      mcCPct: document.getElementById('mcCPct'),
+      mcPctSum: document.getElementById('mcPctSum'),
+      mcCalcFromPct: document.getElementById('mcCalcFromPct'),
+      mcPG: document.getElementById('mcPG'),
+      mcFG: document.getElementById('mcFG'),
+      mcCG: document.getElementById('mcCG'),
+      mcDeltaPill: document.getElementById('mcDeltaPill'),
+      mcFillCarb: document.getElementById('mcFillCarb'),
+      mcScaleToKcal: document.getElementById('mcScaleToKcal'),
+      mcTbody: document.getElementById('mcTbody'),
+      macroResetBtn: document.getElementById('macroResetBtn'),
+    };
+
+    function toast(msg, type='bad'){
+      els.toast.textContent = msg;
+      els.toast.classList.remove('bad','good','show');
+      els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
+    }
+
+    function safeTrim(x){ return (x ?? '').toString().trim(); }
+    function toNum(v){
+      const s = safeTrim(v).replace(',', '.');
+      const n = Number(s);
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function roundingMode(){
+      return els.rounding.value;
+    }
+    function rKcal(x){
+      if (!Number.isFinite(x)) return NaN;
+      const mode = roundingMode();
+      if (mode === 'none') return x;
+      if (mode === 'strict') return Math.round(x / 10) * 10;
+      return Math.round(x);
+    }
+    function rG(x){
+      if (!Number.isFinite(x)) return NaN;
+      const mode = roundingMode();
+      if (mode === 'none') return x;
+      if (mode === 'strict') return Math.round(x);
+      return Math.round(x * 10) / 10;
+    }
+
+    function fmt(x, kind='num'){
+      if (!Number.isFinite(x)) return '—';
+      if (kind === 'kcal'){
+        const y = (roundingMode() === 'none') ? x : rKcal(x);
+        return (roundingMode() === 'none')
+          ? y.toFixed(0)
+          : y.toFixed(0);
+      }
+      if (kind === 'g'){
+        const y = (roundingMode() === 'none') ? x : rG(x);
+        if (roundingMode() === 'none') return y.toFixed(1);
+        if (roundingMode() === 'strict') return y.toFixed(0);
+        return y.toFixed(1);
+      }
+      if (kind === 'pct'){
+        return x.toFixed(0) + '%';
+      }
+      if (kind === 'pct1'){
+        return x.toFixed(1) + '%';
+      }
+      return String(x);
+    }
+
+    function setPrintDate(){
+      try{
+        const d = new Date();
+        els.printDate.textContent = d.toLocaleDateString('ro-RO');
+      }catch(e){
+        els.printDate.textContent = '';
+      }
+    }
+
+    function renderHeader(){
+      const name = safeTrim(els.clientName.value) || 'Client';
+      els.clientNameOut.textContent = name;
+      els.printName.textContent = name;
+    }
+
+    function showCustomDelta(){
+      els.customDeltaWrap.style.display = (els.goalMode.value === 'custom') ? 'block' : 'none';
+    }
+    function showCustomMacro(){
+      els.customMacroWrap.style.display = (els.macroPreset.value === 'custom') ? 'block' : 'none';
+      updatePctSumHint();
+    }
+
+    function presetPercents(){
+      const preset = els.macroPreset.value;
+      if (preset === 'moderate') return { p:30, f:35, c:35 };
+      if (preset === 'lowcarb')  return { p:40, f:40, c:20 };
+      if (preset === 'highcarb') return { p:30, f:20, c:50 };
+      // custom
+      return {
+        p: toNum(els.pPct.value),
+        f: toNum(els.fPct.value),
+        c: toNum(els.cPct.value),
+      };
+    }
+
+    function updatePctSumHint(){
+      if (els.macroPreset.value !== 'custom'){
+        els.pctSumHint.textContent = '';
+        return;
+      }
+      const p = toNum(els.pPct.value);
+      const f = toNum(els.fPct.value);
+      const c = toNum(els.cPct.value);
+      const sum = (Number.isFinite(p)?p:0) + (Number.isFinite(f)?f:0) + (Number.isFinite(c)?c:0);
+      els.pctSumHint.textContent = `Suma: ${Number.isFinite(sum) ? sum.toFixed(1) + '%' : '—'}`;
+      const ok = Math.abs(sum - 100) <= 0.6; // tolerant
+      els.pctSumHint.classList.toggle('bad', Number.isFinite(sum) && !ok);
+      els.pctSumHint.classList.toggle('good', Number.isFinite(sum) && ok);
+    }
+
+    function mifflinStJeor({sex, weightKg, heightCm, age}){
+      // BMR
+      // male: 10*w + 6.25*h - 5*age + 5
+      // female: 10*w + 6.25*h - 5*age - 161
+      const base = 10*weightKg + 6.25*heightCm - 5*age;
+      return sex === 'female' ? (base - 161) : (base + 5);
+    }
+
+    function computeGoalCalories(tdee){
+      const mode = els.goalMode.value;
+      if (mode === 'maint') return { kcal: tdee, label: 'Menținere (TDEE)' };
+      if (mode === 'cut')   return { kcal: tdee - 500, label: 'Scădere (TDEE - 500)' };
+      if (mode === 'bulk')  return { kcal: tdee + 500, label: 'Creștere (TDEE + 500)' };
+      const d = toNum(els.customDelta.value);
+      const delta = Number.isFinite(d) ? d : 0;
+      const sign = delta >= 0 ? '+' : '−';
+      return { kcal: tdee + delta, label: `Custom (TDEE ${sign} ${Math.abs(delta)} kcal)` };
+    }
+
+    function macroFromCaloriesAndPercents(totalKcal, pPct, fPct, cPct){
+      const pK = totalKcal * (pPct/100);
+      const fK = totalKcal * (fPct/100);
+      const cK = totalKcal * (cPct/100);
+
+      const pG = pK/4;
+      const fG = fK/9;
+      const cG = cK/4;
+
+      return {
+        totalKcal,
+        p:{ pct:pPct, kcal:pK, g:pG },
+        f:{ pct:fPct, kcal:fK, g:fG },
+        c:{ pct:cPct, kcal:cK, g:cG },
+      };
+    }
+
+    function macroFromGrams(pG, fG, cG){
+      const pK = pG*4;
+      const fK = fG*9;
+      const cK = cG*4;
+      const totalKcal = pK + fK + cK;
+      const pPct = totalKcal ? (pK/totalKcal*100) : 0;
+      const fPct = totalKcal ? (fK/totalKcal*100) : 0;
+      const cPct = totalKcal ? (cK/totalKcal*100) : 0;
+      return {
+        totalKcal,
+        p:{ pct:pPct, kcal:pK, g:pG },
+        f:{ pct:fPct, kcal:fK, g:fG },
+        c:{ pct:cPct, kcal:cK, g:cG },
+      };
+    }
+
+    function bmi(weightKg, heightCm){
+      const hm = heightCm/100;
+      if (!hm) return NaN;
+      return weightKg / (hm*hm);
+    }
+
+    const BMI_ROWS = [
+      { min: -Infinity, max: 18.5, label: 'Subponderal', note: 'Posibil deficit energetic / masă slabă redusă (context dependent).' },
+      { min: 18.5, max: 25, label: 'Normoponderal', note: 'Interval general “normal” la adulți.' },
+      { min: 25, max: 30, label: 'Supraponderal', note: 'Creștere masă grasă posibilă (dar depinde de compoziție/atletism).' },
+      { min: 30, max: 35, label: 'Obezitate grad I', note: 'Risc cardiometabolic crescut (context dependent).' },
+      { min: 35, max: 40, label: 'Obezitate grad II', note: 'Risc crescut; recomandat suport medical/nutrițional.' },
+      { min: 40, max: Infinity, label: 'Obezitate grad III', note: 'Risc foarte crescut; suport medical recomandat.' },
+    ];
+
+    function bmiCategory(x){
+      if (!Number.isFinite(x)) return null;
+      return BMI_ROWS.find(r => x >= r.min && x < r.max) || null;
+    }
+
+    function renderBmiTable(activeBmi){
+      els.bmiTbody.innerHTML = '';
+      for (const r of BMI_ROWS){
+        const tr = document.createElement('tr');
+        const minTxt = (r.min === -Infinity) ? '' : r.min.toFixed(1);
+        const maxTxt = (r.max === Infinity) ? '' : r.max.toFixed(1);
+
+        const interval =
+          (r.min === -Infinity) ? `< ${maxTxt}` :
+          (r.max === Infinity)  ? `≥ ${minTxt}` :
+          `${minTxt} – ${maxTxt}`;
+
+        tr.innerHTML = `
+          <td>${interval}</td>
+          <td><b>${r.label}</b></td>
+        `;
+
+        if (Number.isFinite(activeBmi)){
+          const isActive = activeBmi >= r.min && activeBmi < r.max;
+          if (isActive) tr.classList.add('active');
+        }
+        els.bmiTbody.appendChild(tr);
+      }
+    }
+
+    function renderMacroTable(tbodyEl, data){
+      if (!data || !Number.isFinite(data.totalKcal)){
+        tbodyEl.innerHTML = `<tr><td colspan="4">—</td></tr>`;
+        return;
+      }
+      const rows = [
+        { key:'p', name:'Proteine', kcalPerG:4 },
+        { key:'f', name:'Grăsimi', kcalPerG:9 },
+        { key:'c', name:'Carbohidrați', kcalPerG:4 },
+      ];
+      tbodyEl.innerHTML = '';
+      for (const r of rows){
+        const m = data[r.key];
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${r.name}</b></td>
+          <td>${fmt(m.pct, 'pct1')}</td>
+          <td>${fmt(m.kcal, 'kcal')}</td>
+          <td>${fmt(m.g, 'g')}</td>
+        `;
+        tbodyEl.appendChild(tr);
+      }
+    }
+
+    function setPill(el, text, kind){
+      el.textContent = text;
+      el.classList.remove('good','bad');
+      if (kind === 'good') el.classList.add('good');
+      if (kind === 'bad') el.classList.add('bad');
+    }
+
+    function buildReport({name, context, sexLabel, age, heightCm, weightKg, activity, bmr, tdee, goalLabel, targetKcal, macros, bmiVal, bmiCat}){
+      const lines = [];
+      lines.push(`Client: ${name}${context ? ` · ${context}` : ''}`);
+      lines.push(`Sex: ${sexLabel} · Vârstă: ${age} ani · Înălțime: ${heightCm} cm · Greutate: ${weightKg} kg`);
+      lines.push(`BMR: ${fmt(bmr,'kcal')} kcal/zi · TDEE: ${fmt(tdee,'kcal')} kcal/zi (activitate: ${activity})`);
+      lines.push(`Obiectiv: ${goalLabel} → Calorii țintă: ${fmt(targetKcal,'kcal')} kcal/zi`);
+      lines.push(`IMC: ${Number.isFinite(bmiVal) ? bmiVal.toFixed(1) : '—'} · ${bmiCat ? bmiCat.label : '—'}`);
+
+      if (macros){
+        lines.push('');
+        lines.push(`Macronutrienți (din ${fmt(targetKcal,'kcal')} kcal):`);
+        lines.push(`• Proteine: ${fmt(macros.p.pct,'pct1')} · ${fmt(macros.p.kcal,'kcal')} kcal · ${fmt(macros.p.g,'g')} g`);
+        lines.push(`• Grăsimi: ${fmt(macros.f.pct,'pct1')} · ${fmt(macros.f.kcal,'kcal')} kcal · ${fmt(macros.f.g,'g')} g`);
+        lines.push(`• Carbo: ${fmt(macros.c.pct,'pct1')} · ${fmt(macros.c.kcal,'kcal')} kcal · ${fmt(macros.c.g,'g')} g`);
+      }
+
+      lines.push('');
+      lines.push('Notă: instrument educațional; ajustează în funcție de context medical, compoziție corporală, aderență, performanță.');
+      return lines.join('\n');
+    }
+
+    function updateMainCalculation(){
+      renderHeader();
+      updatePctSumHint();
+      showCustomDelta();
+      showCustomMacro();
+
+      const name = safeTrim(els.clientName.value) || 'Client';
+      const context = safeTrim(els.context.value);
+      const sex = els.sex.value;
+
+      const age = toNum(els.age.value);
+      const heightCm = toNum(els.height.value);
+      const weightKg = toNum(els.weight.value);
+      const act = toNum(els.activity.value);
+
+      const hasBasics =
+        Number.isFinite(age) && age > 0 &&
+        Number.isFinite(heightCm) && heightCm > 0 &&
+        Number.isFinite(weightKg) && weightKg > 0 &&
+        Number.isFinite(act) && act > 0;
+
+      if (!hasBasics){
+        els.bmrOut.textContent = '—';
+        els.tdeeOut.textContent = '—';
+        els.kcalOut.textContent = '—';
+        els.goalOut.textContent = '—';
+        renderMacroTable(els.macroTbody, null);
+
+        els.bmiOut.textContent = '—';
+        els.bmiCatOut.textContent = '—';
+        els.bmiNoteOut.textContent = '—';
+        renderBmiTable(NaN);
+
+        els.reportPreview.textContent = '—';
+        els.reportFinal.textContent = 'Completează datele și apasă “🧮”.';
+        setPill(els.statusPill, 'Completează datele pentru calcul.', 'bad');
+        return null;
+      }
+
+      // BMR / TDEE
+      const bmr = mifflinStJeor({ sex, weightKg, heightCm, age });
+      const tdee = bmr * act;
+
+      // Goal
+      const goal = computeGoalCalories(tdee);
+      const targetKcal = goal.kcal;
+
+      // Macro percents
+      const pc = presetPercents();
+      const p = pc.p, f = pc.f, c = pc.c;
+
+      const sum = (Number.isFinite(p)?p:0) + (Number.isFinite(f)?f:0) + (Number.isFinite(c)?c:0);
+      const pctOk = Math.abs(sum - 100) <= 0.6;
+
+      // BMI
+      const bmiVal = bmi(weightKg, heightCm);
+      const bmiCat = bmiCategory(bmiVal);
+
+      // Output numbers
+      els.bmrOut.textContent = fmt(bmr, 'kcal');
+      els.tdeeOut.textContent = fmt(tdee, 'kcal');
+      els.kcalOut.textContent = fmt(targetKcal, 'kcal');
+      els.goalOut.textContent = goal.label;
+
+      els.bmiOut.textContent = Number.isFinite(bmiVal) ? bmiVal.toFixed(1) : '—';
+      els.bmiCatOut.textContent = bmiCat ? bmiCat.label : '—';
+      els.bmiNoteOut.textContent = bmiCat ? bmiCat.note : '—';
+      renderBmiTable(bmiVal);
+
+      if (!pctOk){
+        renderMacroTable(els.macroTbody, null);
+        setPill(els.statusPill, 'Procentele macro nu însumează 100%.', 'bad');
+      } else {
+        const macros = macroFromCaloriesAndPercents(targetKcal, p, f, c);
+        renderMacroTable(els.macroTbody, macros);
+        setPill(els.statusPill, 'Calcul complet.', 'good');
+      }
+
+      const sexLabel = (sex === 'female') ? 'Feminin' : 'Masculin';
+      const macrosForReport = pctOk ? macroFromCaloriesAndPercents(targetKcal, p, f, c) : null;
+
+      const report = buildReport({
+        name, context, sexLabel,
+        age: rKcal(age), // just for neat display (integer)
+        heightCm: rKcal(heightCm),
+        weightKg: (roundingMode()==='strict') ? Math.round(weightKg) : (roundingMode()==='none' ? +weightKg.toFixed(1) : +weightKg.toFixed(1)),
+        activity: act.toFixed(3).replace(/0+$/,'').replace(/\.$/,''),
+        bmr, tdee,
+        goalLabel: goal.label,
+        targetKcal,
+        macros: macrosForReport,
+        bmiVal,
+        bmiCat
+      });
+
+      // Preview/report
+      els.reportPreview.textContent = report;
+      els.reportFinal.textContent = report;
+
+      return { bmr, tdee, targetKcal, report, pctOk };
+    }
+
+    function resetAll(){
+      els.clientName.value = '';
+      els.context.value = '';
+      els.sex.value = 'male';
+      els.age.value = '';
+      els.height.value = '';
+      els.weight.value = '';
+      els.activity.value = '1.55';
+      els.rounding.value = 'standard';
+
+      els.goalMode.value = 'maint';
+      els.customDelta.value = '';
+
+      els.macroPreset.value = 'moderate';
+      els.pPct.value = '';
+      els.fPct.value = '';
+      els.cPct.value = '';
+
+      showCustomDelta();
+      showCustomMacro();
+      renderHeader();
+      updateMainCalculation();
+
+      // also reset macro calc
+      macroReset();
+    }
+
+    async function copyReport(){
+      const txt = safeTrim(els.reportFinal.textContent);
+      if (!txt || txt === '—'){
+        toast('Nu există raport de copiat încă.', 'bad');
+        return;
+      }
+      try{
+        await navigator.clipboard.writeText(txt);
+        toast('Raport copiat.', 'good');
+      }catch(e){
+        toast('Nu pot copia automat (browser). Selectează și copiază manual.', 'bad');
+      }
+    }
+
+    /* ======================
+       MACRO CALC (GENERAL)
+       ====================== */
+    function mcSetMode(){
+      const mode = els.mcMode.value;
+      const isPct = mode === 'pct';
+      els.mcPctWrap.style.display = isPct ? 'block' : 'none';
+      els.mcGWrap.style.display = isPct ? 'none' : 'block';
+      els.mcModeHint.textContent = isPct
+        ? 'Procentele trebuie să însumeze ~100%.'
+        : 'Introdu grame → îți calculez kcal și procentele. Dacă ai și kcal țintă, îți arăt diferența.';
+      mcRender();
+    }
+
+    function mcPctSum(){
+      const p = toNum(els.mcPPct.value);
+      const f = toNum(els.mcFPct.value);
+      const c = toNum(els.mcCPct.value);
+      const sum = (Number.isFinite(p)?p:0) + (Number.isFinite(f)?f:0) + (Number.isFinite(c)?c:0);
+      els.mcPctSum.textContent = Number.isFinite(sum) ? `Suma: ${sum.toFixed(1)}%` : 'Suma: —';
+      const ok = Number.isFinite(sum) && Math.abs(sum - 100) <= 0.6;
+      els.mcPctSum.classList.remove('good','bad');
+      if (Number.isFinite(sum)) els.mcPctSum.classList.add(ok ? 'good' : 'bad');
+      return { p, f, c, sum, ok };
+    }
+
+    function mcRender(){
+      const mode = els.mcMode.value;
+      const targetKcal = toNum(els.mcKcal.value);
+
+      if (mode === 'pct'){
+        const { p, f, c, ok } = mcPctSum();
+        if (!Number.isFinite(targetKcal) || targetKcal <= 0){
+          renderMacroTable(els.mcTbody, null);
+          setPill(els.mcPctSum, els.mcPctSum.textContent, ok ? 'good' : 'bad');
+          return;
+        }
+        if (!ok){
+          renderMacroTable(els.mcTbody, null);
+          return;
+        }
+        const m = macroFromCaloriesAndPercents(targetKcal, p, f, c);
+        renderMacroTable(els.mcTbody, m);
+        return;
+      }
+
+      // grams mode
+      const pG = toNum(els.mcPG.value);
+      const fG = toNum(els.mcFG.value);
+      const cG = toNum(els.mcCG.value);
+
+      const any = [pG,fG,cG].some(x => Number.isFinite(x) && x > 0);
+      if (!any){
+        renderMacroTable(els.mcTbody, null);
+        els.mcDeltaPill.textContent = 'Total: —';
+        els.mcDeltaPill.classList.remove('good','bad');
+        return;
+      }
+
+      const m = macroFromGrams(
+        Number.isFinite(pG) ? pG : 0,
+        Number.isFinite(fG) ? fG : 0,
+        Number.isFinite(cG) ? cG : 0
+      );
+      renderMacroTable(els.mcTbody, m);
+
+      if (Number.isFinite(targetKcal) && targetKcal > 0){
+        const delta = m.totalKcal - targetKcal;
+        const sign = delta >= 0 ? '+' : '−';
+        els.mcDeltaPill.textContent = `Total: ${fmt(m.totalKcal,'kcal')} kcal · Δ față de țintă: ${sign}${fmt(Math.abs(delta),'kcal')} kcal`;
+        const ok = Math.abs(delta) <= 30;
+        els.mcDeltaPill.classList.remove('good','bad');
+        els.mcDeltaPill.classList.add(ok ? 'good' : 'bad');
+      } else {
+        els.mcDeltaPill.textContent = `Total: ${fmt(m.totalKcal,'kcal')} kcal`;
+        els.mcDeltaPill.classList.remove('good','bad');
+      }
+    }
+
+    function mcCalcFromPct(){
+      // just rerender (and if kcal missing, warn)
+      const k = toNum(els.mcKcal.value);
+      if (!Number.isFinite(k) || k <= 0){
+        toast('Completează mai întâi “Calorii”.', 'bad');
+        return;
+      }
+      const s = mcPctSum();
+      if (!s.ok){
+        toast('Procentele trebuie să însumeze ~100%.', 'bad');
+        return;
+      }
+      mcRender();
+      toast('Calculat.', 'good');
+    }
+
+    function mcFillCarb(){
+      const targetKcal = toNum(els.mcKcal.value);
+      if (!Number.isFinite(targetKcal) || targetKcal <= 0){
+        toast('Pune o “Calorii” țintă ca să pot completa carbo.', 'bad');
+        return;
+      }
+      const pG = Number.isFinite(toNum(els.mcPG.value)) ? toNum(els.mcPG.value) : 0;
+      const fG = Number.isFinite(toNum(els.mcFG.value)) ? toNum(els.mcFG.value) : 0;
+
+      const used = pG*4 + fG*9;
+      const rest = targetKcal - used;
+      if (rest <= 0){
+        toast('Ținta e deja depășită doar din P/F.', 'bad');
+        return;
+      }
+      const cG = rest / 4;
+      els.mcCG.value = (roundingMode()==='strict') ? Math.round(cG) : (Math.round(cG*10)/10);
+      mcRender();
+      toast('Carbo completat cu restul.', 'good');
+    }
+
+    function mcScaleToKcal(){
+      const targetKcal = toNum(els.mcKcal.value);
+      if (!Number.isFinite(targetKcal) || targetKcal <= 0){
+        toast('Pune o “Calorii” țintă ca să pot scala.', 'bad');
+        return;
+      }
+      const pG = Number.isFinite(toNum(els.mcPG.value)) ? toNum(els.mcPG.value) : 0;
+      const fG = Number.isFinite(toNum(els.mcFG.value)) ? toNum(els.mcFG.value) : 0;
+      const cG = Number.isFinite(toNum(els.mcCG.value)) ? toNum(els.mcCG.value) : 0;
+
+      const m = macroFromGrams(pG, fG, cG);
+      if (!m.totalKcal){
+        toast('Introdu cel puțin un gramaj > 0.', 'bad');
+        return;
+      }
+      const factor = targetKcal / m.totalKcal;
+      const np = pG * factor;
+      const nf = fG * factor;
+      const nc = cG * factor;
+
+      els.mcPG.value = (roundingMode()==='strict') ? Math.round(np) : (Math.round(np*10)/10);
+      els.mcFG.value = (roundingMode()==='strict') ? Math.round(nf) : (Math.round(nf*10)/10);
+      els.mcCG.value = (roundingMode()==='strict') ? Math.round(nc) : (Math.round(nc*10)/10);
+
+      mcRender();
+      toast('Am scalat la kcal țintă.', 'good');
+    }
+
+    function macroReset(){
+      els.mcKcal.value = '';
+      els.mcMode.value = 'pct';
+      els.mcPPct.value = '';
+      els.mcFPct.value = '';
+      els.mcCPct.value = '';
+      els.mcPG.value = '';
+      els.mcFG.value = '';
+      els.mcCG.value = '';
+      mcSetMode();
+      renderMacroTable(els.mcTbody, null);
+      els.mcDeltaPill.textContent = 'Total: —';
+      els.mcDeltaPill.classList.remove('good','bad');
+    }
+
+    /* ======================
+       Events
+       ====================== */
+    function attachLiveCalc(){
+      const inputs = [
+        els.clientName, els.context,
+        els.sex, els.age, els.height, els.weight,
+        els.activity, els.rounding,
+        els.goalMode, els.customDelta,
+        els.macroPreset, els.pPct, els.fPct, els.cPct
+      ];
+      for (const el of inputs){
+        el.addEventListener('input', () => updateMainCalculation());
+        el.addEventListener('change', () => updateMainCalculation());
+      }
+
+      // macro calc general
+      const mcInputs = [
+        els.mcKcal, els.mcMode,
+        els.mcPPct, els.mcFPct, els.mcCPct,
+        els.mcPG, els.mcFG, els.mcCG
+      ];
+      for (const el of mcInputs){
+        el.addEventListener('input', () => mcRender());
+        el.addEventListener('change', () => mcRender());
+      }
+    }
+
+    function init(){
+      setPrintDate();
+      renderHeader();
+      renderBmiTable(NaN);
+      showCustomDelta();
+      showCustomMacro();
+
+      attachLiveCalc();
+
+      els.goalMode.addEventListener('change', showCustomDelta);
+      els.macroPreset.addEventListener('change', showCustomMacro);
+
+      els.calcBtn.addEventListener('click', () => {
+        const res = updateMainCalculation();
+        if (!res){
+          toast('Completează vârstă/înălțime/greutate + activitate.', 'bad');
+          return;
+        }
+        if (!res.pctOk){
+          toast('Procentele macro trebuie să însumeze ~100%.', 'bad');
+          return;
+        }
+        toast('Calcul complet.', 'good');
+      });
+
+      els.printBtn.addEventListener('click', () => {
+        setPrintDate();
+        updateMainCalculation();
+        window.print();
+      });
+
+      els.resetBtn.addEventListener('click', () => {
+        resetAll();
+        toast('Resetat.', 'good');
+      });
+
+      els.copyBtn.addEventListener('click', copyReport);
+
+      // macro calc general
+      els.mcMode.addEventListener('change', mcSetMode);
+      els.mcCalcFromPct.addEventListener('click', mcCalcFromPct);
+      els.mcFillCarb.addEventListener('click', mcFillCarb);
+      els.mcScaleToKcal.addEventListener('click', mcScaleToKcal);
+      els.macroResetBtn.addEventListener('click', () => {
+        macroReset();
+        toast('Macro calculator resetat.', 'good');
+      });
+
+      // default render
+      updateMainCalculation();
+      mcSetMode();
+    }
+
+    init();
+  </script>
+</body>
+</html>
+
