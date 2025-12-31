@@ -345,8 +345,8 @@
     /* ✅ Report box (fix preview readability) */
     .report-box{
       margin: 0;
-      white-space: pre-wrap;           /* preserve \n from report */
-      overflow-wrap: anywhere;         /* break long chunks */
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
       word-break: break-word;
       line-height: 1.45;
       font-size: 12.5px;
@@ -358,7 +358,7 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
     }
     .report-box.scroll{
-      max-height: 280px;               /* keep preview usable */
+      max-height: 280px;
       overflow: auto;
     }
     .report-box::-webkit-scrollbar{ width: 10px; height: 10px; }
@@ -552,7 +552,7 @@
       <h1>TDEE · IMC · Macronutrienți — <span id="clientNameOut">Client</span></h1>
       <p class="sub">
         Calculator bazat pe: Mifflin–St Jeor → TDEE (× activitate) → obiectiv (±500) → distribuție macro → conversie grame.
-        Include și IMC + tabel de interpretare. (Instrument educațional, nu recomandare medicală.)
+        Include și IMC + tabel de interpretare.
       </p>
     </header>
 
@@ -631,22 +631,15 @@
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Factor activitate</div>
                   <select id="activity">
-                    <option value="1.2">Sedentar (1.20)</option>
+                    <option value="1.2" selected>Sedentar (1.20)</option>
                     <option value="1.375">Ușor activ (1.375)</option>
-                    <option value="1.55" selected>Moderat activ (1.55)</option>
+                    <option value="1.55">Moderat activ (1.55)</option>
                     <option value="1.725">Foarte activ (1.725)</option>
                     <option value="1.9">Extrem activ (1.90)</option>
                   </select>
                 </div>
 
-                <div>
-                  <div class="hint" style="margin-bottom:6px;">Rotunjire</div>
-                  <select id="rounding">
-                    <option value="standard" selected>Standard (kcal întregi, g 0.1)</option>
-                    <option value="strict">Strict (kcal 10, g 1)</option>
-                    <option value="none">Fără (mai exact)</option>
-                  </select>
-                </div>
+                <!-- Rotunjirea a fost scoasă (fixată intern la Standard) -->
               </div>
 
               <div class="callout small">
@@ -658,8 +651,8 @@
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Obiectiv caloric</div>
                   <select id="goalMode">
-                    <option value="maint" selected>Menținere (TDEE)</option>
-                    <option value="cut">Scădere (TDEE - 500)</option>
+                    <option value="maint">Menținere (TDEE)</option>
+                    <option value="cut" selected>Scădere (TDEE - 500)</option>
                     <option value="bulk">Creștere (TDEE + 500)</option>
                     <option value="custom">Custom (TDEE ± …)</option>
                   </select>
@@ -917,7 +910,6 @@
       height: document.getElementById('height'),
       weight: document.getElementById('weight'),
       activity: document.getElementById('activity'),
-      rounding: document.getElementById('rounding'),
 
       goalMode: document.getElementById('goalMode'),
       customDeltaWrap: document.getElementById('customDeltaWrap'),
@@ -989,8 +981,9 @@
       return Number.isFinite(n) ? n : NaN;
     }
 
+    // ✅ Rotunjire FIXĂ (nu e customizabilă)
     function roundingMode(){
-      return els.rounding.value;
+      return 'standard';
     }
     function rKcal(x){
       if (!Number.isFinite(x)) return NaN;
@@ -1220,8 +1213,6 @@
         lines.push(`- Grăsimi:  ${fmt(macros.f.pct,'pct1')} · ${fmt(macros.f.kcal,'kcal')} kcal · ${fmt(macros.f.g,'g')} g`);
         lines.push(`- Carbo:    ${fmt(macros.c.pct,'pct1')} · ${fmt(macros.c.kcal,'kcal')} kcal · ${fmt(macros.c.g,'g')} g`);
       }
-      lines.push('');
-      lines.push('Notă: instrument educațional; ajustează în funcție de context medical, compoziție corporală, aderență, performanță.');
       return lines.join('\n');
     }
 
@@ -1307,7 +1298,7 @@
         name, context, sexLabel,
         age: Math.round(age),
         heightCm: Math.round(heightCm),
-        weightKg: (roundingMode()==='strict') ? Math.round(weightKg) : +weightKg.toFixed(1),
+        weightKg: +weightKg.toFixed(1),
         activity: act.toFixed(3).replace(/0+$/,'').replace(/\.$/,''),
         bmr, tdee,
         goalLabel: goal.label,
@@ -1330,13 +1321,12 @@
       els.age.value = '';
       els.height.value = '';
       els.weight.value = '';
-      els.activity.value = '1.55';
-      els.rounding.value = 'standard';
 
-      els.goalMode.value = 'maint';
+      // ✅ defaults cerute
+      els.activity.value = '1.2';      // sedentar
+      els.goalMode.value = 'cut';      // scădere
       els.customDelta.value = '';
-
-      els.macroPreset.value = 'moderate';
+      els.macroPreset.value = 'moderate'; // moderat
       els.pPct.value = '';
       els.fPct.value = '';
       els.cPct.value = '';
@@ -1471,7 +1461,7 @@
         return;
       }
       const cG = rest / 4;
-      els.mcCG.value = (roundingMode()==='strict') ? Math.round(cG) : (Math.round(cG*10)/10);
+      els.mcCG.value = (Math.round(cG*10)/10);
       mcRender();
       toast('Carbo completat cu restul.', 'good');
     }
@@ -1493,9 +1483,9 @@
       }
       const factor = targetKcal / m.totalKcal;
 
-      els.mcPG.value = (roundingMode()==='strict') ? Math.round(pG*factor) : (Math.round(pG*factor*10)/10);
-      els.mcFG.value = (roundingMode()==='strict') ? Math.round(fG*factor) : (Math.round(fG*factor*10)/10);
-      els.mcCG.value = (roundingMode()==='strict') ? Math.round(cG*factor) : (Math.round(cG*factor*10)/10);
+      els.mcPG.value = (Math.round(pG*factor*10)/10);
+      els.mcFG.value = (Math.round(fG*factor*10)/10);
+      els.mcCG.value = (Math.round(cG*factor*10)/10);
 
       mcRender();
       toast('Am scalat la kcal țintă.', 'good');
@@ -1523,7 +1513,7 @@
       const inputs = [
         els.clientName, els.context,
         els.sex, els.age, els.height, els.weight,
-        els.activity, els.rounding,
+        els.activity,
         els.goalMode, els.customDelta,
         els.macroPreset, els.pPct, els.fPct, els.cPct
       ];
@@ -1590,6 +1580,7 @@
         toast('Macro calculator resetat.', 'good');
       });
 
+      // default render
       updateMainCalculation();
       mcSetMode();
     }
