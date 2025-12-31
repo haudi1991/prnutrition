@@ -342,6 +342,32 @@
       background: rgba(255,255,255,.02);
     }
 
+    /* ✅ Report box (fix preview readability) */
+    .report-box{
+      margin: 0;
+      white-space: pre-wrap;           /* preserve \n from report */
+      overflow-wrap: anywhere;         /* break long chunks */
+      word-break: break-word;
+      line-height: 1.45;
+      font-size: 12.5px;
+      color: rgba(234,241,255,.86);
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(11,15,23,.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .report-box.scroll{
+      max-height: 280px;               /* keep preview usable */
+      overflow: auto;
+    }
+    .report-box::-webkit-scrollbar{ width: 10px; height: 10px; }
+    .report-box::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+      border: 2px solid rgba(11,15,23,.35);
+    }
+
     /* ===== Tables ===== */
     .table-wrap{
       margin-top: 10px;
@@ -512,6 +538,9 @@
       thead th, tbody td{ padding: 8px 8px !important; }
 
       a[href]::after{ content: "" !important; }
+
+      /* report should keep line breaks in print */
+      .report-box{ white-space: pre-wrap !important; }
     }
   </style>
 </head>
@@ -536,18 +565,25 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- ===== DATE CLIENT ===== -->
-          <details class="accordion no-print" open>
+          <!-- ===== TOTUL ÎNTR-UN SINGUR CALCULATOR (date + TDEE + macro) ===== -->
+          <!-- ✅ default COLLAPSED: fără "open" -->
+          <details class="accordion no-print" id="mainDetails">
             <summary>
               <div class="sum-left">
                 <div class="chev">›</div>
-                <div class="sum-title">Date</div>
-                <div class="sum-muted">client + antropometrie</div>
+                <div class="sum-title">Calculator TDEE + Plan macro</div>
+                <div class="sum-muted">date client + menținere / scădere / creștere</div>
               </div>
-              <div class="sum-actions"></div>
+              <div class="sum-actions">
+                <button class="icon-btn primary" id="calcBtn" type="button" data-tip="Calculează raportul">🧮<span class="sr-only">Calculează</span></button>
+                <button class="icon-btn" id="printBtn" type="button" data-tip="Printează PDF">🖨️<span class="sr-only">Print</span></button>
+                <button class="icon-btn" id="resetBtn" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+              </div>
             </summary>
 
             <div class="accordion-body">
+
+              <!-- Date client -->
               <div class="grid2">
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Nume client</div>
@@ -616,26 +652,9 @@
               <div class="callout small">
                 <b>Formule:</b> BMR (Mifflin–St Jeor) → TDEE = BMR × activitate → obiectiv (±500 kcal) → macro (%) → grame.
               </div>
-            </div>
-          </details>
 
-          <!-- ===== CALCUL TDEE + PLAN ===== -->
-          <details class="accordion no-print" open>
-            <summary>
-              <div class="sum-left">
-                <div class="chev">›</div>
-                <div class="sum-title">Calculator TDEE + Plan macro</div>
-                <div class="sum-muted">menținere / scădere / creștere</div>
-              </div>
-              <div class="sum-actions">
-                <button class="icon-btn primary" id="calcBtn" type="button" data-tip="Calculează raportul">🧮<span class="sr-only">Calculează</span></button>
-                <button class="icon-btn" id="printBtn" type="button" data-tip="Printează PDF">🖨️<span class="sr-only">Print</span></button>
-                <button class="icon-btn" id="resetBtn" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
-              </div>
-            </summary>
-
-            <div class="accordion-body">
-              <div class="grid2">
+              <!-- Setări plan -->
+              <div class="grid2" style="margin-top:6px;">
                 <div>
                   <div class="hint" style="margin-bottom:6px;">Obiectiv caloric</div>
                   <select id="goalMode">
@@ -755,8 +774,8 @@
 
                 <div class="panel" style="background: rgba(255,255,255,.02);">
                   <div class="hint" style="margin-bottom:6px;"><b>Raport (preview)</b></div>
-                  <div class="hint" style="margin-bottom:8px;">Asta este versiunea “print-ready”. Butoanele sunt ascunse la print.</div>
-                  <div class="callout" id="reportPreview" style="margin-top:0;">—</div>
+                  <div class="hint" style="margin-bottom:8px;">Text cu line-break (ușor de citit) + scroll dacă e lung.</div>
+                  <pre class="report-box scroll" id="reportPreview">—</pre>
                 </div>
               </div>
 
@@ -764,6 +783,7 @@
           </details>
 
           <!-- ===== CALCULATOR MACRO (GENERAL) ===== -->
+          <!-- ✅ default COLLAPSED -->
           <details class="accordion no-print" id="macroCalcDetails">
             <summary>
               <div class="sum-left">
@@ -874,7 +894,7 @@
           <!-- ===== RAPORT PRINT (always visible in print) ===== -->
           <div class="panel" style="margin-top:10px;">
             <div class="hint"><b>Raport</b> (acesta se vede și la Print)</div>
-            <div class="callout" id="reportFinal">Completează datele și apasă “🧮”.</div>
+            <pre class="report-box" id="reportFinal">Completează datele și apasă “🧮”.</pre>
           </div>
 
         </div>
@@ -991,9 +1011,7 @@
       if (!Number.isFinite(x)) return '—';
       if (kind === 'kcal'){
         const y = (roundingMode() === 'none') ? x : rKcal(x);
-        return (roundingMode() === 'none')
-          ? y.toFixed(0)
-          : y.toFixed(0);
+        return y.toFixed(0);
       }
       if (kind === 'g'){
         const y = (roundingMode() === 'none') ? x : rG(x);
@@ -1038,7 +1056,6 @@
       if (preset === 'moderate') return { p:30, f:35, c:35 };
       if (preset === 'lowcarb')  return { p:40, f:40, c:20 };
       if (preset === 'highcarb') return { p:30, f:20, c:50 };
-      // custom
       return {
         p: toNum(els.pPct.value),
         f: toNum(els.fPct.value),
@@ -1049,6 +1066,7 @@
     function updatePctSumHint(){
       if (els.macroPreset.value !== 'custom'){
         els.pctSumHint.textContent = '';
+        els.pctSumHint.classList.remove('bad','good');
         return;
       }
       const p = toNum(els.pPct.value);
@@ -1056,15 +1074,12 @@
       const c = toNum(els.cPct.value);
       const sum = (Number.isFinite(p)?p:0) + (Number.isFinite(f)?f:0) + (Number.isFinite(c)?c:0);
       els.pctSumHint.textContent = `Suma: ${Number.isFinite(sum) ? sum.toFixed(1) + '%' : '—'}`;
-      const ok = Math.abs(sum - 100) <= 0.6; // tolerant
+      const ok = Math.abs(sum - 100) <= 0.6;
       els.pctSumHint.classList.toggle('bad', Number.isFinite(sum) && !ok);
       els.pctSumHint.classList.toggle('good', Number.isFinite(sum) && ok);
     }
 
     function mifflinStJeor({sex, weightKg, heightCm, age}){
-      // BMR
-      // male: 10*w + 6.25*h - 5*age + 5
-      // female: 10*w + 6.25*h - 5*age - 161
       const base = 10*weightKg + 6.25*heightCm - 5*age;
       return sex === 'female' ? (base - 161) : (base + 5);
     }
@@ -1084,16 +1099,11 @@
       const pK = totalKcal * (pPct/100);
       const fK = totalKcal * (fPct/100);
       const cK = totalKcal * (cPct/100);
-
-      const pG = pK/4;
-      const fG = fK/9;
-      const cG = cK/4;
-
       return {
         totalKcal,
-        p:{ pct:pPct, kcal:pK, g:pG },
-        f:{ pct:fPct, kcal:fK, g:fG },
-        c:{ pct:cPct, kcal:cK, g:cG },
+        p:{ pct:pPct, kcal:pK, g:pK/4 },
+        f:{ pct:fPct, kcal:fK, g:fK/9 },
+        c:{ pct:cPct, kcal:cK, g:cK/4 },
       };
     }
 
@@ -1164,9 +1174,9 @@
         return;
       }
       const rows = [
-        { key:'p', name:'Proteine', kcalPerG:4 },
-        { key:'f', name:'Grăsimi', kcalPerG:9 },
-        { key:'c', name:'Carbohidrați', kcalPerG:4 },
+        { key:'p', name:'Proteine' },
+        { key:'f', name:'Grăsimi' },
+        { key:'c', name:'Carbohidrați' },
       ];
       tbodyEl.innerHTML = '';
       for (const r of rows){
@@ -1191,20 +1201,25 @@
 
     function buildReport({name, context, sexLabel, age, heightCm, weightKg, activity, bmr, tdee, goalLabel, targetKcal, macros, bmiVal, bmiCat}){
       const lines = [];
-      lines.push(`Client: ${name}${context ? ` · ${context}` : ''}`);
-      lines.push(`Sex: ${sexLabel} · Vârstă: ${age} ani · Înălțime: ${heightCm} cm · Greutate: ${weightKg} kg`);
-      lines.push(`BMR: ${fmt(bmr,'kcal')} kcal/zi · TDEE: ${fmt(tdee,'kcal')} kcal/zi (activitate: ${activity})`);
-      lines.push(`Obiectiv: ${goalLabel} → Calorii țintă: ${fmt(targetKcal,'kcal')} kcal/zi`);
+      lines.push(`Client: ${name}${context ? ` (${context})` : ''}`);
+      lines.push(`Sex: ${sexLabel}`);
+      lines.push(`Vârstă: ${age} ani`);
+      lines.push(`Înălțime: ${heightCm} cm`);
+      lines.push(`Greutate: ${weightKg} kg`);
+      lines.push('');
+      lines.push(`BMR: ${fmt(bmr,'kcal')} kcal/zi (Mifflin–St Jeor)`);
+      lines.push(`TDEE: ${fmt(tdee,'kcal')} kcal/zi (activitate: ${activity})`);
+      lines.push(`Obiectiv: ${goalLabel}`);
+      lines.push(`Calorii țintă: ${fmt(targetKcal,'kcal')} kcal/zi`);
+      lines.push('');
       lines.push(`IMC: ${Number.isFinite(bmiVal) ? bmiVal.toFixed(1) : '—'} · ${bmiCat ? bmiCat.label : '—'}`);
-
       if (macros){
         lines.push('');
         lines.push(`Macronutrienți (din ${fmt(targetKcal,'kcal')} kcal):`);
-        lines.push(`• Proteine: ${fmt(macros.p.pct,'pct1')} · ${fmt(macros.p.kcal,'kcal')} kcal · ${fmt(macros.p.g,'g')} g`);
-        lines.push(`• Grăsimi: ${fmt(macros.f.pct,'pct1')} · ${fmt(macros.f.kcal,'kcal')} kcal · ${fmt(macros.f.g,'g')} g`);
-        lines.push(`• Carbo: ${fmt(macros.c.pct,'pct1')} · ${fmt(macros.c.kcal,'kcal')} kcal · ${fmt(macros.c.g,'g')} g`);
+        lines.push(`- Proteine: ${fmt(macros.p.pct,'pct1')} · ${fmt(macros.p.kcal,'kcal')} kcal · ${fmt(macros.p.g,'g')} g`);
+        lines.push(`- Grăsimi:  ${fmt(macros.f.pct,'pct1')} · ${fmt(macros.f.kcal,'kcal')} kcal · ${fmt(macros.f.g,'g')} g`);
+        lines.push(`- Carbo:    ${fmt(macros.c.pct,'pct1')} · ${fmt(macros.c.kcal,'kcal')} kcal · ${fmt(macros.c.g,'g')} g`);
       }
-
       lines.push('');
       lines.push('Notă: instrument educațional; ajustează în funcție de context medical, compoziție corporală, aderență, performanță.');
       return lines.join('\n');
@@ -1249,26 +1264,21 @@
         return null;
       }
 
-      // BMR / TDEE
       const bmr = mifflinStJeor({ sex, weightKg, heightCm, age });
       const tdee = bmr * act;
 
-      // Goal
       const goal = computeGoalCalories(tdee);
       const targetKcal = goal.kcal;
 
-      // Macro percents
       const pc = presetPercents();
       const p = pc.p, f = pc.f, c = pc.c;
 
       const sum = (Number.isFinite(p)?p:0) + (Number.isFinite(f)?f:0) + (Number.isFinite(c)?c:0);
       const pctOk = Math.abs(sum - 100) <= 0.6;
 
-      // BMI
       const bmiVal = bmi(weightKg, heightCm);
       const bmiCat = bmiCategory(bmiVal);
 
-      // Output numbers
       els.bmrOut.textContent = fmt(bmr, 'kcal');
       els.tdeeOut.textContent = fmt(tdee, 'kcal');
       els.kcalOut.textContent = fmt(targetKcal, 'kcal');
@@ -1279,23 +1289,25 @@
       els.bmiNoteOut.textContent = bmiCat ? bmiCat.note : '—';
       renderBmiTable(bmiVal);
 
+      let macrosForReport = null;
+
       if (!pctOk){
         renderMacroTable(els.macroTbody, null);
         setPill(els.statusPill, 'Procentele macro nu însumează 100%.', 'bad');
       } else {
         const macros = macroFromCaloriesAndPercents(targetKcal, p, f, c);
+        macrosForReport = macros;
         renderMacroTable(els.macroTbody, macros);
         setPill(els.statusPill, 'Calcul complet.', 'good');
       }
 
       const sexLabel = (sex === 'female') ? 'Feminin' : 'Masculin';
-      const macrosForReport = pctOk ? macroFromCaloriesAndPercents(targetKcal, p, f, c) : null;
 
       const report = buildReport({
         name, context, sexLabel,
-        age: rKcal(age), // just for neat display (integer)
-        heightCm: rKcal(heightCm),
-        weightKg: (roundingMode()==='strict') ? Math.round(weightKg) : (roundingMode()==='none' ? +weightKg.toFixed(1) : +weightKg.toFixed(1)),
+        age: Math.round(age),
+        heightCm: Math.round(heightCm),
+        weightKg: (roundingMode()==='strict') ? Math.round(weightKg) : +weightKg.toFixed(1),
         activity: act.toFixed(3).replace(/0+$/,'').replace(/\.$/,''),
         bmr, tdee,
         goalLabel: goal.label,
@@ -1305,7 +1317,6 @@
         bmiCat
       });
 
-      // Preview/report
       els.reportPreview.textContent = report;
       els.reportFinal.textContent = report;
 
@@ -1335,7 +1346,6 @@
       renderHeader();
       updateMainCalculation();
 
-      // also reset macro calc
       macroReset();
     }
 
@@ -1387,7 +1397,6 @@
         const { p, f, c, ok } = mcPctSum();
         if (!Number.isFinite(targetKcal) || targetKcal <= 0){
           renderMacroTable(els.mcTbody, null);
-          setPill(els.mcPctSum, els.mcPctSum.textContent, ok ? 'good' : 'bad');
           return;
         }
         if (!ok){
@@ -1399,7 +1408,6 @@
         return;
       }
 
-      // grams mode
       const pG = toNum(els.mcPG.value);
       const fG = toNum(els.mcFG.value);
       const cG = toNum(els.mcCG.value);
@@ -1433,7 +1441,6 @@
     }
 
     function mcCalcFromPct(){
-      // just rerender (and if kcal missing, warn)
       const k = toNum(els.mcKcal.value);
       if (!Number.isFinite(k) || k <= 0){
         toast('Completează mai întâi “Calorii”.', 'bad');
@@ -1485,13 +1492,10 @@
         return;
       }
       const factor = targetKcal / m.totalKcal;
-      const np = pG * factor;
-      const nf = fG * factor;
-      const nc = cG * factor;
 
-      els.mcPG.value = (roundingMode()==='strict') ? Math.round(np) : (Math.round(np*10)/10);
-      els.mcFG.value = (roundingMode()==='strict') ? Math.round(nf) : (Math.round(nf*10)/10);
-      els.mcCG.value = (roundingMode()==='strict') ? Math.round(nc) : (Math.round(nc*10)/10);
+      els.mcPG.value = (roundingMode()==='strict') ? Math.round(pG*factor) : (Math.round(pG*factor*10)/10);
+      els.mcFG.value = (roundingMode()==='strict') ? Math.round(fG*factor) : (Math.round(fG*factor*10)/10);
+      els.mcCG.value = (roundingMode()==='strict') ? Math.round(cG*factor) : (Math.round(cG*factor*10)/10);
 
       mcRender();
       toast('Am scalat la kcal țintă.', 'good');
@@ -1528,7 +1532,6 @@
         el.addEventListener('change', () => updateMainCalculation());
       }
 
-      // macro calc general
       const mcInputs = [
         els.mcKcal, els.mcMode,
         els.mcPPct, els.mcFPct, els.mcCPct,
@@ -1578,7 +1581,6 @@
 
       els.copyBtn.addEventListener('click', copyReport);
 
-      // macro calc general
       els.mcMode.addEventListener('change', mcSetMode);
       els.mcCalcFromPct.addEventListener('click', mcCalcFromPct);
       els.mcFillCarb.addEventListener('click', mcFillCarb);
@@ -1588,7 +1590,6 @@
         toast('Macro calculator resetat.', 'good');
       });
 
-      // default render
       updateMainCalculation();
       mcSetMode();
     }
