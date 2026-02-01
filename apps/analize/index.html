@@ -80,6 +80,7 @@
       padding: 14px;
     }
 
+    /* ===== Print-only title ===== */
     .print-title{
       display:none;
       font-weight: 900;
@@ -112,6 +113,7 @@
       color: rgba(255,220,220,.82);
     }
 
+    /* ✅ 2 coloane pentru “Date” */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -121,6 +123,7 @@
       .grid2{ grid-template-columns: 1fr 1fr; }
     }
 
+    /* ===== Icon buttons + tooltips ===== */
     .icon-btn{
       cursor:pointer;
       width: 40px;
@@ -200,6 +203,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* ===== Accordions ===== */
     details.accordion{
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
@@ -231,7 +235,7 @@
       border-radius: 10px;
       display:grid;
       place-items:center;
-      border: 1px solid rgba(255,255,255,.10);
+      border:  1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
       color: rgba(234,241,255,.75);
       flex: 0 0 auto;
@@ -277,6 +281,7 @@
       outline: none;
     }
 
+    /* ===== Search (under Catalog) ===== */
     .searchbox{
       display:flex;
       align-items:center;
@@ -307,6 +312,7 @@
       padding: 0;
     }
 
+    /* ===== Catalog list ===== */
     .catalog-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -356,6 +362,7 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
+    /* ===== Callout + Table ===== */
     .callout{
       margin-top: 10px;
       padding: 10px 12px;
@@ -421,6 +428,7 @@
       background: rgba(255,255,255,.02);
     }
 
+    /* delete column */
     th.col-del, td.col-del{
       width: 44px;
       text-align: right;
@@ -444,6 +452,7 @@
 
     .no-print { display: block; }
 
+    /* ===== Toast ===== */
     .toast{
       position: fixed;
       left: 12px;
@@ -466,13 +475,16 @@
     .toast.bad{ border-color: rgba(255,160,160,.35); }
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
-    /* catalog scroll */
+    /* ✅ Bonus: cand Catalog e deschis, lista devine scrollabila */
     #catalogDetails[open] #catalogList{
       max-height: 520px;
       overflow: auto;
       padding-right: 6px;
     }
 
+    /* =========================
+       PRINT (PDF)
+       ========================= */
     @media print {
       *{
         -webkit-print-color-adjust: exact !important;
@@ -482,6 +494,13 @@
         size: A4 portrait;
         margin: 8mm;
       }
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
       header{ display:none !important; }
       .no-print { display:none !important; }
 
@@ -506,6 +525,8 @@
 
       table{ font-size: 12px !important; }
       thead th, tbody td{ padding: 8px 8px !important; }
+
+      a[href]::after{ content: "" !important; }
     }
   </style>
 </head>
@@ -515,7 +536,7 @@
     <header>
       <div class="badge">
         <span class="status-dot" id="loadDot"></span>
-        Analize
+        🧪 Analize
         <span class="hint" id="loadStatus" style="margin-left:6px;">Se incarca...</span>
       </div>
       <h1>Analize – <span id="clientNameOut">Client</span></h1>
@@ -533,7 +554,8 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- Date (colapsat by default) -->
+          <!-- Inputs -->
+          <!-- colapsat by default -->
           <details class="accordion no-print" id="dateDetails">
             <summary>
               <div class="sum-left">
@@ -541,6 +563,7 @@
                 <div class="sum-title">Date</div>
                 <div class="sum-muted">client + obiectiv</div>
               </div>
+              <div class="sum-actions"></div>
             </summary>
 
             <div class="accordion-body">
@@ -616,6 +639,7 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
+          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
               <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
@@ -678,7 +702,7 @@
       toast: document.getElementById('toast'),
     };
 
-    // ✅ daca nu iti incarca, aici e primul loc de verificat
+    // ✅ ajusteaza doar daca ai alta structura
     const CATALOG_URL = '../../data/analize_catalog.json';
     const PROTOCOLS_URL = '../../data/analize_protocols.json';
 
@@ -709,10 +733,16 @@
       toast._t = setTimeout(() => els.toast.classList.remove('show'), 3600);
     }
 
+    // ✅ afiseaza eroarea REALA (404 vs JSON invalid)
     async function fetchJson(url){
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
-      return await res.json();
+      const text = await res.text();
+      try{
+        return JSON.parse(text);
+      }catch(e){
+        throw new Error(`${url} -> JSON invalid: ${e.message}`);
+      }
     }
 
     function normalizeCatalogItem(it){
@@ -736,6 +766,7 @@
       const name = safeTrim(r?.name);
       const notes = safeTrim(r?.notes);
       const id = safeTrim(r?.id);
+
       if (!name && !notes) return false;
 
       const key = rowKey({ id, name });
@@ -1020,7 +1051,7 @@
       renderCatalog();
       renderTable();
 
-      // ✅ doar colapsam (dar NU afectam datele incarcate)
+      // colapsat by default
       els.protDetails.open = false;
       els.catalogDetails.open = false;
 
@@ -1073,8 +1104,8 @@
         setLoad(true, 'JSON incarcate.');
       }catch(err){
         console.error(err);
-        setLoad(false, 'Eroare JSON. Verifica path-urile.');
-        toast(`Eroare la incarcarea JSON. Verifica:\n- ${CATALOG_URL}\n- ${PROTOCOLS_URL}`, 'bad');
+        setLoad(false, 'Eroare JSON (verifica consola).');
+        toast(String(err.message || err), 'bad');
       }
 
       resetAll();
