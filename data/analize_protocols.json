@@ -1,51 +1,72 @@
 [
   {
-    "id": "analize-basic-anual",
-    "name": "Bază – analize uzuale (anual)",
+    "id": "analize-basic-femeie",
+    "name": "Baza – analize uzuale (Femeie)",
     "goal": "Screening general (de discutat cu medicul)",
     "items": [
-      "hemoleucograma-completa-hlg",
-      "glicemie",
-      "colesterol-total",
-      "colesterol-ldl",
-      "trigliceride",
-      "vsh-vhs",
-      "proteina-c-reactiva-crp",
-      "sodiu",
-      "potasiu",
-      "calciu-seric-total",
-      "free-t4",
-      "tsh",
-      "anti-hbs",
-      "markeri-hepatita-c"
-    ]
-  },
-  {
-    "id": "analize-rinichi",
-    "name": "Rinichi – screening",
-    "goal": "Context HTA/diabet/edeme etc.",
-    "items": [
-      "sumar-urina",
-      "acr-albumina-creatinina-urinar",
-      "albumina-urinara",
-      "creatinina-urinara"
-    ]
-  },
-  {
-    "id": "analize-ficat",
-    "name": "Ficat – orientativ",
-    "goal": "Context hepatic/biliar (medical)",
-    "items": [
+      "hemoleucograma-formula",
+      "tgp-alt",
       "tgo-ast",
-      "bilirubina-directa"
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "lipaza",
+      "hba1c",
+      "homa-ir"
     ]
   },
   {
-    "id": "analize-prostata",
-    "name": "Bărbați – prostată (orientativ)",
-    "goal": "Screening/monitorizare (medical)",
+    "id": "analize-basic-barbat-cu-psa",
+    "name": "Baza – analize uzuale (Barbat + PSA)",
+    "goal": "Screening general + prostata (de discutat cu medicul)",
     "items": [
-      "free-psa"
+      "hemoleucograma-formula",
+      "tgp-alt",
+      "tgo-ast",
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "lipaza",
+      "hba1c",
+      "homa-ir",
+      "psa-total"
+    ]
+  },
+  {
+    "id": "analize-basic-barbat-fara-psa",
+    "name": "Baza – analize uzuale (Barbat fara PSA)",
+    "goal": "Screening general (de discutat cu medicul)",
+    "items": [
+      "hemoleucograma-formula",
+      "tgp-alt",
+      "tgo-ast",
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "lipaza",
+      "hba1c",
+      "homa-ir"
     ]
   }
 ]

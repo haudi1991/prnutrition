@@ -232,6 +232,7 @@
       color: rgba(234,241,255,.75);
       flex: 0 0 auto;
       font-size: 14px;
+      transition: transform .12s ease;
     }
     details[open] .chev{ transform: rotate(90deg); }
     .sum-title{
@@ -466,6 +467,13 @@
     .toast.bad{ border-color: rgba(255,160,160,.35); }
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
+    /* ✅ Bonus: cand Catalog e deschis, lista devine scrollabila */
+    #catalogDetails[open] #catalogList{
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
     /* =========================
        PRINT (PDF) — IMPORTANT:
        - allow table to flow across pages
@@ -538,7 +546,8 @@
           </div>
 
           <!-- Inputs -->
-          <details class="accordion no-print" open>
+          <!-- ✅ schimbat: nu mai e open by default -->
+          <details class="accordion no-print">
             <summary>
               <div class="sum-left">
                 <div class="chev">›</div>
@@ -595,7 +604,8 @@
           </details>
 
           <!-- Catalog -->
-          <details class="accordion no-print" id="catalogDetails" open>
+          <!-- ✅ schimbat: NU mai e open by default (colapsat) -->
+          <details class="accordion no-print" id="catalogDetails">
             <summary>
               <div class="sum-left">
                 <div class="chev">›</div>
@@ -813,6 +823,8 @@
       renderHeader();
       renderTable();
       syncButtons();
+
+      // inchide protocoalele dupa adaugare (cum ai avut)
       els.protDetails.open = false;
 
       toast(added ? 'Protocol adăugat.' : 'Nimic de adăugat (toate existau).', added ? 'good' : 'bad');
@@ -957,7 +969,6 @@
       const next = safeTrim(td.textContent);
 
       if (field === 'name'){
-        // if empty, keep it (will be pruned on print)
         // duplicate check
         const tmp = { ...rows[idx], name: next, id: rows[idx].id };
         const k = rowKey(tmp);
@@ -987,11 +998,9 @@
           rows[idx].id = match.id;
           rows[idx].name = match.name;
           if (!safeTrim(rows[idx].notes)) rows[idx].notes = match.notes || '';
-          // reflect normalized name/notes
           renderTable();
           return;
         } else {
-          // manual -> clear id (so key becomes name-based)
           rows[idx].id = '';
         }
       } else if (field === 'notes'){
@@ -1042,8 +1051,10 @@
       renderCatalog();
       renderTable();
 
+      // ✅ schimbat: default colapsat la reset
       els.protDetails.open = false;
-      els.catalogDetails.open = true;
+      els.catalogDetails.open = false;
+
       syncButtons();
     }
 
@@ -1066,14 +1077,13 @@
       els.resetAll.addEventListener('click', resetAll);
 
       els.addEmptyRow.addEventListener('click', () => {
-        // allow manual rows (but keep clean on print)
         rows.push({ id:'', name:'', notes:'' });
         renderTable();
       });
 
       els.printBtn.addEventListener('click', () => {
-        pruneEmptyRows();     // remove blank rows before printing
-        setPrintDate();       // update date
+        pruneEmptyRows();
+        setPrintDate();
         window.print();
       });
 
