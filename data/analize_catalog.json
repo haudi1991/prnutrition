@@ -1,20 +1,4 @@
-
-    "notes": "Enzima hepatobiliara. Utila in context biliar/colestaza si uneori consum de alcool sau medicatie – interpretare in context."
-  },
-  {
-    "id": "bilirubina-totala",
-    "name": "Bilirubina (totala)",
-    "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical."
-  },
-  {
-    "id": "egfr",
-    "name": "eGFR (rata filtrarii glomerulare estimata)",
-    "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet."
-  },
-  {
-    "id": "uree-serica",
-    "name": "Uree serica",
-    "notes": "Marker orientativ renal/metabolic (hidratare, aport proteic, functie renala). Se interpreteaza impreuna cu cr[
+[
   {
     "id": "hemoleucograma-formula",
     "name": "Hemoleucograma cu formula leucocitara",
@@ -32,7 +16,23 @@
   },
   {
     "id": "ggt",
-    "name": "GGT",eatinina/eGFR."
+    "name": "GGT",
+    "notes": "Enzima hepatobiliara. Utila in context biliar/colestaza si uneori consum de alcool sau medicatie – interpretare in context."
+  },
+  {
+    "id": "bilirubina-totala",
+    "name": "Bilirubina (totala)",
+    "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical."
+  },
+  {
+    "id": "egfr",
+    "name": "eGFR (rata filtrarii glomerulare estimata)",
+    "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet."
+  },
+  {
+    "id": "uree-serica",
+    "name": "Uree serica",
+    "notes": "Marker orientativ renal/metabolic (hidratare, aport proteic, functie renala). Se interpreteaza impreuna cu creatinina/eGFR."
   },
   {
     "id": "acid-uric",
