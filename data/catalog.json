@@ -1,93 +1,66 @@
 [
   {
-    "id": "hemoleucograma-formula",
-    "name": "Hemoleucograma cu formula leucocitara",
-    "notes": "Panou de baza pentru sange (eritrocite/leucocite/trombocite + formula). Ajuta la screening pentru anemie, infectie/inflamatie, status general, uneori deficit de fier/B12 (in context)."
+    "id": "vitamina-d3",
+    "name": "Vitamina D3",
+    "brand": "NOW Foods",
+    "dose": "2000 UI",
+    "link": "https://gymbeam.ro/vitamina-d3-2000-iu-240-caps-now-foods.html",
+    "notes": "dimineața, cu masă cu grăsimi · iarna / în funcție de analize"
   },
   {
-    "id": "tgp-alt",
-    "name": "TGP (ALT)",
-    "notes": "Enzima hepatica. Ajuta la orientare in afectare hepatica (steatoza, hepatite, medicatie, alcool) – interpretare medicala in context."
+    "id": "omega-3",
+    "name": "Omega-3",
+    "brand": "NOW Foods",
+    "dose": "3000mg",
+    "link": "https://gymbeam.ro/omega-3-now-foods.html",
+    "notes": "1000mg dimineata cu micul dejun, 2000mg seara, creste HDL colesterolul bun"
   },
   {
-    "id": "tgo-ast",
-    "name": "TGO (AST)",
-    "notes": "Enzima asociata cu ficatul, dar si cu muschiul. Ajuta la orientare in afectare hepatica sau musculara (context: efort intens, medicatie, alcool etc.)."
+    "id": "monacolina-k",
+    "name": "Monacolina K Extract de orez rosu fermentat",
+    "brand": "NOW Foods",
+    "dose": "",
+    "link": "https://www.emag.ro/red-yeast-rice-drojdie-de-orez-rosu-600-mg-now-foods-60-capsule-2761/pd/DFHLZ7MBM/",
+    "notes": "1 capsula dimineata, 1 seara"
   },
   {
-    "id": "ggt",
-    "name": "GGT",
-    "notes": "Enzima hepatobiliara. Utila in context biliar/colestaza si uneori consum de alcool sau medicatie – interpretare in context."
+    "id": "choline-inositol",
+    "name": "Choline & Inositol",
+    "brand": "NOW Foods",
+    "dose": "1 capsulă/zi (250 mg colină + 250 mg inozitol)",
+    "link": "https://gymbeam.ro/choline-inositol-500-mg-now-foods.html",
+    "notes": "1 capsulă pe zi (per capsulă: 250 mg colină + 250 mg inozitol)"
   },
   {
-    "id": "bilirubina-totala",
-    "name": "Bilirubina (totala)",
-    "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical."
+    "id": "magnesium-bisglycinate",
+    "name": "Magneziu bisglicinat",
+    "brand": "Doctor's Best",
+    "dose": "200–350 mg Mg elementar",
+    "link": "",
+    "notes": "1–2h înainte de somn · scade doza dacă deranjează digestiv"
   },
   {
-    "id": "egfr",
-    "name": "eGFR (rata filtrarii glomerulare estimata)",
-    "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet."
+    "id": "l-theanine",
+    "name": "L-teanină",
+    "brand": "Jarrow",
+    "dose": "100–200 mg",
+    "link": "",
+    "notes": "30–60 min înainte de somn · relaxare"
   },
   {
-    "id": "uree-serica",
-    "name": "Uree serica",
-    "notes": "Marker orientativ renal/metabolic (hidratare, aport proteic, functie renala). Se interpreteaza impreuna cu creatinina/eGFR."
+    "id": "ashwagandha",
+    "name": "Ashwagandha (standardizată)",
+    "brand": "KSM-66",
+    "dose": "300–600 mg",
+    "link": "",
+    "notes": "seara, cu mâncare (sau 300 mg x2/zi) · evită în sarcină/alăptare; atenție la tiroidă"
   },
   {
-    "id": "acid-uric",
-    "name": "Acid uric",
-    "notes": "Util in context de guta, risc metabolic si uneori dieta/alcool. Valori crescute se discuta medical."
-  },
-  {
-    "id": "tsh",
-    "name": "TSH",
-    "notes": "Hormon de reglaj tiroidian. Interpretare impreuna cu FT4 si simptome pentru status tiroidian."
-  },
-  {
-    "id": "ft4",
-    "name": "FT4 (Free T4)",
-    "notes": "Tiroxina libera. Impreuna cu TSH ajuta la orientare hipo/hipertiroidism (context clinic)."
-  },
-  {
-    "id": "hdl-colesterol",
-    "name": "HDL colesterol",
-    "notes": "“Colesterolul bun” (orientativ). Se interpreteaza impreuna cu LDL si trigliceride pentru risc cardio-metabolic."
-  },
-  {
-    "id": "ldl-colesterol",
-    "name": "LDL colesterol",
-    "notes": "“Colesterolul rau” (orientativ). Important pentru risc cardio-metabolic; se discuta tinta in functie de risc (medical)."
-  },
-  {
-    "id": "trigliceride",
-    "name": "Trigliceride",
-    "notes": "Sensibile la exces caloric, alcool, carbo rafinati si rezistenta la insulina. Importante in evaluarea riscului metabolic."
-  },
-  {
-    "id": "amilaza",
-    "name": "Amilaza",
-    "notes": "Enzima digestiva (pancreas/salivar). Utila in context de simptome digestive/pancreatice – interpretare medicala."
-  },
-  {
-    "id": "lipaza",
-    "name": "Lipaza",
-    "notes": "Enzima pancreatica, mai specifica pentru pancreas decat amilaza in multe contexte. Utila in suspiciune de afectare pancreatica."
-  },
-  {
-    "id": "hba1c",
-    "name": "Hemoglobina glicozilata (HbA1c)",
-    "notes": "Media glicemiei pe ~2–3 luni. Utila pentru screening/monitorizare prediabet/diabet si risc metabolic."
-  },
-  {
-    "id": "homa-ir",
-    "name": "Indice HOMA (HOMA-IR)",
-    "notes": "Estimare a rezistentei la insulina (de obicei din glicemie + insulina a jeun). Interpretare in context medical/metabolic."
-  },
-  {
-    "id": "psa-total",
-    "name": "PSA (antigen specific prostatic) – total",
-    "notes": "Marker orientativ pentru prostata. Se interpreteaza urologic (varsta, simptome, volum prostatic, dinamica in timp)."
+    "id": "gaba",
+    "name": "GABA",
+    "brand": "NOW Foods",
+    "dose": "100–300 mg",
+    "link": "",
+    "notes": "30–60 min înainte de somn · dovezi limitate; posibil GI/cefalee"
   }
 ]
-
