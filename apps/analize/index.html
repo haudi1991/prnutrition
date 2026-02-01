@@ -43,7 +43,15 @@
       border-radius: 999px;
       background: rgba(255,255,255,.03);
       width: fit-content;
+      gap:8px;
     }
+    .status-dot{
+      width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.25);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.06);
+    }
+    .status-dot.good{ background: rgba(167,243,208,.9); }
+    .status-dot.bad{ background: rgba(255,160,160,.9); }
+
     h1{
       font-size: clamp(24px, 2.8vw, 34px);
       margin:0;
@@ -72,7 +80,6 @@
       padding: 14px;
     }
 
-    /* ===== Print-only title ===== */
     .print-title{
       display:none;
       font-weight: 900;
@@ -105,7 +112,6 @@
       color: rgba(255,220,220,.82);
     }
 
-    /* ✅ 2 coloane pentru “Date” */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -115,7 +121,6 @@
       .grid2{ grid-template-columns: 1fr 1fr; }
     }
 
-    /* ===== Icon buttons + tooltips ===== */
     .icon-btn{
       cursor:pointer;
       width: 40px;
@@ -195,7 +200,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* ===== Accordions ===== */
     details.accordion{
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.02);
@@ -273,7 +277,6 @@
       outline: none;
     }
 
-    /* ===== Search (under Catalog) ===== */
     .searchbox{
       display:flex;
       align-items:center;
@@ -304,7 +307,6 @@
       padding: 0;
     }
 
-    /* ===== Catalog list ===== */
     .catalog-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -354,7 +356,6 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
-    /* ===== Callout + Table ===== */
     .callout{
       margin-top: 10px;
       padding: 10px 12px;
@@ -420,7 +421,6 @@
       background: rgba(255,255,255,.02);
     }
 
-    /* delete column */
     th.col-del, td.col-del{
       width: 44px;
       text-align: right;
@@ -444,7 +444,6 @@
 
     .no-print { display: block; }
 
-    /* ===== Toast ===== */
     .toast{
       position: fixed;
       left: 12px;
@@ -467,18 +466,13 @@
     .toast.bad{ border-color: rgba(255,160,160,.35); }
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
-    /* ✅ Bonus: cand Catalog e deschis, lista devine scrollabila */
+    /* catalog scroll */
     #catalogDetails[open] #catalogList{
       max-height: 520px;
       overflow: auto;
       padding-right: 6px;
     }
 
-    /* =========================
-       PRINT (PDF) — IMPORTANT:
-       - allow table to flow across pages
-       - hide internal notes + all UI
-       ========================= */
     @media print {
       *{
         -webkit-print-color-adjust: exact !important;
@@ -488,13 +482,6 @@
         size: A4 portrait;
         margin: 8mm;
       }
-      html, body{
-        background: var(--bg) !important;
-        color: var(--text) !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-
       header{ display:none !important; }
       .no-print { display:none !important; }
 
@@ -509,7 +496,6 @@
         font-size: 20px !important;
       }
 
-      /* ✅ let long tables split across pages (no big blank pages) */
       .table-wrap{
         break-inside: auto !important;
         page-break-inside: auto !important;
@@ -520,8 +506,6 @@
 
       table{ font-size: 12px !important; }
       thead th, tbody td{ padding: 8px 8px !important; }
-
-      a[href]::after{ content: "" !important; }
     }
   </style>
 </head>
@@ -529,7 +513,11 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="badge">🧪 Analize</div>
+      <div class="badge">
+        <span class="status-dot" id="loadDot"></span>
+        Analize
+        <span class="hint" id="loadStatus" style="margin-left:6px;">Se incarca...</span>
+      </div>
       <h1>Analize – <span id="clientNameOut">Client</span></h1>
       <p class="sub">
         Datele vin din <code>/data/analize_catalog.json</code> și <code>/data/analize_protocols.json</code>.
@@ -545,16 +533,14 @@
             <span id="printDate" class="date"></span>
           </div>
 
-          <!-- Inputs -->
-          <!-- ✅ schimbat: nu mai e open by default -->
-          <details class="accordion no-print">
+          <!-- Date (colapsat by default) -->
+          <details class="accordion no-print" id="dateDetails">
             <summary>
               <div class="sum-left">
                 <div class="chev">›</div>
                 <div class="sum-title">Date</div>
                 <div class="sum-muted">client + obiectiv</div>
               </div>
-              <div class="sum-actions"></div>
             </summary>
 
             <div class="accordion-body">
@@ -580,7 +566,7 @@
             </div>
           </details>
 
-          <!-- Protocoale -->
+          <!-- Protocoale (colapsat by default) -->
           <details class="accordion no-print" id="protDetails">
             <summary>
               <div class="sum-left">
@@ -603,8 +589,7 @@
             </div>
           </details>
 
-          <!-- Catalog -->
-          <!-- ✅ schimbat: NU mai e open by default (colapsat) -->
+          <!-- Catalog (colapsat by default) -->
           <details class="accordion no-print" id="catalogDetails">
             <summary>
               <div class="sum-left">
@@ -620,7 +605,7 @@
             <div class="accordion-body">
               <div class="searchbox">
                 <div class="mag" aria-hidden="true">🔎</div>
-                <input id="catalogSearch" placeholder="Caută rapid (ex: tsh, crp, glicemie)" />
+                <input id="catalogSearch" placeholder="Caută rapid (ex: tsh, hba1c, ldl)" />
               </div>
 
               <div class="catalog-grid" id="catalogList"></div>
@@ -631,7 +616,6 @@
             <b>Obiectiv:</b> <span id="goalOut">—</span>
           </div>
 
-          <!-- Actions near table -->
           <div class="table-actions no-print">
             <div class="left-actions">
               <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
@@ -647,7 +631,6 @@
               <thead>
                 <tr>
                   <th style="width:62%;">Analiză</th>
-                  <!-- ✅ pentru tine, NU apare la print -->
                   <th class="no-print" style="width:38%;">Note (intern)</th>
                   <th class="no-print col-del"></th>
                 </tr>
@@ -665,6 +648,10 @@
 
   <script>
     const els = {
+      loadDot: document.getElementById('loadDot'),
+      loadStatus: document.getElementById('loadStatus'),
+
+      dateDetails: document.getElementById('dateDetails'),
       clientName: document.getElementById('clientName'),
       goal: document.getElementById('goal'),
       clientNameOut: document.getElementById('clientNameOut'),
@@ -691,13 +678,14 @@
       toast: document.getElementById('toast'),
     };
 
+    // ✅ daca nu iti incarca, aici e primul loc de verificat
     const CATALOG_URL = '../../data/analize_catalog.json';
     const PROTOCOLS_URL = '../../data/analize_protocols.json';
 
     let catalog = [];
     let catalogById = new Map();
     let protocols = [];
-    let rows = []; // in-memory only: {id, name, notes}
+    let rows = [];
 
     function safeTrim(x){ return (x ?? '').toString().trim(); }
     function slugify(s){
@@ -707,28 +695,30 @@
         .replace(/^-+|-+$/g,'');
     }
 
+    function setLoad(ok, msg){
+      els.loadDot.classList.remove('good','bad');
+      els.loadDot.classList.add(ok ? 'good' : 'bad');
+      els.loadStatus.textContent = msg;
+    }
+
     function toast(msg, type='bad'){
       els.toast.textContent = msg;
       els.toast.classList.remove('bad','good','show');
       els.toast.classList.add(type === 'good' ? 'good' : 'bad', 'show');
       clearTimeout(toast._t);
-      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3200);
+      toast._t = setTimeout(() => els.toast.classList.remove('show'), 3600);
     }
 
     async function fetchJson(url){
       const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error(`${url} -> ${res.status}`);
+      if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
       return await res.json();
     }
 
     function normalizeCatalogItem(it){
       const name = safeTrim(it?.name);
       const id = safeTrim(it?.id) || slugify(name);
-      return {
-        id,
-        name,
-        notes: safeTrim(it?.notes),
-      };
+      return { id, name, notes: safeTrim(it?.notes) };
     }
 
     function rowKey(r){
@@ -746,10 +736,8 @@
       const name = safeTrim(r?.name);
       const notes = safeTrim(r?.notes);
       const id = safeTrim(r?.id);
-
       if (!name && !notes) return false;
 
-      // prevent duplicates
       const key = rowKey({ id, name });
       if (rows.some(x => rowKey(x) === key)){
         toast('Deja există în tabel.', 'bad');
@@ -766,20 +754,10 @@
       syncButtons();
     }
 
-    // protocol items: ["id1","id2"] or [{ref:"id"}] etc.
     function getProtocolIds(p){
       if (Array.isArray(p?.items)) {
         return p.items
-          .map(x => {
-            if (typeof x === 'string') return safeTrim(x);
-            if (x && typeof x === 'object') return safeTrim(x.ref || x.id || x.name || '');
-            return '';
-          })
-          .filter(Boolean);
-      }
-      if (Array.isArray(p?.rows)) {
-        return p.rows
-          .map(r => safeTrim(r?.id) || safeTrim(r?.ref) || safeTrim(r?.name))
+          .map(x => typeof x === 'string' ? safeTrim(x) : safeTrim(x?.ref || x?.id || x?.name || ''))
           .filter(Boolean);
       }
       return [];
@@ -823,8 +801,6 @@
       renderHeader();
       renderTable();
       syncButtons();
-
-      // inchide protocoalele dupa adaugare (cum ai avut)
       els.protDetails.open = false;
 
       toast(added ? 'Protocol adăugat.' : 'Nimic de adăugat (toate existau).', added ? 'good' : 'bad');
@@ -906,7 +882,6 @@
       rows.forEach((r, idx) => {
         const tr = document.createElement('tr');
 
-        // Analiza (editable)
         const tdName = document.createElement('td');
         tdName.contentEditable = 'true';
         tdName.dataset.field = 'name';
@@ -914,7 +889,6 @@
         tdName.textContent = r.name || '';
         tr.appendChild(tdName);
 
-        // Note (intern) (editable, but NOT printed)
         const tdNotes = document.createElement('td');
         tdNotes.className = 'no-print';
         tdNotes.contentEditable = 'true';
@@ -923,7 +897,6 @@
         tdNotes.textContent = r.notes || '';
         tr.appendChild(tdNotes);
 
-        // delete button (NOT printed)
         const tdRemove = document.createElement('td');
         tdRemove.className = 'no-print col-del';
 
@@ -948,7 +921,6 @@
       syncButtons();
     }
 
-    // store previous on focusin to allow revert (anti-duplicate)
     els.tbody.addEventListener('focusin', (e) => {
       const td = e.target;
       if (!(td instanceof HTMLElement)) return;
@@ -969,7 +941,6 @@
       const next = safeTrim(td.textContent);
 
       if (field === 'name'){
-        // duplicate check
         const tmp = { ...rows[idx], name: next, id: rows[idx].id };
         const k = rowKey(tmp);
 
@@ -982,10 +953,8 @@
 
         rows[idx].name = next;
 
-        // if looks like a catalog item, auto-fill id + notes (only if notes empty)
         const match = next ? matchCatalogByName(next) : null;
         if (match){
-          // if that id already exists elsewhere, revert
           const wouldKey = rowKey({ id: match.id, name: match.name });
           const idDup = rows.some((r, j) => j !== idx && rowKey(r) === wouldKey);
           if (idDup){
@@ -1051,7 +1020,7 @@
       renderCatalog();
       renderTable();
 
-      // ✅ schimbat: default colapsat la reset
+      // ✅ doar colapsam (dar NU afectam datele incarcate)
       els.protDetails.open = false;
       els.catalogDetails.open = false;
 
@@ -1099,15 +1068,19 @@
         addProtocolToTable(p);
       });
 
-      await initData();
+      try{
+        await initData();
+        setLoad(true, 'JSON incarcate.');
+      }catch(err){
+        console.error(err);
+        setLoad(false, 'Eroare JSON. Verifica path-urile.');
+        toast(`Eroare la incarcarea JSON. Verifica:\n- ${CATALOG_URL}\n- ${PROTOCOLS_URL}`, 'bad');
+      }
+
       resetAll();
     }
 
-    init().catch(() => {
-      setPrintDate();
-      resetAll();
-      toast('Eroare la încărcare JSON (analize_catalog/analize_protocols).', 'bad');
-    });
+    init();
   </script>
 </body>
 </html>
