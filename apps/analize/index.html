@@ -555,7 +555,6 @@
           </div>
 
           <!-- Inputs -->
-          <!-- colapsat by default -->
           <details class="accordion no-print" id="dateDetails" open>
             <summary>
               <div class="sum-left">
@@ -589,7 +588,7 @@
             </div>
           </details>
 
-          <!-- Protocoale (colapsat by default) -->
+          <!-- Protocoale -->
           <details class="accordion no-print" id="protDetails" open>
             <summary>
               <div class="sum-left">
@@ -612,7 +611,7 @@
             </div>
           </details>
 
-          <!-- Catalog (colapsat by default) -->
+          <!-- Catalog -->
           <details class="accordion no-print" id="catalogDetails">
             <summary>
               <div class="sum-left">
@@ -634,7 +633,6 @@
               <div class="catalog-grid" id="catalogList"></div>
             </div>
           </details>
-
 
           <!-- Actions near table -->
           <div class="table-actions no-print">
@@ -677,7 +675,7 @@
       goal: document.getElementById('goal'),
       clientNameOut: document.getElementById('clientNameOut'),
       printName: document.getElementById('printName'),
-      goalOut: document.getElementById('goalOut'),
+      goalOut: document.getElementById('goalOut'), // (poate lipsi)
       printDate: document.getElementById('printDate'),
 
       resetAll: document.getElementById('resetAll'),
@@ -699,7 +697,7 @@
       toast: document.getElementById('toast'),
     };
 
-    // ✅ ajusteaza doar daca ai alta structura
+    // ✅ din apps/analize/index.html -> ../../data/...
     const CATALOG_URL = '../../data/analize_catalog.json';
     const PROTOCOLS_URL = '../../data/analize_protocols.json';
 
@@ -730,7 +728,6 @@
       toast._t = setTimeout(() => els.toast.classList.remove('show'), 3600);
     }
 
-    // ✅ afiseaza eroarea REALA (404 vs JSON invalid)
     async function fetchJson(url){
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
@@ -854,7 +851,9 @@
       const goal = safeTrim(els.goal.value) || '—';
       els.clientNameOut.textContent = name;
       els.printName.textContent = name;
-      els.goalOut.textContent = goal;
+
+      // ✅ FIX: daca goalOut nu exista, nu mai crapa
+      if (els.goalOut) els.goalOut.textContent = goal;
     }
 
     function renderCatalog(){
@@ -1048,7 +1047,6 @@
       renderCatalog();
       renderTable();
 
-      // colapsat by default
       els.protDetails.open = false;
       els.catalogDetails.open = false;
 
