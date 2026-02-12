@@ -16,6 +16,22 @@
     "notes": "1000mg dimineata cu micul dejun, 2000mg seara, creste HDL colesterolul bun"
   },
   {
+    "id": "omega-3-emag",
+    "name": "Omega-3",
+    "brand": "NOW Foods",
+    "dose": "3000mg",
+    "link": "https://www.emag.ro/suplimente-nutritive-omega-3-1000-mg-now-foods-100-comprimate-now1650b/pd/DG8LGJBBM/",
+    "notes": "1000mg dimineata cu micul dejun, 2000mg seara, creste HDL colesterolul bun"
+  },
+  {
+    "id": "vitamina-d3-emag",
+    "name": "Vitamina D3",
+    "brand": "NOW Foods",
+    "dose": "2000 UI",
+    "link": "https://www.emag.ro/now-foods-vitamina-d3-2000-ui-colecalciferol-supliment-alimentar-240-capsule-suport-imunitar-si-osos-sprijina-absorbtia-calciului-forma-bioactiva-absorbtie-optima-fara-gluten-non-gmo-now0377/pd/DNWDZGBBM/",
+    "notes": "dimineața, cu masă cu grăsimi · iarna / în funcție de analize"
+  },
+  {
     "id": "monacolina-k",
     "name": "Monacolina K Extract de orez rosu fermentat",
     "brand": "NOW Foods",
