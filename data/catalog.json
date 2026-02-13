@@ -49,34 +49,27 @@
   },
   {
     "id": "magnesium-bisglycinate",
-    "name": "Magneziu bisglicinat",
-    "brand": "Doctor's Best",
-    "dose": "200–350 mg Mg elementar",
-    "link": "",
-    "notes": "1–2h înainte de somn · scade doza dacă deranjează digestiv"
+    "name": "Magneziu bisglicinat (chelat) – GymBeam",
+    "brand": "GymBeam",
+    "dose": "3 capsule/zi = 225 mg Mg elementar",
+    "link": "https://www.emag.ro/magneziu-bisglicinat-magnesium-bisglycinate-chelate-pentru-somn-fara-gmo-vegan-gymbeam-90-capsule-29401-1-90-caps/pd/DK5RPQMBM/",
+    "notes": "1–2h înainte de somn · începe cu 1 capsulă și crește progresiv · scade doza dacă deranjează digestiv"
   },
   {
     "id": "l-theanine",
-    "name": "L-teanină",
-    "brand": "Jarrow",
-    "dose": "100–200 mg",
-    "link": "",
-    "notes": "30–60 min înainte de somn · relaxare"
-  },
-  {
-    "id": "ashwagandha",
-    "name": "Ashwagandha (standardizată)",
-    "brand": "KSM-66",
-    "dose": "300–600 mg",
-    "link": "",
-    "notes": "seara, cu mâncare (sau 300 mg x2/zi) · evită în sarcină/alăptare; atenție la tiroidă"
+    "name": "L-teanină 100 mg (masticabilă) cu inozitol & taurină",
+    "brand": "NOW Foods",
+    "dose": "100 mg/tabletă",
+    "link": "https://www.emag.ro/now-foods-l-teanina-100-mg-90-tablete-vegan-cu-inozitol-si-taurina-now-00144/pd/DX5YJ43BM/",
+    "notes": "30–60 min înainte de somn · 1 comprimat (poți urca la 2–3/zi la nevoie, conform etichetei)"
   },
   {
     "id": "gaba",
-    "name": "GABA",
+    "name": "GABA 750 mg",
     "brand": "NOW Foods",
-    "dose": "100–300 mg",
-    "link": "",
-    "notes": "30–60 min înainte de somn · dovezi limitate; posibil GI/cefalee"
+    "dose": "750 mg/capsulă",
+    "link": "https://www.emag.ro/supliment-nutritiv-now-foods-gaba-750-mg-100-capsule-now0089/pd/DBFGQRYBM/",
+    "notes": "30–60 min înainte de somn · de preferat pe stomacul gol · începe cu 1 capsulă (doză mare per capsulă)"
   }
 ]
+
