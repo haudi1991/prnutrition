@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Macronutrienți – ghid basic (client)</title>
+  <title>Macronutrienți – simplu și practic</title>
 
   <style>
     :root{
@@ -18,7 +18,6 @@
       --panel: rgba(255,255,255,.03);
       --panel2: rgba(255,255,255,.02);
     }
-
     *{ box-sizing:border-box; }
 
     body{
@@ -33,21 +32,12 @@
       padding: 18px 12px;
     }
 
-    .wrap{ max-width: 900px; margin: 0 auto; }
-
-    /* Pages */
+    .wrap{ max-width: 920px; margin: 0 auto; }
     .pages{ display:grid; gap: 16px; }
+
     .page{
       position: relative;
-      padding-bottom: 42px; /* space for footer */
-    }
-    .page-divider{
-      height: 2px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.16);
-      opacity: .65;
-      width: 100%;
-      margin: 2px 0;
+      padding-bottom: 44px; /* footer space */
     }
 
     header{
@@ -76,11 +66,10 @@
     }
 
     h1{
-      font-size: clamp(22px, 2.6vw, 30px);
+      font-size: clamp(22px, 2.7vw, 32px);
       margin:0;
       letter-spacing: -0.02em;
     }
-
     .sub{
       margin:0;
       color: var(--muted);
@@ -111,7 +100,7 @@
       margin:0;
       font-size: 14px;
       color: rgba(234,241,255,.92);
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -0.01em;
       display:flex;
       align-items:center;
@@ -150,7 +139,7 @@
       color: rgba(234,241,255,.70);
     }
 
-    /* 3 macro cards */
+    /* Macro compare cards */
     .macro-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -166,7 +155,6 @@
       background: rgba(255,255,255,.02);
       border-radius: 16px;
       padding: 12px;
-      min-height: 220px;
     }
 
     .macro-head{
@@ -226,23 +214,23 @@
       font-weight: 850;
     }
 
-    .callout{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(167,243,208,.08);
-      color: rgba(234,241,255,.82);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
     .note{
       margin-top: 10px;
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.82);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(167,243,208,.08);
       color: rgba(234,241,255,.82);
       font-size: 13px;
       line-height: 1.4;
@@ -257,6 +245,7 @@
     @media (min-width: 860px){
       .grid2{ grid-template-columns: 1fr 1fr; }
     }
+
     .box{
       border-radius: 14px;
       background: rgba(255,255,255,.02);
@@ -289,7 +278,6 @@
       line-height: 1.45;
     }
 
-    /* Footer inside each page (no counters, no fixed) */
     .footer{
       position:absolute;
       left:0; right:0;
@@ -299,46 +287,24 @@
       align-items:center;
       gap:10px;
       padding: 10px 12px;
-      margin-top: 10px;
       border-top: 1px solid rgba(255,255,255,.10);
       color: rgba(234,241,255,.55);
       font-size: 12px;
       background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.75));
     }
 
-    /* Print */
     @media print{
-      *{
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
+      *{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       @page{ size:A4 portrait; margin: 10mm; }
-
-      html, body{
-        margin:0 !important;
-        padding:0 !important;
-        background: var(--bg) !important;
-        color: var(--text) !important;
-      }
-
+      html, body{ margin:0 !important; padding:0 !important; background: var(--bg) !important; color: var(--text) !important; }
       .wrap{ max-width: 190mm; }
 
-      .page-divider{ display:none !important; }
-      .page{
-        break-after: page !important;
-        page-break-after: always !important;
-      }
-      .page:last-child{
-        break-after: auto !important;
-        page-break-after: auto !important;
-      }
+      .page{ break-after: page !important; page-break-after: always !important; }
+      .page:last-child{ break-after: auto !important; page-break-after: auto !important; }
 
-      /* IMPORTANT: allow card to split; avoid only small blocks */
+      /* allow overall flow; avoid only small blocks */
+      .panel, .macro, .box, .kcal, .note, .callout{ break-inside: avoid !important; page-break-inside: avoid !important; }
       .card{ page-break-inside: auto !important; }
-      .panel, .macro, .box, .kcal, .note, .callout{
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
-      }
 
       header{ margin-bottom: 10px !important; gap: 7px !important; }
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
@@ -349,16 +315,9 @@
       .panel-title{ font-size: 13px !important; }
       .panel-sub{ font-size: 12px !important; }
 
-      .macro{ min-height: 0 !important; }
+      .macro-grid{ grid-template-columns: 1fr 1fr 1fr !important; }
+      .grid2{ grid-template-columns: 1fr 1fr !important; }
       .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
-
-      /* keep 3 columns in print */
-      .macro-grid{
-        grid-template-columns: 1fr 1fr 1fr !important;
-      }
-      .grid2{
-        grid-template-columns: 1fr 1fr !important;
-      }
 
       a[href]::after{ content:"" !important; }
     }
@@ -369,13 +328,13 @@
   <div class="wrap">
     <div class="pages">
 
-      <!-- ================= PAGE 1 ================= -->
+      <!-- PAGE 1 -->
       <div class="page">
         <header>
           <div class="badge"><span class="dot"></span> Ghid basic · Macronutrienți</div>
           <h1>Macronutrienți — simplu și practic</h1>
           <p class="sub">
-            Scopul nu este perfecțiunea. Setăm un punct bun de start, apoi ajustăm din date reale: trend, aderență și cum te simți.
+            Nu căutăm perfecțiune. Setăm un punct bun de start, apoi ajustăm din date reale: trend, aderență și cum te simți.
           </p>
         </header>
 
@@ -383,10 +342,10 @@
           <section class="section">
 
             <div class="panel">
-              <h2 class="panel-title">Baza: calorii + 4/4/9</h2>
+              <h2 class="panel-title">1) Calorii + regula 4–4–9</h2>
               <p class="panel-sub">
-                Caloriile sunt totalul de energie (peste nevoi → în timp crești; sub nevoi → în timp scazi).
-                Macronutrienții sunt modul în care împărțim acest total, ca planul să fie ușor de ținut.
+                Caloriile sunt totalul de energie al zilei: peste nevoi → în timp crești; sub nevoi → în timp scazi.
+                Macronutrienții sunt “piesele” din care construim acest total.
               </p>
 
               <div class="kcal-row">
@@ -396,14 +355,15 @@
               </div>
 
               <div class="note">
-                <b>Regula simplă:</b> ne concentrăm pe proteină (ancoră), ținem grăsimile la porții controlate, iar carbohidrații îi folosim ca “buton” pentru energie și foame.
+                <b>Abordare practică:</b> Proteina este ancora, grăsimile le ținem la porții controlate,
+                iar carbohidrații îi ajustăm cel mai des (energie / foame / performanță).
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">Cele 3 roluri (diferențe clare)</h2>
+              <h2 class="panel-title">2) Ce face fiecare macronutrient (clar)</h2>
               <p class="panel-sub">
-                Toți trei contează — dar au roluri diferite. Asta te ajută să înțelegi de ce ajustăm uneori un macronutrient, nu “tot planul”.
+                Au roluri diferite. Nu “tăiem tot”, ci ajustăm inteligent macronutrientul potrivit.
               </p>
 
               <div class="macro-grid">
@@ -412,11 +372,11 @@
                     <h3>🥩 Proteine</h3>
                     <span class="chip">prioritatea</span>
                   </div>
-                  <p>Ancora planului: sațietate + menținerea masei non-adipoase în deficit.</p>
+                  <p><b>Ancora planului</b>: sațietate + masă non-adipoasă + efect termic.</p>
                   <ul class="mini-list">
-                    <li><b>Avantaj:</b> îți stabilizează foamea (mai ușor de ținut).</li>
-                    <li><b>Avantaj:</b> ajută la “păstrare” împreună cu antrenamentul.</li>
-                    <li><b>Atenție:</b> dacă proteina e joasă, apare foamea mai ușor.</li>
+                    <li><b>Sațietate:</b> ajută la stabilizarea foamei.</li>
+                    <li><b>Masa non-adipoasă:</b> în deficit, proteina + antrenamentul sunt semnalul cheie.</li>
+                    <li><b>TEF:</b> corpul cheltuie mai mult ca să digere proteina.</li>
                   </ul>
                 </div>
 
@@ -425,11 +385,11 @@
                     <h3>🍚 Carbohidrați</h3>
                     <span class="chip">fine-tuning</span>
                   </div>
-                  <p>Butonul pentru energie și performanță. Contează mult “cu fibre vs fără fibre”.</p>
+                  <p><b>Butonul de reglaj</b>: fibre + energie + controlul foamei.</p>
                   <ul class="mini-list">
-                    <li><b>Avantaj:</b> energie mai bună la activitate/antrenamente.</li>
-                    <li><b>Avantaj:</b> cu fibre → sațietate și energie mai stabile.</li>
-                    <li><b>Atenție:</b> pot urca temporar cântarul (glicogen + apă).</li>
+                    <li><b>Cu fibre:</b> absorbție lentă → energie stabilă.</li>
+                    <li><b>Fără fibre:</b> absorbție rapidă → mai greu de gestionat la unii.</li>
+                    <li><b>În deficit:</b> reper practic ~1–2 g/kg/zi (în funcție de context).</li>
                   </ul>
                 </div>
 
@@ -438,17 +398,17 @@
                     <h3>🥑 Grăsimi</h3>
                     <span class="chip">esențiale</span>
                   </div>
-                  <p>Susțin sănătatea (hormoni, vitamine A/D/E/K), dar sunt dense caloric (9 kcal/g).</p>
+                  <p><b>Sănătate</b>: hormoni + vitamine (A/D/E/K), dar dense caloric.</p>
                   <ul class="mini-list">
-                    <li><b>Avantaj:</b> necesare pentru funcționare optimă.</li>
-                    <li><b>Avantaj:</b> porții potrivite → sațietate bună.</li>
-                    <li><b>Atenție:</b> “calorii invizibile” (uleiuri, sosuri, nuci).</li>
+                    <li><b>9 kcal/g:</b> porțiile contează.</li>
+                    <li><b>Calorii invizibile:</b> uleiuri, sosuri, nuci, unt de arahide.</li>
+                    <li><b>Prioritate:</b> nesaturate; saturate moderate.</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Ordinea simplă a țintelor:</b> Proteină (ancoră) → Grăsimi (minim util) → Carbo (flexibil).
+                <b>Ordinea țintelor:</b> Proteină (ancoră) → Grăsimi (minim util) → Carbo (flexibil).
               </div>
             </div>
 
@@ -461,101 +421,75 @@
         </div>
       </div>
 
-      <div class="page-divider" aria-hidden="true"></div>
-
-      <!-- ================= PAGE 2 ================= -->
+      <!-- PAGE 2 -->
       <div class="page">
         <main class="card">
           <section class="section">
 
             <div class="panel">
-              <h2 class="panel-title">Cum ajustăm (practic, fără stres)</h2>
+              <h2 class="panel-title">3) Cum îți organizezi ziua (fără stres)</h2>
               <p class="panel-sub">
-                Ajustăm din date reale: trend (media săptămânală), aderență și cum te simți (foame, energie, performanță).
+                O schiță rapidă dimineața (sau cu o seară înainte) îți reduce improvizația și crește aderența.
               </p>
 
               <div class="grid2">
                 <div class="box">
-                  <h3>⚙️ Când creștem carbo</h3>
-                  <ul>
-                    <li>energie scăzută la antrenamente</li>
-                    <li>performanță mai slabă</li>
-                    <li>oboseală / recuperare grea</li>
-                  </ul>
-                  <p>Preferăm carbo cu fibre în majoritatea zilelor.</p>
+                  <h3>✅ 1) Pleci de la proteină</h3>
+                  <p>Împarți obiectivul zilnic pe mesele tale (ex. 3 mese ≈ ~1/3 la fiecare).</p>
                 </div>
-
                 <div class="box">
-                  <h3>🎯 Când scădem carbo / grăsimi</h3>
-                  <ul>
-                    <li>totalul caloric e greu de controlat</li>
-                    <li>apare “ronțăiala” / pofte frecvente</li>
-                    <li>porțiile de grăsimi scapă ușor</li>
-                  </ul>
-                  <p>Ținta de proteină rămâne stabilă.</p>
+                  <h3>🧊 2) Alegi din frigider</h3>
+                  <p>Construiești mesele din ce ai. Aproximativ e suficient.</p>
                 </div>
               </div>
 
+              <div class="box" style="margin-top:10px;">
+                <h3>📲 3) Introduci în aplicație și ajustezi</h3>
+                <ul>
+                  <li>dacă lipsește proteina → mai adaugi</li>
+                  <li>dacă ies prea multe grăsimi → micșorezi porția (ulei/brânză/nuci)</li>
+                </ul>
+              </div>
+
               <div class="note">
-                <b>Regula de aur:</b> schimbări mici (nu extreme). Evaluăm 7–14 zile, nu o zi.
+                <b>Ideea-cheie:</b> nu căutăm perfect, ci <b>control și constanță</b>. Dacă proteina e pusă bine la punct, restul se ajustează mai ușor.
               </div>
             </div>
 
             <div class="panel">
-              <h2 class="panel-title">Cântarul: fluctuații normale + menstruație</h2>
+              <h2 class="panel-title">4) Tranzit în deficit (normal)</h2>
               <p class="panel-sub">
-                O zi “în plus” pe cântar, de obicei, nu e grăsime. E apă, glicogen, digestie, sare, somn, stres sau antrenament.
+                În deficit, tranzitul se poate schimba: volumul alimentelor diferă, iar scăderea carbohidraților poate reduce apa “la pachet”.
+              </p>
+              <div class="note">
+                <b>Ce ajută:</b> fibre (legume/leguminoase), hidratare, mișcare, constanță. Ajustăm treptat.
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="panel-title">5) Fluctuația cântarului (amintește-ți!)</h2>
+              <p class="panel-sub">
+                O zi “în plus” pe cântar, de cele mai multe ori, <b>nu e grăsime</b>. Poate fi: apă, glicogen, digestie, sare, somn, stres, antrenament.
               </p>
 
               <div class="grid2">
                 <div class="box">
-                  <h3>📈 Ce poate urca temporar greutatea</h3>
-                  <ul>
-                    <li>mai mulți carbo → glicogen + apă</li>
-                    <li>mai multă sare / mâncare procesată</li>
-                    <li>somn slab, stres</li>
-                    <li>digestie (masă târzie / constipație)</li>
-                    <li>antrenament (inflamație normală)</li>
-                  </ul>
+                  <h3>💧 Exemplu simplu</h3>
+                  <p>Mai mulți carbo → mai mult glicogen în ficat/mușchi + apă “la pachet” → cântarul urcă temporar.</p>
                 </div>
 
                 <div class="box">
                   <h3>🌙 Menstruație (femei)</h3>
-                  <p>
-                    În a doua parte a ciclului și în primele zile de menstruație este frecventă retenția de apă.
-                    Asta poate “masca” progresul câteva zile.
-                  </p>
+                  <p>Retenția de apă în a doua parte a ciclului și în primele zile poate masca progresul câteva zile.</p>
                   <ul>
-                    <li>nu tragem concluzii din 1–2 cântăriri</li>
-                    <li>comparăm trendul la aceeași fază a ciclului (lună vs lună)</li>
+                    <li>comparăm trendul la aceeași fază a ciclului</li>
                     <li>dacă te stresează, poți face pauză de cântar 3–7 zile</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout">
-                <b>Cum urmărim corect:</b> cântar dimineața (după toaletă) + ne uităm la <b>media săptămânală</b>, nu la o zi.
-              </div>
-            </div>
-
-            <div class="panel">
-              <h2 class="panel-title">Cel mai bun “hack”: planning-ul</h2>
-              <p class="panel-sub">Îți scoate deciziile din momentele în care ești obosit și flămând. Planul devine repetabil.</p>
-
-              <div class="grid2">
-                <div class="box">
-                  <h3>✅ Checklist rapid</h3>
-                  <ul>
-                    <li>pleci de la proteină (împarți pe mese)</li>
-                    <li>alegi din frigider ce ai</li>
-                    <li>introduci în aplicație și ajustezi ușor</li>
-                  </ul>
-                </div>
-
-                <div class="box">
-                  <h3>🍽️ Numărul de mese</h3>
-                  <p>Nu există “corect”: 2 sau 5 mese e ok. Contează să iasă totalul și ținta de proteină, într-un sistem repetabil.</p>
-                </div>
+                <b>Urmărim trendul:</b> cântar dimineața (după toaletă) + ne uităm la <b>media săptămânală</b>. Nu schimbăm planul după 1–2 zile.
               </div>
             </div>
 
