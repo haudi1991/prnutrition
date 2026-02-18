@@ -8,17 +8,24 @@
   <style>
     :root{
       --bg:#0b0f17;
-      --muted:#9fb0c3;
       --text:#eaf1ff;
-      --accent:#7dd3fc;
-      --accent2:#a7f3d0;
+      --muted:#9fb0c3;
+      --muted2:rgba(234,241,255,.72);
       --line:rgba(255,255,255,.10);
       --shadow: 0 14px 40px rgba(0,0,0,.35);
       --radius: 18px;
-      --panel: rgba(255,255,255,.03);
+
+      --panel: rgba(255,255,255,.035);
       --panel2: rgba(255,255,255,.02);
+
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --warn:#fbbf24;
+      --ok:#34d399;
     }
+
     *{ box-sizing:border-box; }
+    html, body{ height:100%; }
 
     body{
       margin:0;
@@ -32,7 +39,7 @@
       padding: 18px 12px;
     }
 
-    .wrap{ max-width: 920px; margin: 0 auto; }
+    .wrap{ max-width: 980px; margin: 0 auto; }
     .pages{ display:grid; gap: 16px; }
 
     .page{
@@ -43,8 +50,16 @@
     header{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
       margin-bottom:12px;
+    }
+
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
     .badge{
@@ -52,7 +67,7 @@
       align-items:center;
       gap:8px;
       font-size: 12px;
-      color: rgba(234,241,255,.78);
+      color: rgba(234,241,255,.80);
       padding: 7px 10px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -65,16 +80,32 @@
       box-shadow: 0 0 0 4px rgba(167,243,208,.10);
     }
 
+    .meta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      color: rgba(234,241,255,.60);
+      font-size: 12px;
+    }
+    .meta span{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+
     h1{
-      font-size: clamp(22px, 2.7vw, 32px);
+      font-size: clamp(22px, 2.7vw, 34px);
       margin:0;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height:1.1;
     }
     .sub{
       margin:0;
       color: var(--muted);
-      max-width: 92ch;
-      font-size: 13px;
+      max-width: 96ch;
+      font-size: 13.2px;
       line-height: 1.45;
     }
 
@@ -99,21 +130,29 @@
     .panel-title{
       margin:0;
       font-size: 14px;
-      color: rgba(234,241,255,.92);
-      font-weight: 950;
+      color: rgba(234,241,255,.94);
+      font-weight: 900;
       letter-spacing: -0.01em;
       display:flex;
       align-items:center;
       gap:10px;
     }
+
     .panel-sub{
-      margin:6px 0 0 0;
+      margin:7px 0 0 0;
       font-size: 13px;
-      color: rgba(234,241,255,.70);
+      color: rgba(234,241,255,.72);
       line-height: 1.45;
-      max-width: 95ch;
+      max-width: 98ch;
     }
 
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 10px 0;
+    }
+
+    /* Micro blocks */
     .kcal-row{
       display:flex;
       flex-wrap:wrap;
@@ -130,13 +169,13 @@
     .kcal strong{
       display:block;
       font-size: 12.5px;
-      color: rgba(234,241,255,.92);
+      color: rgba(234,241,255,.94);
     }
     .kcal span{
       display:block;
       margin-top: 2px;
       font-size: 12.5px;
-      color: rgba(234,241,255,.70);
+      color: rgba(234,241,255,.72);
     }
 
     /* Macro compare cards */
@@ -146,7 +185,7 @@
       gap: 10px;
       margin-top: 10px;
     }
-    @media (min-width: 860px){
+    @media (min-width: 900px){
       .macro-grid{ grid-template-columns: 1fr 1fr 1fr; }
     }
 
@@ -155,6 +194,7 @@
       background: rgba(255,255,255,.02);
       border-radius: 16px;
       padding: 12px;
+      height: 100%;
     }
 
     .macro-head{
@@ -170,7 +210,7 @@
       font-size: 14px;
       font-weight: 950;
       letter-spacing: -0.01em;
-      color: rgba(234,241,255,.92);
+      color: rgba(234,241,255,.94);
       display:flex;
       align-items:center;
       gap:10px;
@@ -185,11 +225,13 @@
       border-radius: 999px;
       white-space: nowrap;
     }
+    .chip.ok{ border-color: rgba(52,211,153,.30); background: rgba(52,211,153,.07); }
+    .chip.warn{ border-color: rgba(251,191,36,.25); background: rgba(251,191,36,.07); }
 
     .macro p{
       margin:0;
       font-size: 12.8px;
-      color: rgba(234,241,255,.72);
+      color: rgba(234,241,255,.74);
       line-height: 1.45;
     }
 
@@ -205,12 +247,12 @@
       background: rgba(255,255,255,.02);
       border-radius: 12px;
       padding: 8px 10px;
-      color: rgba(234,241,255,.72);
+      color: rgba(234,241,255,.74);
       font-size: 12.5px;
       line-height: 1.35;
     }
     .mini-list b{
-      color: rgba(234,241,255,.92);
+      color: rgba(234,241,255,.94);
       font-weight: 850;
     }
 
@@ -220,7 +262,7 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(125,211,252,.06);
-      color: rgba(234,241,255,.82);
+      color: rgba(234,241,255,.84);
       font-size: 13px;
       line-height: 1.4;
     }
@@ -231,7 +273,7 @@
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(167,243,208,.08);
-      color: rgba(234,241,255,.82);
+      color: rgba(234,241,255,.84);
       font-size: 13px;
       line-height: 1.4;
     }
@@ -242,7 +284,7 @@
       gap: 10px;
       margin-top: 10px;
     }
-    @media (min-width: 860px){
+    @media (min-width: 900px){
       .grid2{ grid-template-columns: 1fr 1fr; }
     }
 
@@ -257,7 +299,7 @@
       margin:0;
       font-size: 13.5px;
       font-weight: 950;
-      color: rgba(234,241,255,.92);
+      color: rgba(234,241,255,.94);
       letter-spacing: -0.01em;
       display:flex;
       align-items:center;
@@ -266,17 +308,33 @@
     .box ul{
       margin:8px 0 0 18px;
       padding:0;
-      color: rgba(234,241,255,.70);
+      color: rgba(234,241,255,.72);
       font-size: 12.5px;
       line-height: 1.45;
     }
     .box li{ margin: 5px 0; }
     .box p{
       margin:6px 0 0 0;
-      color: rgba(234,241,255,.72);
+      color: rgba(234,241,255,.74);
       font-size: 12.7px;
       line-height: 1.45;
     }
+
+    .quick{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+    .pill{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12.4px;
+      color: rgba(234,241,255,.78);
+    }
+    .pill b{ color: rgba(234,241,255,.94); }
 
     .footer{
       position:absolute;
@@ -290,7 +348,7 @@
       border-top: 1px solid rgba(255,255,255,.10);
       color: rgba(234,241,255,.55);
       font-size: 12px;
-      background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.75));
+      background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.78));
     }
 
     @media print{
@@ -298,15 +356,13 @@
       @page{ size:A4 portrait; margin: 10mm; }
       html, body{ margin:0 !important; padding:0 !important; background: var(--bg) !important; color: var(--text) !important; }
       .wrap{ max-width: 190mm; }
-
       .page{ break-after: page !important; page-break-after: always !important; }
       .page:last-child{ break-after: auto !important; page-break-after: auto !important; }
 
-      /* allow overall flow; avoid only small blocks */
-      .panel, .macro, .box, .kcal, .note, .callout{ break-inside: avoid !important; page-break-inside: avoid !important; }
-      .card{ page-break-inside: auto !important; }
-
-      header{ margin-bottom: 10px !important; gap: 7px !important; }
+      .panel, .macro, .box, .kcal, .note, .callout, .pill{
+        break-inside: avoid !important; page-break-inside: avoid !important;
+      }
+      header{ margin-bottom: 10px !important; gap: 8px !important; }
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
       h1{ font-size: 24px !important; }
       .sub{ font-size: 12px !important; }
@@ -318,7 +374,6 @@
       .macro-grid{ grid-template-columns: 1fr 1fr 1fr !important; }
       .grid2{ grid-template-columns: 1fr 1fr !important; }
       .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
-
       a[href]::after{ content:"" !important; }
     }
   </style>
@@ -331,10 +386,19 @@
       <!-- PAGE 1 -->
       <div class="page">
         <header>
-          <div class="badge"><span class="dot"></span> Ghid basic · Macronutrienți</div>
+          <div class="toprow">
+            <div class="badge"><span class="dot"></span> Ghid basic · Macronutrienți</div>
+            <div class="meta">
+              <span>Focus: aderență</span>
+              <span>2 pagini</span>
+              <span>Practic, fără stres</span>
+            </div>
+          </div>
+
           <h1>Macronutrienți — simplu și practic</h1>
           <p class="sub">
-            Nu căutăm perfecțiune. Setăm un punct bun de start, apoi ajustăm din date reale: trend, aderență și cum te simți.
+            Nu căutăm perfecțiune. Setăm un punct bun de start, apoi ajustăm din date reale:
+            trend, aderență și cum te simți (energie, foame, performanță).
           </p>
         </header>
 
@@ -344,8 +408,8 @@
             <div class="panel">
               <h2 class="panel-title">1) Calorii + regula 4–4–9</h2>
               <p class="panel-sub">
-                Caloriile sunt totalul de energie al zilei: peste nevoi → în timp crești; sub nevoi → în timp scazi.
-                Macronutrienții sunt “piesele” din care construim acest total.
+                Caloriile sunt totalul de energie al zilei. Peste nevoi → în timp crești; sub nevoi → în timp scazi.
+                Macronutrienții sunt “piesele” cu care construim totalul într-un mod sustenabil.
               </p>
 
               <div class="kcal-row">
@@ -355,28 +419,28 @@
               </div>
 
               <div class="note">
-                <b>Abordare practică:</b> Proteina este ancora, grăsimile le ținem la porții controlate,
-                iar carbohidrații îi ajustăm cel mai des (energie / foame / performanță).
+                <b>Practic:</b> Proteina = <b>ancora</b>. Grăsimile = <b>minimul util</b> (porții controlate).
+                Carbohidrații = <b>butonul de reglaj</b> (energie/foame/antrenament).
               </div>
             </div>
 
             <div class="panel">
               <h2 class="panel-title">2) Ce face fiecare macronutrient (clar)</h2>
               <p class="panel-sub">
-                Au roluri diferite. Nu “tăiem tot”, ci ajustăm inteligent macronutrientul potrivit.
+                Nu “tăiem tot”. Ajustăm inteligent macronutrientul potrivit, în funcție de obiectiv.
               </p>
 
               <div class="macro-grid">
                 <div class="macro">
                   <div class="macro-head">
                     <h3>🥩 Proteine</h3>
-                    <span class="chip">prioritatea</span>
+                    <span class="chip ok">prioritatea</span>
                   </div>
-                  <p><b>Ancora planului</b>: sațietate + masă non-adipoasă + efect termic.</p>
+                  <p><b>Ancora planului</b>: sațietate + menținere masă non-adipoasă + efect termic (TEF).</p>
                   <ul class="mini-list">
-                    <li><b>Sațietate:</b> ajută la stabilizarea foamei.</li>
-                    <li><b>Masa non-adipoasă:</b> în deficit, proteina + antrenamentul sunt semnalul cheie.</li>
-                    <li><b>TEF:</b> corpul cheltuie mai mult ca să digere proteina.</li>
+                    <li><b>Sațietate:</b> dacă apare foamea între mese, de multe ori ajută să mai adaugi proteină.</li>
+                    <li><b>Deficit:</b> proteina + antrenamentul sunt semnalul cheie pentru păstrarea masei non-adipoase.</li>
+                    <li><b>TEF:</b> corpul consumă mai multă energie ca să digere/proceseze proteina (nu e magie, dar contează).</li>
                   </ul>
                 </div>
 
@@ -385,30 +449,36 @@
                     <h3>🍚 Carbohidrați</h3>
                     <span class="chip">fine-tuning</span>
                   </div>
-                  <p><b>Butonul de reglaj</b>: fibre + energie + controlul foamei.</p>
+                  <p><b>Butonul de reglaj</b>: fibre + energie + cât de ușor ții deficitul.</p>
                   <ul class="mini-list">
-                    <li><b>Cu fibre:</b> absorbție lentă → energie stabilă.</li>
-                    <li><b>Fără fibre:</b> absorbție rapidă → mai greu de gestionat la unii.</li>
-                    <li><b>În deficit:</b> reper practic ~1–2 g/kg/zi (în funcție de context).</li>
+                    <li><b>Cu fibre:</b> absorbție mai lentă → energie mai stabilă + apetit mai ușor de gestionat.</li>
+                    <li><b>Fără fibre:</b> absorbție rapidă → la unii crește foamea/poftele (nu sunt interziși).</li>
+                    <li><b>Reper în deficit:</b> adesea ~<b>1–2 g/kg/zi</b> (în funcție de activitate, preferințe, foame).</li>
                   </ul>
                 </div>
 
                 <div class="macro">
                   <div class="macro-head">
                     <h3>🥑 Grăsimi</h3>
-                    <span class="chip">esențiale</span>
+                    <span class="chip warn">dense caloric</span>
                   </div>
-                  <p><b>Sănătate</b>: hormoni + vitamine (A/D/E/K), dar dense caloric.</p>
+                  <p><b>Esențiale</b>: hormoni + absorbția vitaminelor A/D/E/K, dar porțiile contează.</p>
                   <ul class="mini-list">
-                    <li><b>9 kcal/g:</b> porțiile contează.</li>
-                    <li><b>Calorii invizibile:</b> uleiuri, sosuri, nuci, unt de arahide.</li>
-                    <li><b>Prioritate:</b> nesaturate; saturate moderate.</li>
+                    <li><b>9 kcal/g:</b> micile “extra-uri” se adună rapid.</li>
+                    <li><b>Calorii invizibile:</b> uleiuri, sosuri, nuci, semințe, unt de arahide.</li>
+                    <li><b>Tipul contează:</b> prioritate nesaturate; saturate moderate, în contextul totalului.</li>
                   </ul>
                 </div>
               </div>
 
               <div class="callout">
                 <b>Ordinea țintelor:</b> Proteină (ancoră) → Grăsimi (minim util) → Carbo (flexibil).
+              </div>
+
+              <div class="quick" aria-label="repere rapide">
+                <div class="pill">🎯 <b>Ținta #1:</b> proteină constantă</div>
+                <div class="pill">🥄 <b>Ținta #2:</b> grăsimi la porții</div>
+                <div class="pill">⚙️ <b>Ținta #3:</b> carbo = reglaj</div>
               </div>
             </div>
 
@@ -429,7 +499,7 @@
             <div class="panel">
               <h2 class="panel-title">3) Cum îți organizezi ziua (fără stres)</h2>
               <p class="panel-sub">
-                O schiță rapidă dimineața (sau cu o seară înainte) îți reduce improvizația și crește aderența.
+                O schiță rapidă dimineața (sau cu o seară înainte) reduce improvizația și crește aderența.
               </p>
 
               <div class="grid2">
@@ -439,57 +509,69 @@
                 </div>
                 <div class="box">
                   <h3>🧊 2) Alegi din frigider</h3>
-                  <p>Construiești mesele din ce ai. Aproximativ e suficient.</p>
+                  <p>Construiești mesele din ce ai (ouă, carne, lactate, pește etc.). Aproximativ e suficient.</p>
                 </div>
               </div>
 
               <div class="box" style="margin-top:10px;">
                 <h3>📲 3) Introduci în aplicație și ajustezi</h3>
                 <ul>
-                  <li>dacă lipsește proteina → mai adaugi</li>
-                  <li>dacă ies prea multe grăsimi → micșorezi porția (ulei/brânză/nuci)</li>
+                  <li>dacă lipsește proteina → mai adaugi (iaurt, brânză slabă, albuș, carne)</li>
+                  <li>dacă ies multe grăsimi → micșorezi porția (ulei/brânză/nuci/sos)</li>
+                  <li>dacă ești fără energie → ajustezi carbo (mai ales în zile cu antrenament)</li>
                 </ul>
               </div>
 
               <div class="note">
-                <b>Ideea-cheie:</b> nu căutăm perfect, ci <b>control și constanță</b>. Dacă proteina e pusă bine la punct, restul se ajustează mai ușor.
+                <b>Ideea-cheie:</b> nu căutăm perfect, ci <b>control și constanță</b>.
+                Dacă proteina e pusă bine la punct, restul se ajustează mult mai ușor.
               </div>
             </div>
 
             <div class="panel">
               <h2 class="panel-title">4) Tranzit în deficit (normal)</h2>
               <p class="panel-sub">
-                În deficit, tranzitul se poate schimba: volumul alimentelor diferă, iar scăderea carbohidraților poate reduce apa “la pachet”.
+                În deficit, tranzitul se poate schimba: volum alimentar diferit, mai puțini carbo (mai puțină apă “la pachet”),
+                program schimbat, stres.
               </p>
-              <div class="note">
-                <b>Ce ajută:</b> fibre (legume/leguminoase), hidratare, mișcare, constanță. Ajustăm treptat.
+              <div class="callout">
+                <b>Ce ajută, în practică:</b> fibre din alimente (legume/leguminoase), hidratare, pași/mișcare,
+                ore similare de masă + somn. Ajustăm treptat, nu dintr-o dată.
               </div>
             </div>
 
             <div class="panel">
               <h2 class="panel-title">5) Fluctuația cântarului (amintește-ți!)</h2>
               <p class="panel-sub">
-                O zi “în plus” pe cântar, de cele mai multe ori, <b>nu e grăsime</b>. Poate fi: apă, glicogen, digestie, sare, somn, stres, antrenament.
+                O zi “în plus” pe cântar, de cele mai multe ori, <b>nu e grăsime</b>.
+                Poate fi: apă, glicogen, digestie, sare, somn, stres, inflamație după antrenament.
               </p>
 
               <div class="grid2">
                 <div class="box">
-                  <h3>💧 Exemplu simplu</h3>
-                  <p>Mai mulți carbo → mai mult glicogen în ficat/mușchi + apă “la pachet” → cântarul urcă temporar.</p>
+                  <h3>💧 Exemplu simplu (carbo + apă)</h3>
+                  <p>Mai mulți carbo → mai mult <b>glicogen</b> în ficat/mușchi + apă “la pachet” → cântarul poate urca temporar.</p>
                 </div>
 
                 <div class="box">
-                  <h3>🌙 Menstruație (femei)</h3>
-                  <p>Retenția de apă în a doua parte a ciclului și în primele zile poate masca progresul câteva zile.</p>
+                  <h3>🧂 Alți factori comuni (pentru toată lumea)</h3>
                   <ul>
-                    <li>comparăm trendul la aceeași fază a ciclului</li>
-                    <li>dacă te stresează, poți face pauză de cântar 3–7 zile</li>
+                    <li>o zi cu mai multă sare / mâncare procesată</li>
+                    <li>masă târzie + somn mai slab</li>
+                    <li>constipație / volum alimentar diferit</li>
+                    <li>inflamația normală după antrenament</li>
+                    <li><b>la unele femei:</b> faze ale ciclului menstrual (retenție de apă câteva zile)</li>
                   </ul>
                 </div>
               </div>
 
+              <div class="note">
+                <b>AMINTEȘTE-ȚI:</b> urmărim <b>trendul</b>, nu o zi.
+                Ideal: cântar dimineața (după toaletă) + ne uităm la <b>media săptămânală</b>.
+              </div>
+
               <div class="callout">
-                <b>Urmărim trendul:</b> cântar dimineața (după toaletă) + ne uităm la <b>media săptămânală</b>. Nu schimbăm planul după 1–2 zile.
+                <b>Regula anti-panică:</b> nu schimbăm planul după 1–2 zile. Corectăm trendul, nu emoția.
               </div>
             </div>
 
