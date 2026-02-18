@@ -16,7 +16,6 @@
       --radius: 18px;
 
       --panel: rgba(255,255,255,.035);
-      --panel2: rgba(255,255,255,.02);
 
       --accent:#7dd3fc;
       --accent2:#a7f3d0;
@@ -44,7 +43,7 @@
 
     .page{
       position: relative;
-      padding-bottom: 44px; /* footer space */
+      padding-bottom: 44px; /* footer space (screen) */
     }
 
     header{
@@ -146,12 +145,6 @@
       max-width: 98ch;
     }
 
-    .divider{
-      height:1px;
-      background: rgba(255,255,255,.08);
-      margin: 10px 0;
-    }
-
     /* Micro blocks */
     .kcal-row{
       display:flex;
@@ -200,7 +193,6 @@
       border-color: rgba(125,211,252,.24);
     }
 
-    /* Optional: a subtle "priority" ribbon for protein */
     .macro.protein::before{
       content:"#1 PRIORITATE";
       display:inline-block;
@@ -220,9 +212,7 @@
         grid-template-columns: 1fr 1fr;
         grid-auto-flow: row;
       }
-      .macro.protein{
-        grid-column: 1 / -1; /* full row */
-      }
+      .macro.protein{ grid-column: 1 / -1; }
     }
 
     .macro-head{
@@ -349,22 +339,6 @@
       line-height: 1.45;
     }
 
-    .quick{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:10px;
-    }
-    .pill{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 12.4px;
-      color: rgba(234,241,255,.78);
-    }
-    .pill b{ color: rgba(234,241,255,.94); }
-
     .footer{
       position:absolute;
       left:0; right:0;
@@ -380,17 +354,49 @@
       background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.78));
     }
 
+    /* PRINT / PDF FIX */
     @media print{
       *{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      @page{ size:A4 portrait; margin: 10mm; }
-      html, body{ margin:0 !important; padding:0 !important; background: var(--bg) !important; color: var(--text) !important; }
-      .wrap{ max-width: 190mm; }
-      .page{ break-after: page !important; page-break-after: always !important; }
-      .page:last-child{ break-after: auto !important; page-break-after: auto !important; }
 
-      .panel, .macro, .box, .kcal, .note, .callout, .pill{
-        break-inside: avoid !important; page-break-inside: avoid !important;
+      @page{ size:A4 portrait; margin: 10mm; }
+
+      html, body{
+        margin:0 !important;
+        padding:0 !important;
+        background: var(--bg) !important;
+        color: var(--text) !important;
       }
+
+      /* IMPORTANT: remove extra spacing that can create a blank page */
+      .pages{ gap: 0 !important; }
+      .page{
+        padding-bottom: 0 !important;   /* footer is no longer absolute in print */
+        break-after: page !important;
+        page-break-after: always !important;
+      }
+      .page:last-child{
+        break-after: auto !important;
+        page-break-after: auto !important;
+      }
+
+      /* Make footer part of the normal flow to avoid overflow -> blank page */
+      .footer{
+        position: static !important;
+        background: none !important;
+        margin-top: 10px !important;
+        padding: 8px 0 0 0 !important;
+        border-top: 1px solid rgba(255,255,255,.10) !important;
+      }
+
+      /* Print-friendly look */
+      .wrap{ max-width: 190mm; }
+      .card{ box-shadow: none !important; }
+
+      .panel, .macro, .box, .kcal, .note, .callout{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
       header{ margin-bottom: 10px !important; gap: 8px !important; }
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
       h1{ font-size: 24px !important; }
@@ -403,6 +409,7 @@
       .macro-grid{ grid-template-columns: 1fr 1fr !important; }
       .macro.protein{ grid-column: 1 / -1 !important; }
       .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
+
       a[href]::after{ content:"" !important; }
     }
   </style>
@@ -520,15 +527,7 @@
 
               </div>
 
-              <div class="callout">
-                <b>Ordinea țintelor:</b> Proteină (ancoră) → Grăsimi (minim util) → Carbo (flexibil).
-              </div>
-
-              <div class="quick" aria-label="repere rapide">
-                <div class="pill">🎯 <b>Ținta #1:</b> proteină constantă</div>
-                <div class="pill">🥄 <b>Ținta #2:</b> grăsimi la porții</div>
-                <div class="pill">⚙️ <b>Ținta #3:</b> carbo = reglaj</div>
-              </div>
+              <!-- AM STERS: "Ordinea tintelor..." + Tinta #1/#2/#3 -->
             </div>
 
           </section>
