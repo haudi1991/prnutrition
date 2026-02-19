@@ -354,15 +354,14 @@
       background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.78));
     }
 
-    /* PRINT / PDF FIX (FULL) */
+    /* PRINT / PDF FIX (FULL - stable Chrome pagination) */
     @media print{
       *{
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
-      /* cel mai stabil: margin 0 pe foaie, padding în .page */
-      @page{ size:A4 portrait; margin: 0; }
+      @page{ size:A4 portrait; margin: 10mm; }
 
       html, body{
         margin:0 !important;
@@ -371,69 +370,63 @@
         color: var(--text) !important;
       }
 
-      /* nu grid la print (Chrome bug prone) */
+      /* Chrome + grid = pagination glitches */
       .pages{
         display:block !important;
         gap: 0 !important;
       }
 
-      /* fiecare .page = 1 foaie A4 */
+      /* Start page 2 on a new sheet */
       .page{
-        width: 210mm !important;
-        min-height: 297mm !important;
-        position: relative !important;
-
-        padding: 10mm !important;        /* “margini” */
-        padding-bottom: 18mm !important; /* spațiu footer */
-
         break-after: auto !important;
         page-break-after: auto !important;
+        padding-bottom: 0 !important;
       }
-
-      /* pagina nouă înainte de page 2+ */
       .page + .page{
         break-before: page !important;
         page-break-before: always !important;
       }
 
-      /* fără shadow la print */
+      /* Footer in normal flow */
+      .footer{
+        position: static !important;
+        background: none !important;
+        margin-top: 8mm !important;
+        padding: 3mm 0 0 0 !important;
+        border-top: 1px solid rgba(255,255,255,.10) !important;
+      }
+
+      /* Keep panels together so headings don't get orphaned */
+      .panel{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      /* Avoid breaks right after headings */
+      h1, h2, h3{
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      /* Print-friendly */
+      .wrap{ max-width: 190mm !important; }
       .card{ box-shadow: none !important; }
 
-      /* footer fix jos, nu mai împinge layout-ul */
-      .footer{
-        position: absolute !important;
-        left: 10mm !important;
-        right: 10mm !important;
-        bottom: 10mm !important;
-
-        background: none !important;
-        border-top: 1px solid rgba(255,255,255,.10) !important;
-
-        padding: 4mm 0 0 0 !important;
-        margin: 0 !important;
-      }
-
-      /* "avoid" pe multe containere poate împinge blocuri întregi -> pagini goale */
-      .panel, .macro, .box, .kcal, .note, .callout{
-        break-inside: auto !important;
-        page-break-inside: auto !important;
-      }
-
-      /* micșorări fine ca să încapă sigur */
+      /* Slight compaction to reduce page count */
       header{ margin-bottom: 8px !important; gap: 6px !important; }
-      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
-      h1{ font-size: 23px !important; }
+      h1{ font-size: 22px !important; }
       .sub{ font-size: 12px !important; }
       .section{ padding: 10px !important; }
       .panel{ padding: 9px !important; margin-top: 9px !important; }
       .panel-title{ font-size: 13px !important; }
       .panel-sub{ font-size: 12px !important; }
 
-      .macro-grid{ grid-template-columns: 1fr 1fr !important; }
-      .macro.protein{ grid-column: 1 / -1 !important; }
       .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
 
       a[href]::after{ content:"" !important; }
+
+      /* Optional: if you still get 3-4 pages, uncomment this */
+      /* body{ zoom: 0.92 !important; } */
     }
   </style>
 </head>
