@@ -367,19 +367,24 @@
         color: var(--text) !important;
       }
 
-      /* IMPORTANT: remove extra spacing that can create a blank page */
-      .pages{ gap: 0 !important; }
-      .page{
-        padding-bottom: 0 !important;   /* footer is no longer absolute in print */
-        break-after: page !important;
-        page-break-after: always !important;
+      /* ✅ FIX: Chrome print + grid can break pagination; use normal flow */
+      .pages{
+        display: block !important;
+        gap: 0 !important;
       }
-      .page:last-child{
+
+      /* ✅ FIX: don't force break-after on each page; use break-before for page 2+ */
+      .page{
+        padding-bottom: 0 !important; /* footer is no longer absolute in print */
         break-after: auto !important;
         page-break-after: auto !important;
       }
+      .page + .page{
+        break-before: page !important;
+        page-break-before: always !important;
+      }
 
-      /* Make footer part of the normal flow to avoid overflow -> blank page */
+      /* Make footer part of normal flow to avoid overflow/blank pages */
       .footer{
         position: static !important;
         background: none !important;
@@ -527,7 +532,6 @@
 
               </div>
 
-              <!-- AM STERS: "Ordinea tintelor..." + Tinta #1/#2/#3 -->
             </div>
 
           </section>
