@@ -354,11 +354,15 @@
       background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.78));
     }
 
-    /* PRINT / PDF FIX */
+    /* PRINT / PDF FIX (FULL) */
     @media print{
-      *{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
 
-      @page{ size:A4 portrait; margin: 10mm; }
+      /* cel mai stabil: margin 0 pe foaie, padding în .page */
+      @page{ size:A4 portrait; margin: 0; }
 
       html, body{
         margin:0 !important;
@@ -367,47 +371,61 @@
         color: var(--text) !important;
       }
 
-      /* ✅ FIX: Chrome print + grid can break pagination; use normal flow */
+      /* nu grid la print (Chrome bug prone) */
       .pages{
-        display: block !important;
+        display:block !important;
         gap: 0 !important;
       }
 
-      /* ✅ FIX: don't force break-after on each page; use break-before for page 2+ */
+      /* fiecare .page = 1 foaie A4 */
       .page{
-        padding-bottom: 0 !important; /* footer is no longer absolute in print */
+        width: 210mm !important;
+        min-height: 297mm !important;
+        position: relative !important;
+
+        padding: 10mm !important;        /* “margini” */
+        padding-bottom: 18mm !important; /* spațiu footer */
+
         break-after: auto !important;
         page-break-after: auto !important;
       }
+
+      /* pagina nouă înainte de page 2+ */
       .page + .page{
         break-before: page !important;
         page-break-before: always !important;
       }
 
-      /* Make footer part of normal flow to avoid overflow/blank pages */
-      .footer{
-        position: static !important;
-        background: none !important;
-        margin-top: 10px !important;
-        padding: 8px 0 0 0 !important;
-        border-top: 1px solid rgba(255,255,255,.10) !important;
-      }
-
-      /* Print-friendly look */
-      .wrap{ max-width: 190mm; }
+      /* fără shadow la print */
       .card{ box-shadow: none !important; }
 
-      .panel, .macro, .box, .kcal, .note, .callout{
-        break-inside: avoid !important;
-        page-break-inside: avoid !important;
+      /* footer fix jos, nu mai împinge layout-ul */
+      .footer{
+        position: absolute !important;
+        left: 10mm !important;
+        right: 10mm !important;
+        bottom: 10mm !important;
+
+        background: none !important;
+        border-top: 1px solid rgba(255,255,255,.10) !important;
+
+        padding: 4mm 0 0 0 !important;
+        margin: 0 !important;
       }
 
-      header{ margin-bottom: 10px !important; gap: 8px !important; }
+      /* "avoid" pe multe containere poate împinge blocuri întregi -> pagini goale */
+      .panel, .macro, .box, .kcal, .note, .callout{
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+      }
+
+      /* micșorări fine ca să încapă sigur */
+      header{ margin-bottom: 8px !important; gap: 6px !important; }
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
-      h1{ font-size: 24px !important; }
+      h1{ font-size: 23px !important; }
       .sub{ font-size: 12px !important; }
-      .section{ padding: 12px !important; }
-      .panel{ padding: 10px !important; margin-top: 10px !important; }
+      .section{ padding: 10px !important; }
+      .panel{ padding: 9px !important; margin-top: 9px !important; }
       .panel-title{ font-size: 13px !important; }
       .panel-sub{ font-size: 12px !important; }
 
