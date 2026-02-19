@@ -39,17 +39,7 @@
     }
 
     .wrap{ max-width: 980px; margin: 0 auto; }
-
-    /* “Pagini” și separator – se văd în HTML, nu se printează */
     .pages{ display:grid; gap: 16px; }
-    .page-divider{
-      height: 2px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.16);
-      opacity: .65;
-      width: 100%;
-      margin: 6px 0;
-    }
 
     .page{
       position: relative;
@@ -231,7 +221,7 @@
       justify-content:space-between;
       gap:10px;
       margin-bottom: 8px;
-      margin-top: 8px;
+      margin-top: 8px; /* space after ribbon on protein */
     }
 
     .macro h3{
@@ -364,40 +354,47 @@
       background: linear-gradient(180deg, rgba(11,15,23,0), rgba(11,15,23,.78));
     }
 
-    /* =========================
-       PRINT: 3 pagini, stabil
-       ========================= */
+    /* ============ PRINT / PDF (FIXED) ============ */
     @media print{
       *{
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
+      /* A4 + margini reale (nu "None" din Chrome UI) */
       @page{
         size: A4 portrait;
-        margin: 8mm;
+        margin: 10mm;
       }
 
       html, body{
+        margin:0 !important;
+        padding:0 !important;
         background: var(--bg) !important;
         color: var(--text) !important;
-        margin: 0 !important;
-        padding: 0 !important;
       }
 
-      .wrap{ max-width: 100% !important; margin: 0 !important; }
-      .pages{ display:block !important; }
-      .page-divider{ display:none !important; }
+      /* IMPORTANT: evită grid în print (Chrome poate pagina aiurea) */
+      .pages{
+        display:block !important;
+      }
 
-      /* fiecare .page = o foaie; layout cu footer jos */
-      .page{
-        /* 297mm - 2*8mm = 281mm */
-        height: 281mm !important;
+      /* Umple lățimea print-ului */
+      .wrap{
+        max-width: 100% !important;
         margin: 0 !important;
-        padding: 0 !important;
+      }
 
+      /* Fiecare .page = 1 foaie A4 (înălțime controlată) */
+      .page{
+        /* 297mm - 2*10mm = 277mm zona de conținut */
+        height: 277mm !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        /* Layout stabil: header sus, footer jos */
         display:flex !important;
-        flex-direction:column !important;
+        flex-direction: column !important;
 
         break-after: page !important;
         page-break-after: always !important;
@@ -407,15 +404,15 @@
         page-break-after: auto !important;
       }
 
-      header{ margin: 0 0 6mm 0 !important; gap: 8px !important; }
-      h1{ font-size: 22px !important; }
-      .sub{ font-size: 12px !important; }
-
+      /* Cardul să se întindă “elastic” pe pagină */
+      header{ margin: 0 0 6mm 0 !important; }
       main.card{
         flex: 1 1 auto !important;
+        /* ca să nu forțeze pagini extra */
         min-height: 0 !important;
       }
 
+      /* Footer jos, în flow, fără gradient care poate “mări” pagina */
       .footer{
         position: static !important;
         margin-top: auto !important;
@@ -424,29 +421,33 @@
         border-top: 1px solid rgba(255,255,255,.10) !important;
       }
 
-      /* compact ușor, dar nu înghesuit */
-      .card{ box-shadow:none !important; }
-      .section{ padding: 11px !important; }
-      .panel{ padding: 10px !important; margin-top: 10px !important; }
-      .panel-title{ font-size: 13px !important; }
-      .panel-sub{ font-size: 12px !important; margin-top: 5px !important; }
+      /* Scoate umbrele (uneori produc raster + paging ciudat) */
+      .card{ box-shadow: none !important; }
 
-      .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
-
-      /* Evităm “blocuri gigant” care blochează paginarea:
-         - păstrăm avoid pe panel/macro/box, dar NU pe fiecare li */
-      .panel, .macro, .box, .note, .callout, .kcal{
+      /* Nu lăsa blocuri să se rupă urât */
+      .panel, .macro, .box, .note, .callout, .kcal, .mini-list li{
         break-inside: avoid !important;
         page-break-inside: avoid !important;
       }
-
-      /* list items pot fi rupte dacă e nevoie (altfel împinge conținutul) */
-      .mini-list li{
-        break-inside: auto !important;
-        page-break-inside: auto !important;
+      h1, h2, h3{
+        break-after: avoid !important;
+        page-break-after: avoid !important;
       }
 
+      /* Compaction fină: scade riscul de page overflow -> 3-4 pagini */
+      h1{ font-size: 22px !important; }
+      .sub{ font-size: 12px !important; }
+      .section{ padding: 10px !important; }
+      .panel{ padding: 9px !important; margin-top: 9px !important; }
+      .panel-title{ font-size: 13px !important; }
+      .panel-sub{ font-size: 12px !important; }
+      .macro p, .mini-list li, .box p, .box ul{ font-size: 12px !important; }
+
+      /* Chrome: nu adăuga URL-uri după texte */
       a[href]::after{ content:"" !important; }
+
+      /* Dacă încă îți dă 3 pagini, activează asta:
+         body{ zoom: 0.95 !important; } */
     }
   </style>
 </head>
@@ -455,14 +456,14 @@
   <div class="wrap">
     <div class="pages">
 
-      <!-- ================= PAGE 1 ================= -->
+      <!-- PAGE 1 -->
       <div class="page">
         <header>
           <div class="toprow">
             <div class="badge"><span class="dot"></span> Ghid basic · Macronutrienți</div>
             <div class="meta">
               <span>Focus: aderență</span>
-              <span>3 pagini</span>
+              <span>2 pagini</span>
               <span>Practic, fără stres</span>
             </div>
           </div>
@@ -502,8 +503,9 @@
                 Nu “tăiem tot”. Ajustăm inteligent macronutrientul potrivit, în funcție de obiectiv.
               </p>
 
-              <!-- Pe pagina 1: doar PROTEINA (ca să nu se taie “Grăsimile”) -->
               <div class="macro-grid">
+
+                <!-- Protein: full width -->
                 <div class="macro protein">
                   <div class="macro-head">
                     <h3>🥩 Proteine</h3>
@@ -531,34 +533,8 @@
                     </li>
                   </ul>
                 </div>
-              </div>
 
-            </div>
-
-          </section>
-        </main>
-
-        <div class="footer">
-          <span>Macronutrienți · Ghid basic (client)</span>
-          <span>Pagina 1 / 3</span>
-        </div>
-      </div>
-
-      <div class="page-divider" aria-hidden="true"></div>
-
-      <!-- ================= PAGE 2 ================= -->
-      <div class="page">
-        <main class="card">
-          <section class="section">
-
-            <div class="panel" style="margin-top:0;">
-              <h2 class="panel-title">2) Continuare — carbohidrați & grăsimi</h2>
-              <p class="panel-sub">
-                Aici ajustăm fin: cum îți gestionezi energia, foamea și porțiile.
-              </p>
-
-              <div class="macro-grid">
-
+                <!-- Carbs: half -->
                 <div class="macro">
                   <div class="macro-head">
                     <h3>🍚 Carbohidrați</h3>
@@ -568,5 +544,132 @@
                   <ul class="mini-list">
                     <li><b>Cu fibre:</b> absorbție mai lentă → energie mai stabilă + apetit mai ușor de gestionat.</li>
                     <li><b>Fără fibre:</b> absorbție rapidă → la unii crește foamea/poftele (nu sunt interziși).</li>
-                    <li><b>Reper în deficit:</b> adesea ~<b>1–2 g/kg/zi</b> (în funcție de activ
+                    <li><b>Reper în deficit:</b> adesea ~<b>1–2 g/kg/zi</b> (în funcție de activitate, preferințe, foame).</li>
+                  </ul>
+                </div>
+
+                <!-- Fat: half -->
+                <div class="macro">
+                  <div class="macro-head">
+                    <h3>🥑 Grăsimi</h3>
+                    <span class="chip warn">dense caloric</span>
+                  </div>
+                  <p><b>Esențiale</b>: hormoni + absorbția vitaminelor A/D/E/K, dar porțiile contează.</p>
+                  <ul class="mini-list">
+                    <li><b>9 kcal/g:</b> micile “extra-uri” se adună rapid.</li>
+                    <li><b>Calorii invizibile:</b> uleiuri, sosuri, nuci, semințe, unt de arahide.</li>
+                    <li><b>Tipul contează:</b> prioritate nesaturate; saturate moderate, în contextul totalului.</li>
+                  </ul>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+        </main>
+
+        <div class="footer">
+          <span>Macronutrienți · Ghid basic (client)</span>
+          <span>Pagina 1 / 2</span>
+        </div>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div class="page">
+        <main class="card">
+          <section class="section">
+
+            <div class="panel">
+              <h2 class="panel-title">3) Cum îți organizezi ziua (fără stres)</h2>
+              <p class="panel-sub">
+                O schiță rapidă dimineața (sau cu o seară înainte) reduce improvizația și crește aderența.
+              </p>
+
+              <div class="grid2">
+                <div class="box">
+                  <h3>✅ 1) Pleci de la proteină</h3>
+                  <p>Împarți obiectivul zilnic pe mesele tale (ex. 3 mese ≈ ~1/3 la fiecare).</p>
+                </div>
+                <div class="box">
+                  <h3>🧊 2) Alegi din frigider</h3>
+                  <p>Construiești mesele din ce ai (ouă, carne, lactate, pește etc.). Aproximativ e suficient.</p>
+                </div>
+              </div>
+
+              <div class="box" style="margin-top:10px;">
+                <h3>📲 3) Introduci în aplicație și ajustezi</h3>
+                <ul>
+                  <li>dacă lipsește proteina → mai adaugi (iaurt, brânză slabă, albuș, carne)</li>
+                  <li>dacă ies multe grăsimi → micșorezi porția (ulei/brânză/nuci/sos)</li>
+                  <li>dacă ești fără energie → ajustezi carbo (mai ales în zile cu antrenament)</li>
+                </ul>
+              </div>
+
+              <div class="note">
+                <b>Ideea-cheie:</b> nu căutăm perfect, ci <b>control și constanță</b>.
+                Dacă proteina e pusă bine la punct, restul se ajustează mult mai ușor.
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="panel-title">4) Tranzit în deficit (normal)</h2>
+              <p class="panel-sub">
+                În deficit, tranzitul se poate schimba: volum alimentar diferit, mai puțini carbo (mai puțină apă “la pachet”),
+                program schimbat, stres.
+              </p>
+              <div class="callout">
+                <b>Ce ajută, în practică:</b> fibre din alimente (legume/leguminoase), hidratare, pași/mișcare,
+                ore similare de masă + somn. Ajustăm treptat, nu dintr-o dată.
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="panel-title">5) Fluctuația cântarului (amintește-ți!)</h2>
+              <p class="panel-sub">
+                O zi “în plus” pe cântar, de cele mai multe ori, <b>nu e grăsime</b>.
+                Poate fi: apă, glicogen, digestie, sare, somn, stres, inflamație după antrenament.
+              </p>
+
+              <div class="grid2">
+                <div class="box">
+                  <h3>💧 Exemplu simplu (carbo + apă)</h3>
+                  <p>Mai mulți carbo → mai mult <b>glicogen</b> în ficat/mușchi + apă “la pachet” → cântarul poate urca temporar.</p>
+                </div>
+
+                <div class="box">
+                  <h3>🧂 Alți factori comuni (pentru toată lumea)</h3>
+                  <ul>
+                    <li>o zi cu mai multă sare / mâncare procesată</li>
+                    <li>masă târzie + somn mai slab</li>
+                    <li>constipație / volum alimentar diferit</li>
+                    <li>inflamația normală după antrenament</li>
+                    <li><b>la unele femei:</b> faze ale ciclului menstrual (retenție de apă câteva zile)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="note">
+                <b>AMINTEȘTE-ȚI:</b> urmărim <b>trendul</b>, nu o zi.
+                Ideal: cântar dimineața (după toaletă) + ne uităm la <b>media săptămânală</b>.
+              </div>
+
+              <div class="callout">
+                <b>Regula anti-panică:</b> nu schimbăm planul după 1–2 zile. Corectăm trendul, nu emoția.
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="footer">
+          <span>Macronutrienți · Ghid basic (client)</span>
+          <span>Pagina 2 / 2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
 
