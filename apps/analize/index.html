@@ -529,6 +529,14 @@
 
       a[href]::after{ content: "" !important; }
     }
+
+    /* =========================
+       FORCE PRINT (pentru PDF download cu html2pdf)
+       ========================= */
+    .force-print header{ display:none !important; }
+    .force-print .no-print{ display:none !important; }
+    .force-print .print-title{ display:block !important; font-size: 20px !important; }
+    .force-print .print-footer{ display:block !important; }
   </style>
 </head>
 
@@ -580,7 +588,7 @@
             </div>
           </details>
 
-          <!-- Protocoale -->
+          <!-- Protocoale (mereu deschis) -->
           <details class="accordion no-print" id="protDetails" open>
             <summary>
               <div class="sum-left">
@@ -631,7 +639,12 @@
             <div class="left-actions">
               <button class="icon-btn" id="addEmptyRow" type="button" data-tip="Rând gol">＋<span class="sr-only">Add row</span></button>
               <button class="icon-btn" id="resetAll" type="button" data-tip="Reset">🗑️<span class="sr-only">Reset</span></button>
+
+              <!-- 🖨️ Print clasic -->
               <button class="icon-btn primary" id="printBtn" type="button" data-tip="Print">🖨️<span class="sr-only">Print</span></button>
+
+              <!-- 📄 Save PDF direct -->
+              <button class="icon-btn primary" id="pdfBtn" type="button" data-tip="Save PDF">📄<span class="sr-only">Save PDF</span></button>
 
               <div class="hint" style="margin-left:6px;">Rânduri: <b id="rowCount">0</b></div>
             </div>
@@ -663,6 +676,9 @@
 
   <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
 
+  <!-- ✅ html2pdf pentru download direct (fara dialog print) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <script>
     const els = {
       loadDot: document.getElementById('loadDot'),
@@ -683,6 +699,7 @@
 
       addEmptyRow: document.getElementById('addEmptyRow'),
       printBtn: document.getElementById('printBtn'),
+      pdfBtn: document.getElementById('pdfBtn'),
 
       protDetails: document.getElementById('protDetails'),
       stdProtocolSelect: document.getElementById('stdProtocolSelect'),
@@ -828,7 +845,9 @@
       renderHeader();
       renderTable();
       syncButtons();
-      els.protDetails.open = false;
+
+      // ✅ NU inchidem protocoalele (ramane deschis)
+      // els.protDetails.open = false;
 
       toast(added ? 'Protocol adăugat.' : 'Nimic de adăugat (toate existau).', added ? 'good' : 'bad');
     }
@@ -1002,13 +1021,13 @@
           rows[idx].name = match.name;
           if (!safeTrim(rows[idx].notes)) rows[idx].notes = match.notes || '';
           renderTable();
-          renderHeader(); // ✅ update titlu daca ai editat numele clientului
+          renderHeader();
           return;
         } else {
           rows[idx].id = '';
         }
 
-        renderHeader(); // ✅ update titlu in tab la orice edit
+        renderHeader();
       } else if (field === 'notes'){
         rows[idx].notes = next;
       }
@@ -1056,7 +1075,10 @@
       renderCatalog();
       renderTable();
 
-      els.protDetails.open = false;
+      // ✅ protocoale mereu deschis
+      els.protDetails.open = true;
+
+      // optional: catalog inchis
       els.catalogDetails.open = false;
 
       syncButtons();
@@ -1098,11 +1120,47 @@
         renderTable();
       });
 
+      // 🖨️ print clasic
       els.printBtn.addEventListener('click', () => {
         pruneEmptyRows();
         setPrintDate();
-        renderHeader(); // asigura nume + footer + lastUiTitle
+        renderHeader();
         window.print();
+      });
+
+      // 📄 PDF direct (download) fara dialog de print
+      els.pdfBtn.addEventListener('click', async () => {
+        pruneEmptyRows();
+        setPrintDate();
+        renderHeader();
+
+        const name = safeTrim(els.clientName.value) || 'Client';
+        const fileSlug = slugify(name) || 'client';
+        const filename = `analize-${fileSlug}.pdf`;
+
+        const content = document.querySelector('main.card');
+
+        // fortam elementele "print-only" si ascundem "no-print"
+        document.body.classList.add('force-print');
+
+        try{
+          await html2pdf()
+            .set({
+              margin: 8,
+              filename,
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+              pagebreak: { mode: ['css', 'legacy'] }
+            })
+            .from(content)
+            .save();
+        }catch(err){
+          console.error(err);
+          toast('Eroare la generarea PDF. Vezi consola.', 'bad');
+        }finally{
+          document.body.classList.remove('force-print');
+        }
       });
 
       els.clientName.addEventListener('input', renderHeader);
