@@ -1,8 +1,33 @@
 [
   {
-    "id": "analize-basic-femeie",
-    "name": "Baza – analize uzuale (Femeie)",
-    "goal": "Screening general (de discutat cu medicul)",
+    "id": "analize-basic-femeie-cas",
+    "name": "Baza – analize uzuale CAS (Femeie)",
+    "goal": "Screening general (de discutat cu medicul) – varianta CAS/trimitere MF",
+    "variant": "cas",
+    "sex": "femeie",
+    "items": [
+      "hemoleucograma-formula",
+      "tgp-alt",
+      "tgo-ast",
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "homa-ir"
+    ]
+  },
+  {
+    "id": "analize-basic-femeie-pay",
+    "name": "Baza – analize uzuale (Femeie) – pe bani (extins)",
+    "goal": "Screening general (de discutat cu medicul) – include HbA1c + lipaza",
+    "variant": "pay",
+    "sex": "femeie",
     "items": [
       "hemoleucograma-formula",
       "tgp-alt",
@@ -23,9 +48,37 @@
     ]
   },
   {
-    "id": "analize-basic-barbat-cu-psa",
-    "name": "Baza – analize uzuale (Barbat + PSA)",
-    "goal": "Screening general + prostata (de discutat cu medicul)",
+    "id": "analize-basic-barbat-cu-psa-cas",
+    "name": "Baza – analize uzuale CAS (Barbat + PSA)",
+    "goal": "Screening general + prostata (de discutat cu medicul) – varianta CAS/trimitere MF",
+    "variant": "cas",
+    "sex": "barbat",
+    "psa": "cu",
+    "items": [
+      "hemoleucograma-formula",
+      "tgp-alt",
+      "tgo-ast",
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "homa-ir",
+      "psa-total"
+    ]
+  },
+  {
+    "id": "analize-basic-barbat-cu-psa-pay",
+    "name": "Baza – analize uzuale (Barbat + PSA) – pe bani (extins)",
+    "goal": "Screening general + prostata (de discutat cu medicul) – include HbA1c + lipaza",
+    "variant": "pay",
+    "sex": "barbat",
+    "psa": "cu",
     "items": [
       "hemoleucograma-formula",
       "tgp-alt",
@@ -47,9 +100,36 @@
     ]
   },
   {
-    "id": "analize-basic-barbat-fara-psa",
-    "name": "Baza – analize uzuale (Barbat fara PSA)",
-    "goal": "Screening general (de discutat cu medicul)",
+    "id": "analize-basic-barbat-fara-psa-cas",
+    "name": "Baza – analize uzuale CAS (Barbat fara PSA)",
+    "goal": "Screening general (de discutat cu medicul) – varianta CAS/trimitere MF",
+    "variant": "cas",
+    "sex": "barbat",
+    "psa": "fara",
+    "items": [
+      "hemoleucograma-formula",
+      "tgp-alt",
+      "tgo-ast",
+      "ggt",
+      "bilirubina-totala",
+      "egfr",
+      "uree-serica",
+      "acid-uric",
+      "tsh",
+      "ft4",
+      "hdl-colesterol",
+      "ldl-colesterol",
+      "trigliceride",
+      "homa-ir"
+    ]
+  },
+  {
+    "id": "analize-basic-barbat-fara-psa-pay",
+    "name": "Baza – analize uzuale (Barbat fara PSA) – pe bani (extins)",
+    "goal": "Screening general (de discutat cu medicul) – include HbA1c + lipaza",
+    "variant": "pay",
+    "sex": "barbat",
+    "psa": "fara",
     "items": [
       "hemoleucograma-formula",
       "tgp-alt",
@@ -70,4 +150,3 @@
     ]
   }
 ]
-

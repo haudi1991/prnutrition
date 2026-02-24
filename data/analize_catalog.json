@@ -2,92 +2,109 @@
   {
     "id": "hemoleucograma-formula",
     "name": "Hemoleucograma cu formula leucocitara",
-    "notes": "Panou de baza pentru sange (eritrocite/leucocite/trombocite + formula). Ajuta la screening pentru anemie, infectie/inflamatie, status general, uneori deficit de fier/B12 (in context)."
+    "notes": "Panou de baza pentru sange (eritrocite/leucocite/trombocite + formula). Ajuta la screening pentru anemie, infectie/inflamatie, status general, uneori deficit de fier/B12 (in context).",
+    "billing": "cas"
   },
   {
     "id": "tgp-alt",
     "name": "TGP (ALT)",
-    "notes": "Enzima hepatica. Ajuta la orientare in afectare hepatica (steatoza, hepatite, medicatie, alcool) – interpretare medicala in context."
+    "notes": "Enzima hepatica. Ajuta la orientare in afectare hepatica (steatoza, hepatite, medicatie, alcool) – interpretare medicala in context.",
+    "billing": "cas"
   },
   {
     "id": "tgo-ast",
     "name": "TGO (AST)",
-    "notes": "Enzima asociata cu ficatul, dar si cu muschiul. Ajuta la orientare in afectare hepatica sau musculara (context: efort intens, medicatie, alcool etc.)."
+    "notes": "Enzima asociata cu ficatul, dar si cu muschiul. Ajuta la orientare in afectare hepatica sau musculara (context: efort intens, medicatie, alcool etc.).",
+    "billing": "cas"
   },
   {
     "id": "ggt",
     "name": "GGT",
-    "notes": "Enzima hepatobiliara. Utila in context biliar/colestaza si uneori consum de alcool sau medicatie – interpretare in context."
+    "notes": "Enzima hepatobiliara. Utila in context biliar/colestaza si uneori consum de alcool sau medicatie – interpretare in context.",
+    "billing": "cas"
   },
   {
     "id": "bilirubina-totala",
     "name": "Bilirubina (totala)",
-    "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical."
+    "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical.",
+    "billing": "cas"
   },
   {
     "id": "egfr",
     "name": "eGFR (rata filtrarii glomerulare estimata)",
-    "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet."
+    "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet.",
+    "billing": "cas"
   },
   {
     "id": "uree-serica",
     "name": "Uree serica",
-    "notes": "Marker orientativ renal/metabolic (hidratare, aport proteic, functie renala). Se interpreteaza impreuna cu creatinina/eGFR."
+    "notes": "Marker orientativ renal/metabolic (hidratare, aport proteic, functie renala). Se interpreteaza impreuna cu creatinina/eGFR.",
+    "billing": "cas"
   },
   {
     "id": "acid-uric",
     "name": "Acid uric",
-    "notes": "Util in context de guta, risc metabolic si uneori dieta/alcool. Valori crescute se discuta medical."
+    "notes": "Util in context de guta, risc metabolic si uneori dieta/alcool. Valori crescute se discuta medical.",
+    "billing": "cas"
   },
   {
     "id": "tsh",
     "name": "TSH",
-    "notes": "Hormon de reglaj tiroidian. Interpretare impreuna cu FT4 si simptome pentru status tiroidian."
+    "notes": "Hormon de reglaj tiroidian. Interpretare impreuna cu FT4 si simptome pentru status tiroidian.",
+    "billing": "cas"
   },
   {
     "id": "ft4",
     "name": "FT4 (Free T4)",
-    "notes": "Tiroxina libera. Impreuna cu TSH ajuta la orientare hipo/hipertiroidism (context clinic)."
+    "notes": "Tiroxina libera. Impreuna cu TSH ajuta la orientare hipo/hipertiroidism (context clinic).",
+    "billing": "cas"
   },
   {
     "id": "hdl-colesterol",
     "name": "HDL colesterol",
-    "notes": "“Colesterolul bun” (orientativ). Se interpreteaza impreuna cu LDL si trigliceride pentru risc cardio-metabolic."
+    "notes": "“Colesterolul bun” (orientativ). Se interpreteaza impreuna cu LDL si trigliceride pentru risc cardio-metabolic.",
+    "billing": "cas"
   },
   {
     "id": "ldl-colesterol",
     "name": "LDL colesterol",
-    "notes": "“Colesterolul rau” (orientativ). Important pentru risc cardio-metabolic; se discuta tinta in functie de risc (medical)."
+    "notes": "“Colesterolul rau” (orientativ). Important pentru risc cardio-metabolic; se discuta tinta in functie de risc (medical).",
+    "billing": "cas"
   },
   {
     "id": "trigliceride",
     "name": "Trigliceride",
-    "notes": "Sensibile la exces caloric, alcool, carbo rafinati si rezistenta la insulina. Importante in evaluarea riscului metabolic."
+    "notes": "Sensibile la exces caloric, alcool, carbo rafinati si rezistenta la insulina. Importante in evaluarea riscului metabolic.",
+    "billing": "cas"
   },
   {
     "id": "amilaza",
     "name": "Amilaza",
-    "notes": "Enzima digestiva (pancreas/salivar). Utila in context de simptome digestive/pancreatice – interpretare medicala."
+    "notes": "Enzima digestiva (pancreas/salivar). Utila in context de simptome digestive/pancreatice – interpretare medicala.",
+    "billing": "pay"
   },
   {
     "id": "lipaza",
     "name": "Lipaza",
-    "notes": "Enzima pancreatica, mai specifica pentru pancreas decat amilaza in multe contexte. Utila in suspiciune de afectare pancreatica."
+    "notes": "Enzima pancreatica, mai specifica pentru pancreas decat amilaza in multe contexte. Utila in suspiciune de afectare pancreatica.",
+    "billing": "pay"
   },
   {
     "id": "hba1c",
     "name": "Hemoglobina glicozilata (HbA1c)",
-    "notes": "Media glicemiei pe ~2–3 luni. Utila pentru screening/monitorizare prediabet/diabet si risc metabolic."
+    "notes": "Media glicemiei pe ~2–3 luni. Utila pentru screening/monitorizare prediabet/diabet si risc metabolic.",
+    "billing": "pay"
   },
   {
     "id": "homa-ir",
     "name": "Indice HOMA (HOMA-IR)",
-    "notes": "Estimare a rezistentei la insulina (de obicei din glicemie + insulina a jeun). Interpretare in context medical/metabolic."
+    "notes": "Estimare a rezistentei la insulina (de obicei din glicemie + insulina a jeun). Interpretare in context medical/metabolic.",
+    "billing": "cas"
   },
   {
     "id": "psa-total",
     "name": "PSA (antigen specific prostatic) – total",
-    "notes": "Marker orientativ pentru prostata. Se interpreteaza urologic (varsta, simptome, volum prostatic, dinamica in timp)."
+    "notes": "Marker orientativ pentru prostata. Se interpreteaza urologic (varsta, simptome, volum prostatic, dinamica in timp).",
+    "billing": "pay"
   }
 ]
-
