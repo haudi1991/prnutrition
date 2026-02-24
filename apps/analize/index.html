@@ -96,6 +96,18 @@
       margin-top: 6px;
     }
 
+    /* ✅ Print-only footer (cu “numele de fisier” recomandat) */
+    .print-footer{
+      display:none;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.14);
+      color: rgba(234,241,255,.75);
+      font-size: 11.5px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
     .sr-only{
       position:absolute;
       width:1px;height:1px;
@@ -113,7 +125,7 @@
       color: rgba(255,220,220,.82);
     }
 
-    /* ✅ 2 coloane pentru “Date” */
+    /* ✅ 2 coloane pentru “Date” (ramane, dar acum avem doar nume) */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -362,18 +374,6 @@
     }
     .btn:hover{ background: rgba(255,255,255,.06); }
 
-    /* ===== Callout + Table ===== */
-    .callout{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(125,211,252,.06);
-      color: rgba(234,241,255,.80);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
     .table-actions{
       margin-top: 10px;
       display:flex;
@@ -428,7 +428,6 @@
       background: rgba(255,255,255,.02);
     }
 
-    /* delete column */
     th.col-del, td.col-del{
       width: 44px;
       text-align: right;
@@ -452,7 +451,6 @@
 
     .no-print { display: block; }
 
-    /* ===== Toast ===== */
     .toast{
       position: fixed;
       left: 12px;
@@ -475,7 +473,6 @@
     .toast.bad{ border-color: rgba(255,160,160,.35); }
     .toast.good{ border-color: rgba(167,243,208,.35); }
 
-    /* ✅ Bonus: cand Catalog e deschis, lista devine scrollabila */
     #catalogDetails[open] #catalogList{
       max-height: 520px;
       overflow: auto;
@@ -513,6 +510,10 @@
       .print-title{
         display:block !important;
         font-size: 20px !important;
+      }
+
+      .print-footer{
+        display:block !important;
       }
 
       .table-wrap{
@@ -560,7 +561,7 @@
               <div class="sum-left">
                 <div class="chev">›</div>
                 <div class="sum-title">Date</div>
-                <div class="sum-muted">client + obiectiv</div>
+                <div class="sum-muted">client</div>
               </div>
               <div class="sum-actions"></div>
             </summary>
@@ -573,15 +574,6 @@
                     id="clientName"
                     style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
                     placeholder="Ex: Andrei Popescu"
-                  />
-                </div>
-
-                <div>
-                  <div class="hint" style="margin-bottom:6px;">Obiectiv / context (1–2 fraze)</div>
-                  <input
-                    id="goal"
-                    style="width:100%; font:inherit; color:var(--text); background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 10px; outline:none;"
-                    placeholder="Ex: screening, energie, oboseală, tiroidă..."
                   />
                 </div>
               </div>
@@ -658,6 +650,12 @@
             </table>
           </div>
 
+          <!-- ✅ Print-only footer la final (nume + “nume fisier” recomandat) -->
+          <div class="print-footer">
+            Client: <b id="printFooterName">Client</b><br/>
+            Nume fisier recomandat: <span id="printFooterFile">analize-client.pdf</span>
+          </div>
+
         </div>
       </section>
     </main>
@@ -672,11 +670,13 @@
 
       dateDetails: document.getElementById('dateDetails'),
       clientName: document.getElementById('clientName'),
-      goal: document.getElementById('goal'),
       clientNameOut: document.getElementById('clientNameOut'),
       printName: document.getElementById('printName'),
-      goalOut: document.getElementById('goalOut'), // (poate lipsi)
       printDate: document.getElementById('printDate'),
+
+      // ✅ footer print
+      printFooterName: document.getElementById('printFooterName'),
+      printFooterFile: document.getElementById('printFooterFile'),
 
       resetAll: document.getElementById('resetAll'),
       rowCount: document.getElementById('rowCount'),
@@ -821,8 +821,6 @@
         added++;
       }
 
-      if (!safeTrim(els.goal.value) && safeTrim(p?.goal)) els.goal.value = p.goal;
-
       renderHeader();
       renderTable();
       syncButtons();
@@ -848,12 +846,13 @@
 
     function renderHeader(){
       const name = safeTrim(els.clientName.value) || 'Client';
-      const goal = safeTrim(els.goal.value) || '—';
       els.clientNameOut.textContent = name;
       els.printName.textContent = name;
 
-      // ✅ FIX: daca goalOut nu exista, nu mai crapa
-      if (els.goalOut) els.goalOut.textContent = goal;
+      // ✅ footer print
+      els.printFooterName.textContent = name;
+      const fileSlug = slugify(name) || 'client';
+      els.printFooterFile.textContent = `analize-${fileSlug}.pdf`;
     }
 
     function renderCatalog(){
@@ -1038,7 +1037,6 @@
 
     function resetAll(){
       els.clientName.value = '';
-      els.goal.value = '';
       els.catalogSearch.value = '';
       els.stdProtocolSelect.value = '';
       rows = [];
@@ -1079,12 +1077,11 @@
       els.printBtn.addEventListener('click', () => {
         pruneEmptyRows();
         setPrintDate();
+        renderHeader(); // ✅ ca sa fie sigur footer-ul actualizat
         window.print();
       });
 
       els.clientName.addEventListener('input', renderHeader);
-      els.goal.addEventListener('input', renderHeader);
-
       els.catalogSearch.addEventListener('input', renderCatalog);
 
       els.stdProtocolSelect.addEventListener('change', syncButtons);
@@ -1110,4 +1107,3 @@
   </script>
 </body>
 </html>
-
