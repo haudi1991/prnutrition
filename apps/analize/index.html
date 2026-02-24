@@ -125,7 +125,6 @@
       color: rgba(255,220,220,.82);
     }
 
-    /* ✅ 2 coloane pentru “Date” (ramane, dar acum avem doar nume) */
     .grid2{
       display:grid;
       grid-template-columns: 1fr;
@@ -480,7 +479,7 @@
     }
 
     /* =========================
-       PRINT (PDF)
+       PRINT (browser)
        ========================= */
     @media print {
       *{
@@ -531,12 +530,33 @@
     }
 
     /* =========================
-       FORCE PRINT (pentru PDF download cu html2pdf)
+       FORCE PRINT (html2pdf)
        ========================= */
+    .force-print,
+    .force-print body{
+      background: var(--bg) !important;
+      color: var(--text) !important;
+    }
+
+    .force-print main.card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) !important;
+      border: 1px solid rgba(255,255,255,.10) !important;
+    }
+
     .force-print header{ display:none !important; }
     .force-print .no-print{ display:none !important; }
     .force-print .print-title{ display:block !important; font-size: 20px !important; }
     .force-print .print-footer{ display:block !important; }
+
+    /* optional: un pic mai contrastat in PDF download */
+    .force-print .panel{
+      background: rgba(255,255,255,.05) !important;
+      border-color: rgba(255,255,255,.14) !important;
+    }
+    .force-print .table-wrap{
+      background: rgba(255,255,255,.03) !important;
+      border-color: rgba(255,255,255,.14) !important;
+    }
   </style>
 </head>
 
@@ -723,7 +743,6 @@
     let protocols = [];
     let rows = [];
 
-    // ✅ Titlu: in UI vrei "Analize - Nume", iar la print vrei "analize-nume" ca default filename.
     const BASE_TITLE = 'Analize';
     let lastUiTitle = BASE_TITLE;
 
@@ -846,9 +865,6 @@
       renderTable();
       syncButtons();
 
-      // ✅ NU inchidem protocoalele (ramane deschis)
-      // els.protDetails.open = false;
-
       toast(added ? 'Protocol adăugat.' : 'Nimic de adăugat (toate existau).', added ? 'good' : 'bad');
     }
 
@@ -872,12 +888,10 @@
       els.clientNameOut.textContent = name;
       els.printName.textContent = name;
 
-      // ✅ footer print
       els.printFooterName.textContent = name;
       const fileSlug = slugify(name) || 'client';
       els.printFooterFile.textContent = `analize-${fileSlug}.pdf`;
 
-      // ✅ titlul tab-ului (UI)
       lastUiTitle = `${BASE_TITLE} - ${name}`;
       document.title = lastUiTitle;
     }
@@ -1095,13 +1109,10 @@
       syncButtons();
     }
 
-    // ✅ IMPORTANT:
-    // Majoritatea browserelor folosesc document.title ca default filename la "Save as PDF".
-    // De aceea, inainte de print setam temporar titlul pe "analize-nume", apoi il revenim dupa.
     window.addEventListener('beforeprint', () => {
       const name = safeTrim(els.clientName.value) || 'Client';
       const fileSlug = slugify(name) || 'client';
-      document.title = `analize-${fileSlug}`; // -> default: analize-radu.pdf
+      document.title = `analize-${fileSlug}`;
     });
 
     window.addEventListener('afterprint', () => {
@@ -1140,7 +1151,6 @@
 
         const content = document.querySelector('main.card');
 
-        // fortam elementele "print-only" si ascundem "no-print"
         document.body.classList.add('force-print');
 
         try{
@@ -1149,7 +1159,11 @@
               margin: 8,
               filename,
               image: { type: 'jpeg', quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true },
+              html2canvas: {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#0b0f17' // ✅ fix: nu mai alb
+              },
               jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
               pagebreak: { mode: ['css', 'legacy'] }
             })
