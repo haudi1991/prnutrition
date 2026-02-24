@@ -706,6 +706,10 @@
     let protocols = [];
     let rows = [];
 
+    // ✅ Titlu: in UI vrei "Analize - Nume", iar la print vrei "analize-nume" ca default filename.
+    const BASE_TITLE = 'Analize';
+    let lastUiTitle = BASE_TITLE;
+
     function safeTrim(x){ return (x ?? '').toString().trim(); }
     function slugify(s){
       return safeTrim(s).toLowerCase()
@@ -853,6 +857,10 @@
       els.printFooterName.textContent = name;
       const fileSlug = slugify(name) || 'client';
       els.printFooterFile.textContent = `analize-${fileSlug}.pdf`;
+
+      // ✅ titlul tab-ului (UI)
+      lastUiTitle = `${BASE_TITLE} - ${name}`;
+      document.title = lastUiTitle;
     }
 
     function renderCatalog(){
@@ -994,10 +1002,13 @@
           rows[idx].name = match.name;
           if (!safeTrim(rows[idx].notes)) rows[idx].notes = match.notes || '';
           renderTable();
+          renderHeader(); // ✅ update titlu daca ai editat numele clientului
           return;
         } else {
           rows[idx].id = '';
         }
+
+        renderHeader(); // ✅ update titlu in tab la orice edit
       } else if (field === 'notes'){
         rows[idx].notes = next;
       }
@@ -1062,6 +1073,19 @@
       syncButtons();
     }
 
+    // ✅ IMPORTANT:
+    // Majoritatea browserelor folosesc document.title ca default filename la "Save as PDF".
+    // De aceea, inainte de print setam temporar titlul pe "analize-nume", apoi il revenim dupa.
+    window.addEventListener('beforeprint', () => {
+      const name = safeTrim(els.clientName.value) || 'Client';
+      const fileSlug = slugify(name) || 'client';
+      document.title = `analize-${fileSlug}`; // -> default: analize-radu.pdf
+    });
+
+    window.addEventListener('afterprint', () => {
+      document.title = lastUiTitle || BASE_TITLE;
+    });
+
     async function init(){
       setPrintDate();
       renderHeader();
@@ -1077,7 +1101,7 @@
       els.printBtn.addEventListener('click', () => {
         pruneEmptyRows();
         setPrintDate();
-        renderHeader(); // ✅ ca sa fie sigur footer-ul actualizat
+        renderHeader(); // asigura nume + footer + lastUiTitle
         window.print();
       });
 
