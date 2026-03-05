@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Surse de proteine – exemple utile</title>
+  <title>Surse proteice – exemple utile</title>
 
   <style>
     :root{
@@ -202,15 +202,6 @@
       line-height: 1.45;
     }
 
-    .t-list{
-      margin: 8px 0 0 18px;
-      padding:0;
-      color: rgba(234,241,255,.66);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-    .t-list li{ margin: 4px 0; }
-
     .t-note{
       margin-top: 10px;
       padding: 10px 12px;
@@ -233,16 +224,7 @@
       line-height: 1.4;
     }
 
-    /* two column row */
-    .t-row{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-    @media (min-width: 820px){
-      .t-row{ grid-template-columns: 1fr 1fr; }
-    }
-
+    /* small grid */
     .small-grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -273,21 +255,16 @@
       display:block;
     }
 
-    .mini-card a{
-      margin-top: 8px;
-      display:inline-block;
-      color: var(--text);
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,.12);
-      padding:7px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      background: rgba(255,255,255,.03);
-      width: fit-content;
+    /* ✅ links: fara albastru default */
+    a{
+      color: rgba(234,241,255,.88);
+      text-decoration: none;
     }
+    a:hover{ text-decoration: underline; }
+    .t-note a, .mini-card a{ color: rgba(234,241,255,.90); }
 
     /* =========================
-       PRINT
+       PRINT: 1 pagina
        ========================= */
     @media print {
       *{
@@ -296,8 +273,8 @@
       }
 
       @page{
-        size: A4 portrait;
-        margin: 8mm;
+        size: A4 landscape;
+        margin: 6mm;
       }
 
       html, body{
@@ -307,48 +284,88 @@
         padding: 0 !important;
       }
 
-      header{ margin-bottom: 10px !important; gap: 8px !important; }
-      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
-      h1{ font-size: 24px !important; }
-      .sub{ font-size: 12px !important; }
+      header{ margin-bottom: 8px !important; gap: 6px !important; }
+      .badge{ font-size: 10.8px !important; padding: 5px 8px !important; }
+      h1{ font-size: 22px !important; }
+      .sub{ font-size: 11.5px !important; line-height: 1.35 !important; }
       .pillrow{ display:none !important; }
 
+      .card{ box-shadow: none !important; }
       .section{ padding: 12px !important; }
-      .quote{ padding: 10px !important; font-size: 12.5px !important; }
 
-      .panel{ padding: 10px !important; margin-top: 10px !important; }
-      .panel-title{ font-size: 13px !important; }
-      .panel-sub{ font-size: 12px !important; margin-top: 4px !important; }
-      .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
+      .quote{
+        padding: 9px !important;
+        font-size: 11.6px !important;
+        line-height: 1.35 !important;
+      }
 
-      .timeline{ gap: 8px !important; margin-top: 10px !important; }
+      .panel{
+        padding: 9px !important;
+        margin-top: 9px !important;
+        border-radius: 14px !important;
+      }
 
-      .t-item{ padding: 9px !important; gap: 10px !important; border-radius: 12px !important; }
-      .t-dot{ width:40px !important; height:40px !important; border-radius: 12px !important; }
-      .t-head strong{ font-size: 13px !important; }
-      .t-mini{ font-size: 11px !important; padding: 4px 8px !important; }
-      .t-body{ font-size: 12px !important; }
-      .t-list{ font-size: 12px !important; margin-top: 6px !important; }
-      .t-note{ font-size: 11.6px !important; padding: 8px 10px !important; margin-top: 8px !important; }
-      .callout{ padding: 8px 10px !important; font-size: 12px !important; }
+      .panel-title{ font-size: 12.5px !important; }
+      .panel-sub{ font-size: 11.4px !important; margin-top: 3px !important; line-height: 1.3 !important; }
+      .tag{ margin-top: 5px !important; padding: 4px 8px !important; font-size: 10.8px !important; }
 
-      .t-row{
-        display:grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap:10px !important;
+      .timeline{ gap: 6px !important; margin-top: 8px !important; }
+
+      .t-item{
+        padding: 7px 8px !important;
+        gap: 9px !important;
+        border-radius: 12px !important;
+      }
+
+      .t-dot{
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 12px !important;
+        font-size: 11px !important;
+      }
+
+      .t-head strong{ font-size: 12px !important; }
+      .t-mini{ font-size: 10.8px !important; padding: 3px 7px !important; }
+
+      /* ✅ taiem descrierile ca sa incapa */
+      .t-body{ display:none !important; }
+
+      .t-note{
+        margin-top: 6px !important;
+        padding: 6px 8px !important;
+        font-size: 11px !important;
+        line-height: 1.25 !important;
+        border-radius: 11px !important;
+      }
+
+      .callout{
+        margin-top: 8px !important;
+        padding: 7px 9px !important;
+        font-size: 11.2px !important;
+        line-height: 1.3 !important;
+        border-radius: 12px !important;
       }
 
       .small-grid{
-        grid-template-columns: 1fr 1fr 1fr !important;
-        gap:10px !important;
+        margin-top: 8px !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 8px !important;
       }
+
+      .mini-card{
+        padding: 8px 10px !important;
+        min-height: 50px !important;
+        border-radius: 12px !important;
+      }
+      .mini-card strong{ font-size: 12px !important; }
+      .mini-card span{ font-size: 11px !important; line-height: 1.25 !important; }
+
+      a[href]::after{ content: "" !important; }
 
       .t-item,.mini-card,.quote,.callout,.t-note,.panel{
         break-inside: avoid !important;
         page-break-inside: avoid !important;
       }
-
-      a[href]::after{ content: "" !important; }
     }
   </style>
 </head>
@@ -398,9 +415,7 @@
                       <strong>Kefir Olympus High Protein (2% grasime)</strong>
                       <span class="t-mini">~26g / sticla</span>
                     </div>
-                    <div class="t-body">
-                      Bun ca gustare rapida sau langa un mic dejun mai usor.
-                    </div>
+                    <div class="t-body">Bun ca gustare rapida sau langa un mic dejun mai usor.</div>
                     <div class="t-note">
                       Link: <a href="https://www.auchan.ro/kefir-olympus-high-protein-2-grasime-330-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                     </div>
@@ -414,9 +429,7 @@
                       <strong>Branza de vaci Covalact (0.5% grasime)</strong>
                       <span class="t-mini">~34g / cutie</span>
                     </div>
-                    <div class="t-body">
-                      Merge in combinatii sarate (legume) sau dulci (fructe/indulcitor) – in functie de preferinte.
-                    </div>
+                    <div class="t-body">Merge in combinatii sarate (legume) sau dulci (fructe/indulcitor) – in functie de preferinte.</div>
                     <div class="t-note">
                       Link: <a href="https://www.auchan.ro/branza-de-vaci-covalact-proaspata-0-5-grasime-200-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                     </div>
@@ -430,9 +443,7 @@
                       <strong>Cottage Light Olympus (2% grasime)</strong>
                       <span class="t-mini">~19g / cutie</span>
                     </div>
-                    <div class="t-body">
-                      Bun pentru salate, sandvisuri, sau ca snack rapid.
-                    </div>
+                    <div class="t-body">Bun pentru salate, sandvisuri, sau ca snack rapid.</div>
                     <div class="t-note">
                       Link: <a href="https://www.auchan.ro/branza-de-vaca-cottage-light-olympus-2-grasime-180-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                     </div>
@@ -446,9 +457,7 @@
                       <strong>Budinca proteica Milbona (Lidl)</strong>
                       <span class="t-mini">~20g / portie</span>
                     </div>
-                    <div class="t-body">
-                      Alternativa ok cand ai pofta de “ceva dulce”, dar vrei proteine.
-                    </div>
+                    <div class="t-body">Alternativa ok cand ai pofta de “ceva dulce”, dar vrei proteine.</div>
                     <div class="t-note">
                       Link: <a href="https://www.lidl.ro/p/milbona-budinca-proteica/p10037091" target="_blank" rel="noopener">Deschide produsul</a>
                     </div>
@@ -462,9 +471,7 @@
                       <strong>Bautura proteica Milbona (Lidl)</strong>
                       <span class="t-mini">~37g / sticla</span>
                     </div>
-                    <div class="t-body">
-                      Varianta foarte rapida cand ai nevoie de un “boost” de proteine intr-o zi mai aglomerata.
-                    </div>
+                    <div class="t-body">Varianta foarte rapida cand ai nevoie de un “boost” de proteine intr-o zi mai aglomerata.</div>
                     <div class="t-note">
                       Link: <a href="https://www.lidl.ro/p/milbona-bautura-proteica-ciocolata/p10037081" target="_blank" rel="noopener">Deschide produsul</a>
                     </div>
@@ -488,18 +495,22 @@
                   <strong>Oua</strong>
                   <span>Mic dejun rapid / omleta / fierte.</span>
                 </div>
+
                 <div class="mini-card">
                   <strong>Lapte</strong>
-                  <span>Combinabil cu ovaz, cafea, smoothie.</span>
+                  <span>Combinabil cu ovaz.</span>
                 </div>
+
                 <div class="mini-card">
                   <strong>Iaurt</strong>
                   <span>Gustare + fructe / seminte.</span>
                 </div>
+
                 <div class="mini-card">
                   <strong>Carne</strong>
                   <span>Pui, curcan, vita (in functie de preferinte).</span>
                 </div>
+
                 <div class="mini-card">
                   <strong>Peste</strong>
                   <span>Ton, somon, cod etc. (rapid + usor).</span>
