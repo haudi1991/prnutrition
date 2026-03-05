@@ -1,662 +1,370 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>prnutrition</title>
-  <style>
-    :root{
-      --bg:#0b0f17;
-      --muted:#9fb0c3;
-      --text:#eaf1ff;
-      --line:rgba(255,255,255,.10);
-      --shadow: 0 14px 40px rgba(0,0,0,.35);
-      --radius: 18px;
-      --panel: rgba(255,255,255,.03);
-      --panel2: rgba(255,255,255,.02);
-      --accent: rgba(125,211,252,.95);
-      --accent2: rgba(167,243,208,.95);
-    }
-    *{ box-sizing:border-box; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>prnutrition</title>
 
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
-        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      padding: 26px 14px;
-    }
-    .wrap{ max-width: 1020px; margin: 0 auto; }
+<style>
+:root{
+--bg:#0b0f17;
+--muted:#9fb0c3;
+--text:#eaf1ff;
+--line:rgba(255,255,255,.10);
+--shadow:0 14px 40px rgba(0,0,0,.35);
+--radius:18px;
+--panel:rgba(255,255,255,.03);
+--panel2:rgba(255,255,255,.02);
+--accent:rgba(125,211,252,.95);
+--accent2:rgba(167,243,208,.95);
+}
 
-    header{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .badge{
-      width: fit-content;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: rgba(234,241,255,.82);
-      font-size: 12px;
-    }
-    .badge .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(125,211,252,.10);
-    }
-    h1{ margin:0; letter-spacing:-0.02em; font-size: 34px; }
-    p{ color: var(--muted); margin: 0; max-width: 92ch; font-size: 13px; line-height: 1.45; }
+*{box-sizing:border-box;}
 
-    /* ===== Modern section blocks ===== */
-    .section{
-      margin-top: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border-radius: 18px;
-      overflow:hidden;
-      box-shadow: 0 10px 26px rgba(0,0,0,.18);
-    }
-    .section-head{
-      padding: 14px 14px 12px 14px;
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:12px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.02);
-    }
-    .section-head .left{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 0;
-    }
-    .section-title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      color: rgba(234,241,255,.92);
-      font-size: 14px;
-      margin:0;
-      white-space: nowrap;
-    }
-    .section-sub{
-      font-size: 12px;
-      color: rgba(234,241,255,.58);
-      font-weight: 700;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      font-size: 11px;
-      color: rgba(234,241,255,.72);
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      flex: 0 0 auto;
-    }
-    .tag .t-dot{
-      width:8px;height:8px;border-radius:999px;
-      background: rgba(125,211,252,.9);
-      box-shadow: 0 0 0 4px rgba(125,211,252,.10);
-    }
-    .tag.docs .t-dot{
-      background: rgba(167,243,208,.9);
-      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
-    }
+body{
+margin:0;
+font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+background:
+radial-gradient(1200px 800px at 20% 10%,rgba(125,211,252,.15),transparent 60%),
+radial-gradient(900px 700px at 80% 20%,rgba(167,243,208,.12),transparent 55%),
+var(--bg);
+color:var(--text);
+padding:26px 14px;
+}
 
-    .section-body{ padding: 14px; }
+.wrap{max-width:1020px;margin:0 auto;}
 
-    /* ===== Cards grid ===== */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 860px){
-      .grid{ grid-template-columns: 1fr 1fr; }
-    }
+header{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-bottom:14px;
+}
 
-    a.card{
-      text-decoration:none;
-      color: inherit;
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-height: 132px;
-      position: relative;
-      overflow:hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-    a.card:hover{
-      transform: translateY(-1px);
-      transition: transform .12s ease;
-      border-color: rgba(255,255,255,.16);
-    }
+.badge{
+width:fit-content;
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:7px 10px;
+border-radius:999px;
+border:1px solid var(--line);
+background:rgba(255,255,255,.03);
+color:rgba(234,241,255,.82);
+font-size:12px;
+}
 
-    .card.app::before,
-    .card.doc::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      pointer-events:none;
-      opacity:.55;
-      background:
-        radial-gradient(500px 260px at 20% 10%, rgba(125,211,252,.18), transparent 55%),
-        radial-gradient(420px 240px at 90% 20%, rgba(167,243,208,.12), transparent 58%);
-      mask: linear-gradient(#000, transparent 75%);
-    }
-    .card.doc::before{
-      opacity:.45;
-      background:
-        radial-gradient(520px 260px at 18% 8%, rgba(167,243,208,.16), transparent 58%),
-        radial-gradient(420px 240px at 92% 22%, rgba(125,211,252,.10), transparent 60%);
-    }
+.badge .dot{
+width:10px;height:10px;border-radius:999px;
+background:var(--accent);
+box-shadow:0 0 0 4px rgba(125,211,252,.10);
+}
 
-    .topline{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .title{
-      font-weight: 950;
-      font-size: 16px;
-      letter-spacing: -0.01em;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .ico{
-      width:30px;height:30px;
-      border-radius: 12px;
-      display:grid; place-items:center;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      flex:0 0 auto;
-      font-size: 16px;
-    }
-    .ico.app{
-      background: rgba(125,211,252,.10);
-      border-color: rgba(125,211,252,.18);
-    }
-    .ico.doc{
-      background: rgba(167,243,208,.09);
-      border-color: rgba(167,243,208,.16);
-    }
+h1{margin:0;letter-spacing:-0.02em;font-size:34px;}
 
-    .sub{ color: var(--muted); font-size: 13px; line-height: 1.45; }
+p{color:var(--muted);margin:0;max-width:92ch;font-size:13px;line-height:1.45;}
 
-    .row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:auto;
-      flex-wrap:wrap;
-    }
-    .pill{
-      width: fit-content;
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 12px;
-      color: rgba(234,241,255,.62);
-      background: rgba(255,255,255,.02);
-    }
-    .open{
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      color: rgba(234,241,255,.86);
-      border-radius: 12px;
-      padding: 7px 10px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      width: fit-content;
-    }
+.section{
+margin-top:16px;
+border:1px solid rgba(255,255,255,.10);
+background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
 
-    /* ✅ Call chips */
-    .chips{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .chip{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      color: rgba(234,241,255,.70);
-      border-radius: 999px;
-      padding: 5px 9px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-    .chip.call{
-      border-color: rgba(167,243,208,.18);
-      background: rgba(167,243,208,.08);
-      color: rgba(234,241,255,.78);
-    }
+.section-head{
+padding:14px 14px 12px 14px;
+display:flex;
+align-items:flex-end;
+justify-content:space-between;
+gap:12px;
+border-bottom:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.02);
+}
 
-    /* ===== Collapsible JSON block ===== */
-    details.data-accordion{
-      margin-top: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      border-radius: 16px;
-      overflow:hidden;
-    }
-    summary.data-summary{
-      cursor:pointer;
-      list-style:none;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 12px 14px;
-      user-select:none;
-    }
-    summary.data-summary::-webkit-details-marker{ display:none; }
+.section-head .left{
+display:flex;
+flex-direction:column;
+gap:4px;
+min-width:0;
+}
 
-    .sum-left{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 0;
-    }
-    .chev{
-      width: 28px;
-      height: 28px;
-      border-radius: 10px;
-      display:grid;
-      place-items:center;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.02);
-      color: rgba(234,241,255,.72);
-      flex: 0 0 auto;
-      font-size: 14px;
-      transition: transform .14s ease;
-    }
-    details[open] .chev{ transform: rotate(90deg); }
+.section-title{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:950;
+letter-spacing:-0.01em;
+color:rgba(234,241,255,.92);
+font-size:14px;
+margin:0;
+white-space:nowrap;
+}
 
-    .sum-title{
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      color: rgba(234,241,255,.90);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-    .sum-sub{
-      color: rgba(234,241,255,.55);
-      font-weight: 700;
-      font-size: 11px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+.section-sub{
+font-size:12px;
+color:rgba(234,241,255,.58);
+font-weight:700;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
 
-    .json-chip{
-      width: fit-content;
-      border: 1px solid rgba(167,243,208,.18);
-      background: rgba(167,243,208,.08);
-      color: rgba(234,241,255,.78);
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      flex: 0 0 auto;
-    }
+.tag{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:6px 10px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.10);
+background:rgba(255,255,255,.02);
+font-size:11px;
+color:rgba(234,241,255,.72);
+font-weight:900;
+letter-spacing:-0.01em;
+}
 
-    .data-body{
-      padding: 12px 12px 14px 12px;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
-    .data-wrap{
-      border: 1px dashed rgba(255,255,255,.14);
-      background: rgba(255,255,255,.015);
-      border-radius: 16px;
-      padding: 12px;
-    }
+.tag .t-dot{
+width:8px;height:8px;border-radius:999px;
+background:rgba(125,211,252,.9);
+box-shadow:0 0 0 4px rgba(125,211,252,.10);
+}
 
-    .grid.data-grid{ gap: 10px; }
-    @media (min-width: 860px){
-      .grid.data-grid{ grid-template-columns: 1fr 1fr; }
-    }
+.tag.docs .t-dot{
+background:rgba(167,243,208,.9);
+box-shadow:0 0 0 4px rgba(167,243,208,.10);
+}
 
-    a.card.data{
-      background: rgba(255,255,255,.015);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: none;
-      padding: 12px 14px;
-      min-height: 108px;
-    }
-    a.card.data:hover{
-      transform: translateY(-1px);
-      transition: transform .12s ease;
-      border-color: rgba(255,255,255,.12);
-      background: rgba(255,255,255,.02);
-    }
-    a.card.data .sub{
-      font-size: 12px;
-      color: rgba(234,241,255,.60);
-    }
-    a.card.data .pill{
-      font-size: 11px;
-      padding: 5px 9px;
-      opacity: .9;
-    }
-    a.card.data .open{
-      font-size: 11px;
-      padding: 6px 9px;
-      opacity: .85;
-      background: rgba(255,255,255,.02);
-      border-color: rgba(255,255,255,.10);
-    }
-    a.card.data .title{ font-size: 14px; }
-    a.card.data .ico{
-      width: 24px; height: 24px;
-      border-radius: 10px;
-      background: rgba(167,243,208,.08);
-      border-color: rgba(167,243,208,.16);
-      font-size: 13px;
-    }
+.section-body{padding:14px;}
 
-    /* ===== Micro contact (fixed corner) ===== */
-    .micro-contact{
-      position: fixed;
-      right: 12px;
-      bottom: 12px;
-      z-index: 999;
-      display:flex;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      box-shadow: 0 10px 26px rgba(0,0,0,.25);
-      color: rgba(234,241,255,.78);
-      font-size: 12px;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-    .micro-left{ display:flex; flex-direction:column; gap:8px; padding-top: 2px; }
-    .micro-row{ display:flex; align-items:center; gap:8px; line-height: 1.15; white-space: nowrap; }
-    .micro-ico{
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      display:grid;
-      place-items:center;
-      background: rgba(125,211,252,.16);
-      border: 1px solid rgba(125,211,252,.22);
-      font-size: 12px;
-      flex: 0 0 auto;
-    }
-    .micro-ico.mail{
-      background: rgba(167,243,208,.12);
-      border-color: rgba(167,243,208,.18);
-    }
-    .micro-name{
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      color: rgba(234,241,255,.86);
-    }
-    .micro-contact a{
-      color: rgba(234,241,255,.90);
-      text-decoration:none;
-      font-weight: 950;
-      letter-spacing: -0.01em;
-    }
-    .micro-contact a:hover{ text-decoration: underline; }
-    @media (max-width: 520px){
-      .micro-contact{ right: 10px; bottom: 10px; }
-    }
-  </style>
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+@media (min-width:860px){
+.grid{grid-template-columns:1fr 1fr;}
+}
+
+a.card{
+text-decoration:none;
+color:inherit;
+border:1px solid rgba(255,255,255,.10);
+border-radius:var(--radius);
+box-shadow:var(--shadow);
+padding:16px;
+display:flex;
+flex-direction:column;
+gap:10px;
+min-height:132px;
+position:relative;
+overflow:hidden;
+background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+}
+
+a.card:hover{
+transform:translateY(-1px);
+transition:transform .12s ease;
+border-color:rgba(255,255,255,.16);
+}
+
+.topline{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:10px;
+}
+
+.title{
+font-weight:950;
+font-size:16px;
+letter-spacing:-0.01em;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.ico{
+width:30px;height:30px;
+border-radius:12px;
+display:grid;place-items:center;
+border:1px solid rgba(255,255,255,.10);
+background:rgba(255,255,255,.02);
+font-size:16px;
+}
+
+.ico.app{
+background:rgba(125,211,252,.10);
+border-color:rgba(125,211,252,.18);
+}
+
+.ico.doc{
+background:rgba(167,243,208,.09);
+border-color:rgba(167,243,208,.16);
+}
+
+.sub{color:var(--muted);font-size:13px;line-height:1.45;}
+
+.row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:auto;
+flex-wrap:wrap;
+}
+
+.pill{
+border:1px solid rgba(255,255,255,.10);
+border-radius:999px;
+padding:6px 10px;
+font-size:12px;
+color:rgba(234,241,255,.62);
+background:rgba(255,255,255,.02);
+}
+
+.open{
+border:1px solid rgba(255,255,255,.12);
+background:rgba(255,255,255,.03);
+color:rgba(234,241,255,.86);
+border-radius:12px;
+padding:7px 10px;
+font-size:12px;
+font-weight:900;
+display:inline-flex;
+align-items:center;
+gap:8px;
+}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+
+.chip{
+border:1px solid rgba(255,255,255,.10);
+background:rgba(255,255,255,.02);
+color:rgba(234,241,255,.70);
+border-radius:999px;
+padding:5px 9px;
+font-size:11px;
+font-weight:900;
+}
+
+.chip.call{
+border-color:rgba(167,243,208,.18);
+background:rgba(167,243,208,.08);
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="badge"><span class="dot"></span> prnutrition · hub</div>
-      <h1>prnutrition</h1>
-      <p>Alege aplicația sau documentul pe care vrei să-l folosești.</p>
-    </header>
 
-    <!-- ✅ SECTION: APLICAȚII -->
-    <section class="section">
-      <div class="section-head">
-        <div class="left">
-          <h2 class="section-title">Aplicații</h2>
-          <div class="section-sub">tool-uri pentru completare + Print → PDF</div>
-        </div>
-        <span class="tag"><span class="t-dot"></span> TOOL</span>
-      </div>
+<div class="wrap">
 
-      <div class="section-body">
-        <div class="grid">
-          <a class="card app" href="./apps/suplimente/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico app">💊</span>
-                Protocol suplimente
-              </div>
-              <span class="open">Deschide →</span>
-            </div>
-            <div class="sub">Catalog standard + protocoale standard + completare rapidă + Print → Save PDF.</div>
-            <div class="row">
-              <div class="chips">
-                <span class="chip">PDF-ready</span>
-                <span class="pill">/apps/suplimente/</span>
-              </div>
-            </div>
-          </a>
+<header>
+<div class="badge"><span class="dot"></span> prnutrition · hub</div>
+<h1>prnutrition</h1>
+<p>Alege aplicația sau documentul pe care vrei să-l folosești.</p>
+</header>
 
-          <a class="card app" href="./apps/analize/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico app">🧪</span>
-                Analize
-              </div>
-              <span class="open">Deschide →</span>
-            </div>
-            <div class="sub">Catalog analize + protocoale (bază) + completare rezultate + Print → Save PDF.</div>
-            <div class="row">
-              <div class="chips">
-                <span class="chip">PDF-ready</span>
-                <span class="pill">/apps/analize/</span>
-              </div>
-            </div>
-          </a>
+<!-- APLICAȚII -->
 
-          <!-- ✅ NEW: Calculator -->
-          <a class="card app" href="./apps/calculator/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico app">🧮</span>
-                Calculator (TDEE · IMC · Macro)
-              </div>
-              <span class="open">Deschide →</span>
-            </div>
-            <div class="sub">TDEE (Mifflin–St Jeor) + obiectiv (±500) + macronutrienți (preset/custom) + conversii în grame + IMC + tabel IMC. Print → PDF.</div>
-            <div class="row">
-              <div class="chips">
-                <span class="chip">PDF-ready</span>
-                <span class="pill">/apps/calculator/</span>
-              </div>
-            </div>
-          </a>
-          <!-- /NEW -->
+<section class="section">
+<div class="section-head">
+<div class="left">
+<h2 class="section-title">Aplicații</h2>
+<div class="section-sub">tool-uri pentru completare + Print → PDF</div>
+</div>
+<span class="tag"><span class="t-dot"></span> TOOL</span>
+</div>
 
-        </div>
-      </div>
-    </section>
+<div class="section-body">
+<div class="grid">
 
-    <!-- ✅ SECTION: DOCUMENTE -->
-    <section class="section">
-      <div class="section-head">
-        <div class="left">
-          <h2 class="section-title">Documente</h2>
-          <div class="section-sub">materiale pentru call-uri (print/PDF)</div>
-        </div>
-        <span class="tag docs"><span class="t-dot"></span> DOCS</span>
-      </div>
+<a class="card app" href="./apps/suplimente/">
+<div class="topline">
+<div class="title"><span class="ico app">💊</span>Protocol suplimente</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">Catalog standard + protocoale + completare rapidă + Print → PDF.</div>
+<div class="row"><span class="pill">/apps/suplimente/</span></div>
+</a>
 
-      <div class="section-body">
-        <div class="grid">
-          <a class="card doc" href="./docs/proces/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico doc">📄</span>
-                Cum lucrăm împreună
-              </div>
-              <span class="open">Deschide →</span>
-            </div>
-            <div class="sub">Procesul + pașii + așteptări. Folosit în call-ul de Anamneză (start).</div>
-            <div class="row">
-              <div class="chips">
-                <span class="chip call">Call: Anamneză</span>
-                <span class="pill">/docs/proces/</span>
-              </div>
-            </div>
-          </a>
+<a class="card app" href="./apps/analize/">
+<div class="topline">
+<div class="title"><span class="ico app">🧪</span>Analize</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">Catalog analize + completare rezultate + Print → PDF.</div>
+<div class="row"><span class="pill">/apps/analize/</span></div>
+</a>
 
-          <a class="card doc" href="./docs/macronutrienti/">
-            <div class="topline">
-              <div class="title">
-                <span class="ico doc">🥗</span>
-                Macronutrienți
-              </div>
-              <span class="open">Deschide →</span>
-            </div>
-            <div class="sub">Teorie + reguli simple + exemple. Folosit în Consultația 1 (după 1 săpt. de probă).</div>
-            <div class="row">
-              <div class="chips">
-                <span class="chip call">Call: Consultația 1</span>
-                <span class="pill">/docs/macronutrienti/</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
+<a class="card app" href="./apps/calculator/">
+<div class="topline">
+<div class="title"><span class="ico app">🧮</span>Calculator (TDEE · IMC · Macro)</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">TDEE + macro + IMC + Print → PDF.</div>
+<div class="row"><span class="pill">/apps/calculator/</span></div>
+</a>
 
-    <!-- ✅ COLLAPSIBLE JSON (default closed) -->
-    <details class="data-accordion">
-      <summary class="data-summary">
-        <div class="sum-left">
-          <div class="chev">›</div>
-          <div style="min-width:0;">
-            <div class="sum-title">Data (JSON)</div>
-            <div class="sum-sub">fișiere tehnice (read-only)</div>
-          </div>
-        </div>
-        <span class="json-chip">JSON</span>
-      </summary>
+</div>
+</div>
+</section>
 
-      <div class="data-body">
-        <div class="data-wrap">
-          <div class="grid data-grid">
-            <a class="card data" href="./data/catalog.json">
-              <div class="topline">
-                <div class="title">
-                  <span class="ico data">🗂️</span>
-                  catalog.json
-                </div>
-                <span class="open">Deschide</span>
-              </div>
-              <div class="sub">Catalog standard suplimente (read-only).</div>
-              <div class="row"><div class="pill">/data/catalog.json</div></div>
-            </a>
+<!-- DOCUMENTE -->
 
-            <a class="card data" href="./data/protocols.json">
-              <div class="topline">
-                <div class="title">
-                  <span class="ico data">🧩</span>
-                  protocols.json
-                </div>
-                <span class="open">Deschide</span>
-              </div>
-              <div class="sub">Protocoale standard suplimente (read-only).</div>
-              <div class="row"><div class="pill">/data/protocols.json</div></div>
-            </a>
+<section class="section">
+<div class="section-head">
+<div class="left">
+<h2 class="section-title">Documente</h2>
+<div class="section-sub">materiale pentru call-uri (print/PDF)</div>
+</div>
+<span class="tag docs"><span class="t-dot"></span> DOCS</span>
+</div>
 
-            <a class="card data" href="./data/analize_catalog.json">
-              <div class="topline">
-                <div class="title">
-                  <span class="ico data">🧫</span>
-                  analize_catalog.json
-                </div>
-                <span class="open">Deschide</span>
-              </div>
-              <div class="sub">Catalog standard analize (read-only).</div>
-              <div class="row"><div class="pill">/data/analize_catalog.json</div></div>
-            </a>
+<div class="section-body">
+<div class="grid">
 
-            <a class="card data" href="./data/analize_protocols.json">
-              <div class="topline">
-                <div class="title">
-                  <span class="ico data">🧩</span>
-                  analize_protocols.json
-                </div>
-                <span class="open">Deschide</span>
-              </div>
-              <div class="sub">Protocoale standard analize (read-only).</div>
-              <div class="row"><div class="pill">/data/analize_protocols.json</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </details>
-  </div>
+<a class="card doc" href="./docs/proces/">
+<div class="topline">
+<div class="title"><span class="ico doc">📄</span>Cum lucrăm împreună</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">Procesul + pașii + așteptări.</div>
+<div class="row"><span class="pill">/docs/proces/</span></div>
+</a>
 
-  <!-- Micro contact fixed -->
-  <div class="micro-contact" aria-label="Contact">
-    <div class="micro-left">
-      <div class="micro-row">
-        <span class="micro-ico" title="Nume">👤</span>
-        <span class="micro-name">Puie Radu</span>
-      </div>
+<a class="card doc" href="./docs/macronutrienti/">
+<div class="topline">
+<div class="title"><span class="ico doc">🥗</span>Macronutrienți</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">Teorie + reguli simple + exemple.</div>
+<div class="row"><span class="pill">/docs/macronutrienti/</span></div>
+</a>
 
-      <div class="micro-row">
-        <span class="micro-ico" title="Telefon">📞</span>
-        <a href="tel:+40724212779">0724 212 779</a>
-      </div>
+<!-- NOU -->
 
-      <div class="micro-row">
-        <span class="micro-ico mail" title="Email">✉️</span>
-        <a href="mailto:puieradu14@gmail.com">puieradu14@gmail.com</a>
-      </div>
-    </div>
-  </div>
+<a class="card doc" href="./docs/surse_proteice/">
+<div class="topline">
+<div class="title"><span class="ico doc">🥛</span>Surse proteice (exemple)</div>
+<span class="open">Deschide →</span>
+</div>
+<div class="sub">Produse high-protein + exemple rapide pentru a ajunge la aportul de proteine.</div>
+<div class="row">
+<div class="chips">
+<span class="chip call">Consultatii</span>
+<span class="pill">/docs/surse_proteice/</span>
+</div>
+</div>
+</a>
+
+</div>
+</div>
+</section>
+
+</div>
+
 </body>
 </html>
-

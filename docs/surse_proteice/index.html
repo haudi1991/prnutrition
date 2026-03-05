@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Surse de proteine – exemple utile</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.02);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+
+    .wrap{ max-width: 980px; margin: 0 auto; }
+    .pages{ display:grid; gap: 18px; }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 85ch;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 4px;
+    }
+
+    .pill{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .section{ padding: 16px; }
+
+    .quote{
+      margin:0;
+      padding: 14px;
+      border-left: 4px solid var(--accent);
+      background: rgba(125,211,252,.07);
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .panel-title{
+      margin:0;
+      font-size: 14px;
+      color: rgba(234,241,255,.92);
+      font-weight: 850;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing: -0.01em;
+    }
+
+    .panel-sub{
+      margin:6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-size: 12px;
+      width: fit-content;
+      margin-top: 10px;
+    }
+
+    /* Timeline / items */
+    .timeline{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+
+    .t-item{
+      display:grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: var(--panel2);
+    }
+
+    .t-dot{
+      width:44px;height:44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#021018;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .02em;
+      flex: 0 0 auto;
+    }
+
+    .t-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:0;
+    }
+
+    .t-head strong{
+      font-size: 13.5px;
+      font-weight: 850;
+      color: rgba(234,241,255,.92);
+    }
+
+    .t-mini{
+      color: rgba(234,241,255,.58);
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .t-body{
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .t-list{
+      margin: 8px 0 0 18px;
+      padding:0;
+      color: rgba(234,241,255,.66);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .t-list li{ margin: 4px 0; }
+
+    .t-note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(167,243,208,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(234,241,255,.78);
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.80);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* two column row */
+    .t-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .t-row{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .small-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (min-width: 820px){
+      .small-grid{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .mini-card{
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 10px 12px;
+      min-height: 62px;
+    }
+    .mini-card strong{
+      display:block;
+      font-size: 13px;
+      color: rgba(234,241,255,.90);
+      margin-bottom: 4px;
+    }
+    .mini-card span{
+      font-size: 12.5px;
+      color: rgba(234,241,255,.66);
+      line-height: 1.35;
+      display:block;
+    }
+
+    .mini-card a{
+      margin-top: 8px;
+      display:inline-block;
+      color: var(--text);
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.12);
+      padding:7px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+
+    /* =========================
+       PRINT
+       ========================= */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      @page{
+        size: A4 portrait;
+        margin: 8mm;
+      }
+
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header{ margin-bottom: 10px !important; gap: 8px !important; }
+      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
+      h1{ font-size: 24px !important; }
+      .sub{ font-size: 12px !important; }
+      .pillrow{ display:none !important; }
+
+      .section{ padding: 12px !important; }
+      .quote{ padding: 10px !important; font-size: 12.5px !important; }
+
+      .panel{ padding: 10px !important; margin-top: 10px !important; }
+      .panel-title{ font-size: 13px !important; }
+      .panel-sub{ font-size: 12px !important; margin-top: 4px !important; }
+      .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
+
+      .timeline{ gap: 8px !important; margin-top: 10px !important; }
+
+      .t-item{ padding: 9px !important; gap: 10px !important; border-radius: 12px !important; }
+      .t-dot{ width:40px !important; height:40px !important; border-radius: 12px !important; }
+      .t-head strong{ font-size: 13px !important; }
+      .t-mini{ font-size: 11px !important; padding: 4px 8px !important; }
+      .t-body{ font-size: 12px !important; }
+      .t-list{ font-size: 12px !important; margin-top: 6px !important; }
+      .t-note{ font-size: 11.6px !important; padding: 8px 10px !important; margin-top: 8px !important; }
+      .callout{ padding: 8px 10px !important; font-size: 12px !important; }
+
+      .t-row{
+        display:grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap:10px !important;
+      }
+
+      .small-grid{
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap:10px !important;
+      }
+
+      .t-item,.mini-card,.quote,.callout,.t-note,.panel{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="pages">
+
+      <div class="page">
+        <header>
+          <div class="badge">🥛🍳 Proteine – exemple rapide</div>
+          <h1>Surse de proteine pentru a atinge obiectivul zilnic</h1>
+          <p class="sub">
+            Daca vrei sa iti fie mai usor sa ajungi la aportul de proteine din planul nutritional,
+            foloseste exemplele de mai jos ca “building blocks” (snack-uri sau completari la mese).
+          </p>
+
+          <div class="pillrow">
+            <div class="pill">hipersatietate</div>
+            <div class="pill">gustari rapide</div>
+            <div class="pill">mese mai echilibrate</div>
+            <div class="pill">aport proteic mai mare</div>
+          </div>
+        </header>
+
+        <main class="card">
+          <section class="section">
+
+            <p class="quote">
+              Proteinele ajuta la satietate si te sprijina in mentinerea masei musculare.
+              Daca esti sub tinta zilnica, adauga 1–2 optiuni de mai jos (in functie de necesar).
+            </p>
+
+            <div class="panel">
+              <h2 class="panel-title">Produse high-protein (cu link)</h2>
+              <p class="panel-sub">
+                Exemple simple, usor de introdus in zi: ca gustare, mic dejun sau completare dupa antrenament.
+              </p>
+              <div class="tag">✅ Rapid + usor de masurat</div>
+
+              <div class="timeline">
+
+                <div class="t-item">
+                  <div class="t-dot">1</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Kefir Olympus High Protein (2% grasime)</strong>
+                      <span class="t-mini">~26g / sticla</span>
+                    </div>
+                    <div class="t-body">
+                      Bun ca gustare rapida sau langa un mic dejun mai usor.
+                    </div>
+                    <div class="t-note">
+                      Link: <a href="https://www.auchan.ro/kefir-olympus-high-protein-2-grasime-330-g/p" target="_blank" rel="noopener">Deschide produsul</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">2</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Branza de vaci Covalact (0.5% grasime)</strong>
+                      <span class="t-mini">~34g / cutie</span>
+                    </div>
+                    <div class="t-body">
+                      Merge in combinatii sarate (legume) sau dulci (fructe/indulcitor) – in functie de preferinte.
+                    </div>
+                    <div class="t-note">
+                      Link: <a href="https://www.auchan.ro/branza-de-vaci-covalact-proaspata-0-5-grasime-200-g/p" target="_blank" rel="noopener">Deschide produsul</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">3</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Cottage Light Olympus (2% grasime)</strong>
+                      <span class="t-mini">~19g / cutie</span>
+                    </div>
+                    <div class="t-body">
+                      Bun pentru salate, sandvisuri, sau ca snack rapid.
+                    </div>
+                    <div class="t-note">
+                      Link: <a href="https://www.auchan.ro/branza-de-vaca-cottage-light-olympus-2-grasime-180-g/p" target="_blank" rel="noopener">Deschide produsul</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">4</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Budinca proteica Milbona (Lidl)</strong>
+                      <span class="t-mini">~20g / portie</span>
+                    </div>
+                    <div class="t-body">
+                      Alternativa ok cand ai pofta de “ceva dulce”, dar vrei proteine.
+                    </div>
+                    <div class="t-note">
+                      Link: <a href="https://www.lidl.ro/p/milbona-budinca-proteica/p10037091" target="_blank" rel="noopener">Deschide produsul</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">5</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Bautura proteica Milbona (Lidl)</strong>
+                      <span class="t-mini">~37g / sticla</span>
+                    </div>
+                    <div class="t-body">
+                      Varianta foarte rapida cand ai nevoie de un “boost” de proteine intr-o zi mai aglomerata.
+                    </div>
+                    <div class="t-note">
+                      Link: <a href="https://www.lidl.ro/p/milbona-bautura-proteica-ciocolata/p10037081" target="_blank" rel="noopener">Deschide produsul</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="callout">
+                <b>Tips:</b> daca in ziua respectiva esti sub obiectiv, adauga 1 produs (sau o portie) ca gustare intre mese.
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2 class="panel-title">Alte surse simple de proteine</h2>
+              <p class="panel-sub">Optiuni clasice, usor de gasit si de introdus in mese.</p>
+              <div class="tag">🍽️ Alimente “de baza”</div>
+
+              <div class="small-grid">
+                <div class="mini-card">
+                  <strong>Oua</strong>
+                  <span>Mic dejun rapid / omleta / fierte.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Lapte</strong>
+                  <span>Combinabil cu ovaz, cafea, smoothie.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Iaurt</strong>
+                  <span>Gustare + fructe / seminte.</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Carne</strong>
+                  <span>Pui, curcan, vita (in functie de preferinte).</span>
+                </div>
+                <div class="mini-card">
+                  <strong>Peste</strong>
+                  <span>Ton, somon, cod etc. (rapid + usor).</span>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Idee simpla:</b> la fiecare masa incearca sa ai o sursa clara de proteine (ex: oua/iaurt/carne/peste/branza).
+              </div>
+            </div>
+
+          </section>
+        </main>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
