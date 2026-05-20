@@ -434,6 +434,32 @@
       font-size: 12px;
     }
 
+    /* ---- Footer branding ---- */
+    .footer-brand{
+      display:flex;
+      align-items:center;
+      gap: 9px;
+    }
+    .footer-brand svg{ flex: 0 0 auto; }
+    .footer-brand-text{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      line-height: 1.15;
+    }
+    .footer-brand-text strong{
+      display:block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: rgba(234,241,255,.88);
+      letter-spacing: -0.01em;
+    }
+    .footer-brand-text span{
+      display:block;
+      font-size: 11px;
+      color: rgba(234,241,255,.46);
+    }
+
     /* =============================================
        PRINT / PDF  —  A4 portrait, 2 pagini fixe
        ============================================= */
@@ -496,75 +522,79 @@
       .page-footer{
         flex: 0 0 auto !important;
         margin-top: 6px !important;
-        padding-top: 5px !important;
+        padding-top: 6px !important;
         border-top: 1px solid rgba(255,255,255,.10) !important;
         font-size: 11px !important;
       }
+      .footer-brand{ gap: 7px !important; }
+      .footer-brand svg{ width: 18px !important; height: 18px !important; }
+      .footer-brand-text strong{ font-size: 11px !important; }
+      .footer-brand-text span{ font-size: 10px !important; }
 
       /* Header compact */
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
       .badge .dot{ width:8px !important; height:8px !important; }
-      h1{ font-size: 21px !important; }
-      .sub{ font-size: 12px !important; line-height: 1.35 !important; }
+      h1{ font-size: 24px !important; }
+      .sub{ font-size: 13px !important; line-height: 1.35 !important; }
 
       /* Section & panels */
-      .section{ padding: 9px !important; }
-      .panel{ padding: 9px !important; margin-top: 8px !important; }
+      .section{ padding: 11px !important; }
+      .panel{ padding: 11px !important; margin-top: 10px !important; }
       .panel:first-child{ margin-top: 0 !important; }
-      .panel-title{ font-size: 12.5px !important; }
-      .panel-sub{ font-size: 11.5px !important; margin-top: 3px !important; line-height: 1.35 !important; }
-      .tag{ margin-top: 5px !important; padding: 4px 7px !important; font-size: 10.5px !important; }
+      .panel-title{ font-size: 13.5px !important; }
+      .panel-sub{ font-size: 12.5px !important; margin-top: 4px !important; line-height: 1.35 !important; }
+      .tag{ margin-top: 6px !important; padding: 5px 8px !important; font-size: 11px !important; }
 
       /* Kcal */
-      .kcal-row{ gap:7px !important; margin-top: 7px !important; }
-      .kcal{ padding: 7px 9px !important; }
-      .kcal strong, .kcal span{ font-size: 11px !important; }
+      .kcal-row{ gap:8px !important; margin-top: 8px !important; }
+      .kcal{ padding: 8px 11px !important; }
+      .kcal strong, .kcal span{ font-size: 12px !important; }
 
       /* Macro grid — 2 coloane în portrait */
       .macro-grid{
         grid-template-columns: 1fr 1fr !important;
-        gap: 7px !important;
-        margin-top: 7px !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
       }
       .macro.protein{ grid-column: 1 / -1 !important; }
-      .macro.protein::before{ font-size: 9.5px !important; padding: 3px 6px !important; margin-bottom: 5px !important; }
-      .macro{ padding: 8px !important; }
-      .macro h3{ font-size: 12px !important; }
-      .macro p{ font-size: 11px !important; line-height: 1.3 !important; }
-      .chip{ font-size: 10px !important; padding: 3px 6px !important; }
-      .mini-list{ gap: 4px !important; margin-top: 5px !important; }
-      .mini-list li{ padding: 5px 8px !important; font-size: 11px !important; line-height: 1.3 !important; }
-      .macro-head{ margin-bottom: 5px !important; margin-top: 5px !important; }
+      .macro.protein::before{ font-size: 10px !important; padding: 4px 7px !important; margin-bottom: 6px !important; }
+      .macro{ padding: 9px !important; }
+      .macro h3{ font-size: 13px !important; }
+      .macro p{ font-size: 12px !important; line-height: 1.35 !important; }
+      .chip{ font-size: 11px !important; padding: 4px 7px !important; }
+      .mini-list{ gap: 5px !important; margin-top: 7px !important; }
+      .mini-list li{ padding: 6px 9px !important; font-size: 12px !important; line-height: 1.3 !important; }
+      .macro-head{ margin-bottom: 6px !important; margin-top: 6px !important; }
 
       /* Note / callout */
-      .note, .callout{ padding: 7px 9px !important; font-size: 11px !important; margin-top: 7px !important; line-height: 1.35 !important; }
+      .note, .callout{ padding: 8px 11px !important; font-size: 12px !important; margin-top: 8px !important; line-height: 1.35 !important; }
 
       /* Steps (t-row) */
       .t-row.col3{
         grid-template-columns: 1fr 1fr 1fr !important;
-        gap: 7px !important;
-        margin-top: 7px !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
       }
       .t-row.col2{
         grid-template-columns: 1fr 1fr !important;
-        gap: 7px !important;
-        margin-top: 7px !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
       }
-      .t-item{ padding: 8px !important; gap: 8px !important; border-radius: 11px !important; }
-      .t-dot{ width:36px !important; height:36px !important; border-radius: 10px !important; font-size: 11px !important; }
-      .t-head strong{ font-size: 12px !important; line-height: 1.2 !important; }
-      .t-mini{ font-size: 10px !important; padding: 3px 6px !important; }
-      .t-body{ font-size: 11px !important; line-height: 1.35 !important; }
-      .t-list{ font-size: 11px !important; line-height: 1.35 !important; margin-top: 5px !important; margin-left: 14px !important; }
-      .t-list li{ margin: 3px 0 !important; }
+      .t-item{ padding: 9px !important; gap: 9px !important; border-radius: 12px !important; }
+      .t-dot{ width:38px !important; height:38px !important; border-radius: 11px !important; font-size: 12px !important; }
+      .t-head strong{ font-size: 13px !important; line-height: 1.2 !important; }
+      .t-mini{ font-size: 10.5px !important; padding: 4px 7px !important; }
+      .t-body{ font-size: 12px !important; line-height: 1.35 !important; }
+      .t-list{ font-size: 12px !important; line-height: 1.35 !important; margin-top: 6px !important; margin-left: 15px !important; }
+      .t-list li{ margin: 4px 0 !important; }
 
       /* Grid 2col & boxes */
-      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 7px !important; margin-top: 7px !important; }
-      .box{ padding: 8px 10px !important; }
-      .box h3{ font-size: 12px !important; }
-      .box p{ font-size: 11px !important; line-height: 1.35 !important; }
-      .box ul{ font-size: 11px !important; margin-top: 4px !important; margin-left: 14px !important; line-height: 1.35 !important; }
-      .box li{ margin: 3px 0 !important; }
+      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-top: 8px !important; }
+      .box{ padding: 9px 11px !important; }
+      .box h3{ font-size: 13px !important; }
+      .box p{ font-size: 12px !important; line-height: 1.35 !important; }
+      .box ul{ font-size: 12px !important; margin-top: 5px !important; margin-left: 15px !important; line-height: 1.4 !important; }
+      .box li{ margin: 4px 0 !important; }
 
       /* Nu rupe blocuri urât */
       .panel, .macro, .box, .note, .callout, .t-item, .mini-list li{
@@ -704,7 +734,17 @@
 
         <div class="page-footer">
           <span>Macronutrienți · Ghid basic (client)</span>
-          <span style="font-weight:600; color:rgba(234,241,255,.70);">Puie Radu · Nutriție &nbsp;·&nbsp; 0724 212 779</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <path d="M14 8C17.8 8 20.2 11 18.4 15C17 17.8 15.2 19 14 20.5C12.8 19 11 17.8 9.6 15C7.8 11 10.2 8 14 8Z" fill="#a7f3d0" fill-opacity="0.75"/>
+              <path d="M14 20.5L14 23.2" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.65"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Longevitate · Anti-Aging &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
           <span>Pagina 1 / 2</span>
         </div>
       </div>
@@ -835,7 +875,17 @@
 
         <div class="page-footer">
           <span>Macronutrienți · Ghid basic (client)</span>
-          <span style="font-weight:600; color:rgba(234,241,255,.70);">Puie Radu · Nutriție &nbsp;·&nbsp; 0724 212 779</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <path d="M14 8C17.8 8 20.2 11 18.4 15C17 17.8 15.2 19 14 20.5C12.8 19 11 17.8 9.6 15C7.8 11 10.2 8 14 8Z" fill="#a7f3d0" fill-opacity="0.75"/>
+              <path d="M14 20.5L14 23.2" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.65"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Longevitate · Anti-Aging &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
           <span>Pagina 2 / 2</span>
         </div>
       </div>
