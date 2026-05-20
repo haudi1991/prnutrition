@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Eticheta Alimentelor — Ghid Practic</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.02);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+
+    .wrap{ max-width: 980px; margin: 0 auto; }
+
+    .pages{ display:grid; gap: 18px; }
+    .page-divider{
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      opacity: .65;
+      width: 100%;
+      margin: 6px 0;
+    }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      color: rgba(234,241,255,.80);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+    .badge .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
+    }
+
+    .meta{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      color: rgba(234,241,255,.60);
+      font-size: 12px;
+    }
+    .meta span{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 82ch;
+      font-size: 13.2px;
+      line-height: 1.45;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 4px;
+    }
+    .pill{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .section{ padding: 16px; }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .panel:first-child{ margin-top: 0; }
+
+    .panel-title{
+      margin:0;
+      font-size: 14px;
+      color: rgba(234,241,255,.92);
+      font-weight: 850;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      letter-spacing: -0.01em;
+    }
+
+    .panel-sub{
+      margin:6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-size: 12px;
+      width: fit-content;
+      margin-top: 10px;
+    }
+
+    .chip{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,241,255,.70);
+      font-size: 11.5px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .chip.ok{ border-color: rgba(52,211,153,.30); background: rgba(52,211,153,.07); }
+    .chip.warn{ border-color: rgba(251,191,36,.25); background: rgba(251,191,36,.07); }
+
+    .mini-list{
+      margin:10px 0 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:7px;
+    }
+    .mini-list li{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: rgba(234,241,255,.74);
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+    .mini-list b{ color: rgba(234,241,255,.94); font-weight: 850; }
+
+    .note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.84);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .callout{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(167,243,208,.08);
+      color: rgba(234,241,255,.84);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .t-row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 12px;
+    }
+    @media (min-width: 700px){
+      .t-row.col2{ grid-template-columns: 1fr 1fr; }
+      .t-row.col3{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .t-item{
+      display:grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: var(--panel2);
+      height: 100%;
+    }
+    .t-dot{
+      width:44px; height:44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#021018;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: .01em;
+      flex: 0 0 auto;
+      text-align:center;
+      line-height:1.1;
+    }
+    .t-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin:0;
+    }
+    .t-head strong{
+      font-size: 13.5px;
+      font-weight: 850;
+      color: rgba(234,241,255,.92);
+      line-height: 1.2;
+    }
+    .t-mini{
+      color: rgba(234,241,255,.58);
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .t-body{
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+    .t-list{
+      margin: 8px 0 0 16px;
+      padding:0;
+      color: rgba(234,241,255,.66);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .t-list li{ margin: 4px 0; }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 820px){
+      .grid2{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .box{
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 10px 12px;
+      height: 100%;
+    }
+    .box h3{
+      margin:0;
+      font-size: 13.5px;
+      font-weight: 950;
+      color: rgba(234,241,255,.94);
+      letter-spacing: -0.01em;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .box ul{
+      margin:8px 0 0 18px;
+      padding:0;
+      color: rgba(234,241,255,.72);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .box li{ margin: 5px 0; }
+    .box p{
+      margin:6px 0 0 0;
+      color: rgba(234,241,255,.74);
+      font-size: 12.7px;
+      line-height: 1.45;
+    }
+
+    .page-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(234,241,255,.48);
+      font-size: 12px;
+    }
+
+    .footer-brand{
+      display:flex;
+      align-items:center;
+      gap: 9px;
+    }
+    .footer-brand svg{ flex: 0 0 auto; }
+    .footer-brand-text{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      line-height: 1.15;
+    }
+    .footer-brand-text strong{
+      display:block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: rgba(234,241,255,.88);
+      letter-spacing: -0.01em;
+    }
+    .footer-brand-text span{
+      display:block;
+      font-size: 11px;
+      color: rgba(234,241,255,.46);
+    }
+
+    /* =============================================
+       PRINT / PDF  —  A4 portrait, 2 pagini fixe
+       ============================================= */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      @page{
+        size: A4 portrait;
+        margin: 10mm;
+      }
+
+      html, body{
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .page-divider{ display:none !important; }
+      .pages{ display:block !important; }
+      .wrap{ max-width: 100% !important; margin: 0 !important; }
+      .pillrow{ display:none !important; }
+      .meta{ display:none !important; }
+
+      .page{
+        height: 277mm !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        break-after: page !important;
+        page-break-after: always !important;
+      }
+      .page:last-child{
+        break-after: auto !important;
+        page-break-after: auto !important;
+      }
+
+      header{
+        flex: 0 0 auto !important;
+        margin-bottom: 8px !important;
+        gap: 6px !important;
+      }
+
+      main.card{
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+      }
+
+      .page-footer{
+        flex: 0 0 auto !important;
+        margin-top: 6px !important;
+        padding-top: 6px !important;
+        border-top: 1px solid rgba(255,255,255,.10) !important;
+        font-size: 11px !important;
+      }
+      .footer-brand{ gap: 7px !important; }
+      .footer-brand svg{ width: 18px !important; height: 18px !important; }
+      .footer-brand-text strong{ font-size: 11px !important; }
+      .footer-brand-text span{ font-size: 10px !important; }
+
+      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
+      .badge .dot{ width:8px !important; height:8px !important; }
+      h1{ font-size: 24px !important; }
+      .sub{ font-size: 13px !important; line-height: 1.35 !important; }
+
+      .section{ padding: 11px !important; }
+      .panel{ padding: 11px !important; margin-top: 10px !important; }
+      .panel:first-child{ margin-top: 0 !important; }
+      .panel-title{ font-size: 13.5px !important; }
+      .panel-sub{ font-size: 12.5px !important; margin-top: 4px !important; line-height: 1.35 !important; }
+      .tag{ margin-top: 6px !important; padding: 5px 8px !important; font-size: 11px !important; }
+
+      .chip{ font-size: 11px !important; padding: 4px 7px !important; }
+
+      .mini-list{ gap: 5px !important; margin-top: 7px !important; }
+      .mini-list li{ padding: 6px 9px !important; font-size: 12px !important; line-height: 1.3 !important; }
+
+      .note, .callout{ padding: 8px 11px !important; font-size: 12px !important; margin-top: 8px !important; line-height: 1.35 !important; }
+
+      .t-row.col3{
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
+      }
+      .t-row.col2{
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
+      }
+      .t-item{ padding: 9px !important; gap: 9px !important; border-radius: 12px !important; }
+      .t-dot{ width:38px !important; height:38px !important; border-radius: 11px !important; font-size: 10px !important; }
+      .t-head strong{ font-size: 13px !important; line-height: 1.2 !important; }
+      .t-mini{ font-size: 10.5px !important; padding: 4px 7px !important; }
+      .t-body{ font-size: 12px !important; line-height: 1.35 !important; }
+      .t-list{ font-size: 12px !important; line-height: 1.35 !important; margin-top: 6px !important; margin-left: 15px !important; }
+      .t-list li{ margin: 4px 0 !important; }
+
+      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-top: 8px !important; }
+      .box{ padding: 9px 11px !important; }
+      .box h3{ font-size: 13px !important; }
+      .box p{ font-size: 12px !important; line-height: 1.35 !important; }
+      .box ul{ font-size: 12px !important; margin-top: 5px !important; margin-left: 15px !important; line-height: 1.4 !important; }
+      .box li{ margin: 4px 0 !important; }
+
+      .panel, .macro, .box, .note, .callout, .t-item, .mini-list li{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      h1, h2, h3, .panel-title{
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="pages">
+
+      <!-- ==================== PAGE 1 ==================== -->
+      <div class="page">
+
+        <header>
+          <div class="toprow">
+            <div class="badge"><span class="dot"></span> Ghid basic · Eticheta Alimentelor</div>
+            <div class="meta">
+              <span>Focus: alegeri mai bune</span>
+              <span>2 pagini</span>
+              <span>Simplu, practic</span>
+            </div>
+          </div>
+
+          <h1>Eticheta alimentului — ce contează cu adevărat</h1>
+          <p class="sub">
+            Câteva reguli simple îți dau puterea să alegi mai bine și să eviți capcanele —
+            fără să devii expert în chimie alimentară. Regulă de aur: <b>compară mereu la 100g</b>.
+          </p>
+
+          <div class="pillrow">
+            <div class="pill">tabelul nutrițional</div>
+            <div class="pill">lista ingrediente</div>
+            <div class="pill">zaharuri ascunse</div>
+            <div class="pill">fibre</div>
+            <div class="pill">grăsimi saturate</div>
+            <div class="pill">sare</div>
+          </div>
+        </header>
+
+        <main class="card">
+          <section class="section">
+
+            <!-- 1. Tabelul nutritional -->
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">1) Tabelul nutrițional — lectura rapidă</h2>
+              <p class="panel-sub">
+                Orice produs ambalat vândut în UE afișează un tabel standardizat cu valori per 100g
+                (și opțional per porție). Comparând la 100g poți pune orice produs alături și alege informat.
+              </p>
+
+              <div class="t-row col3">
+                <div class="t-item">
+                  <div class="t-dot">100g</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Compară la 100g</strong>
+                      <span class="t-mini">regula de aur</span>
+                    </div>
+                    <div class="t-body">
+                      Producătorul poate defini porția oricum (ex. 25g). La 100g toți suntem pe același teren — poți compara direct două produse.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">↓</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Ordinea priorităților</strong>
+                      <span class="t-mini">ce citești primul</span>
+                    </div>
+                    <div class="t-body">
+                      <b>Energie (kcal)</b> → <b>Proteine</b> → Grăsimi <b>din care saturate</b> → Carbohidrați <b>din care zahăr</b> → <b>Sare</b> → <b>Fibre</b> (bonus: cu cât mai mult, cu atât mai bine).
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">≈ zi</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Repere zilnice rapide</strong>
+                    </div>
+                    <div class="t-body">
+                      ~2000 kcal · Proteine ≥ 0.8–1.2g/kg · Gr. saturate &lt;20g · Zaharuri &lt;50g (adăugate &lt;25g) · Sare &lt;5g · Fibre 25–30g
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="note">
+                <b>Semaforul UE (pe 100g):</b> pentru grăsimi saturate, zaharuri și sare —
+                <b style="color:#a7f3d0;">verde = puțin</b> · <b style="color:#fcd34d;">galben = mediu</b> · <b style="color:#fca5a5;">roșu = mult</b>.
+                Regulile exacte sunt la secțiunile respective de pe pagina 2.
+              </div>
+            </div>
+
+            <!-- 2. Lista de ingrediente -->
+            <div class="panel">
+              <h2 class="panel-title">2) Lista de ingrediente — regula ordinii</h2>
+              <p class="panel-sub">
+                Ingredientele sunt listate <b>de la cel mai mult la cel mai puțin</b> (după greutate).
+                Primul ingredient = componenta dominantă a produsului. Aceasta este informația pe care
+                producătorii o ascund cel mai des.
+              </p>
+
+              <div class="grid2">
+                <div class="box">
+                  <h3>🔎 Ce urmărești</h3>
+                  <ul>
+                    <li>Zahăr în primele 3 ingrediente → produs bazat pe zahăr</li>
+                    <li>Ulei de palmier, grăsimi parțial hidrogenate → calitate slabă a grăsimilor</li>
+                    <li>Liste scurte cu ingrediente recunoscute → semn bun</li>
+                    <li>Amidon modificat, maltodextrină, siropuri → digerare rapidă + indice glicemic ridicat</li>
+                    <li>10+ aditivi / E-uri cu rol de textură sau gust → ultra-procesat</li>
+                  </ul>
+                </div>
+
+                <div class="box">
+                  <h3>🍬 Zahărul are 50+ de nume</h3>
+                  <p>Producătorii fragmentează zahărul în forme diferite pentru a-l împinge mai jos pe listă. Câteva exemple:</p>
+                  <ul>
+                    <li>glucoză, fructoză, zaharoză, dextroză, lactoză</li>
+                    <li>sirop de porumb (HFCS), sirop de glucoză-fructoză</li>
+                    <li>miere, agave, nectar de curmale, melasă</li>
+                    <li>maltodextrină, maltoză, izoglucoză</li>
+                    <li>suc concentrat de mere / struguri / sfeclă</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Trucul fragmentării:</b> dacă în listă apar 3–4 tipuri diferite de zahăr,
+                suma lor poate face zahărul ingredientul nr.&nbsp;1 — deși fiecare apare mai jos pe listă
+                în mod individual. Adună-le mental.
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="page-footer">
+          <span>Eticheta Alimentelor · Ghid basic (client)</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <path d="M14 19.5C9 15 6.5 11.5 6.5 9.5C6.5 7.2 8.5 5.8 10.5 5.8C12 5.8 13.2 6.7 14 8C14.8 6.7 16 5.8 17.5 5.8C19.5 5.8 21.5 7.2 21.5 9.5C21.5 11.5 19 15 14 19.5Z" fill="#a7f3d0" fill-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 1 / 2</span>
+        </div>
+      </div>
+
+      <div class="page-divider" aria-hidden="true"></div>
+
+      <!-- ==================== PAGE 2 ==================== -->
+      <div class="page">
+
+        <main class="card">
+          <section class="section">
+
+            <!-- 3. Fibre -->
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">3) Fibre — de ce contează</h2>
+              <p class="panel-sub">
+                Fibrele nu se digeră, dar fac diferența: încetinesc absorbția glucozei, cresc sațietatea,
+                hrănesc bacteriile bune din intestin și reglează tranzitul. Nu sunt o opțiune — sunt un reper.
+              </p>
+              <div class="tag">✅ Reper zilnic: 25–30g · Minim util: 14g / 1000 kcal consumate</div>
+
+              <ul class="mini-list">
+                <li>
+                  <b>Fibre solubile</b> (ovăz, leguminoase, mere, psyllium, semințe de in):
+                  formează un gel în intestin → absorbție mai lentă, glicemie mai stabilă,
+                  sațietate mai mare și mai lungă.
+                </li>
+                <li>
+                  <b>Fibre insolubile</b> (legume, cereale integrale, tărâțe, nuci):
+                  cresc volumul bolului fecal → tranzit mai bun, risc mai mic de constipație,
+                  efect de „curățare" mecanică.
+                </li>
+                <li>
+                  <b>Pe etichetă:</b> &lt;3g/100g = puțin · ≥6g/100g = bogat în fibre (mențiune legală UE).
+                  Surse bune: linte, fasole, mazăre, ovăz, semințe, legume verzi, fructe cu coajă.
+                </li>
+              </ul>
+
+              <div class="note">
+                <b>Atenție la creșterea bruscă a fibrei:</b> crește și hidratarea!
+                Dacă adaugi fibre rapid fără apă suficientă → balonare, disconfort, tranzit mai lent.
+                Introducere treptată + 1.5–2L apă/zi = tranziție confortabilă.
+              </div>
+            </div>
+
+            <!-- 4. Zaharuri -->
+            <div class="panel">
+              <h2 class="panel-title">4) Zaharuri — natural vs. adăugat</h2>
+              <p class="panel-sub">
+                Eticheta arată „Zahăr" ca sub-categorie a carbohidraților, dar <b>nu face diferența</b>
+                între zahărul natural din fruct și cel adăugat. Tu trebuie să o faci — contextul contează total.
+              </p>
+
+              <div class="t-row col2">
+                <div class="t-item">
+                  <div class="t-dot">OK</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Zaharuri naturale</strong>
+                      <span class="chip ok">context = tot</span>
+                    </div>
+                    <div class="t-body">
+                      Fructe întregi, lactate simple, legume rădăcinoase. Vin împreună cu fibre, vitamine,
+                      minerale și apă → absorbție mai lentă, efect glicemic diferit față de zahărul izolat.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t-item">
+                  <div class="t-dot">⚠</div>
+                  <div>
+                    <div class="t-head">
+                      <strong>Zaharuri adăugate</strong>
+                      <span class="chip warn">limitează</span>
+                    </div>
+                    <div class="t-body">
+                      Dulciuri, sucuri, iaurturi cu zahăr, cereale procesate, sosuri, ketchup.
+                      Pe etichetă: <b>&lt;5g/100g</b> = puțin · <b>5–22.5g</b> = mediu · <b>&gt;22.5g/100g</b> = mult (clasificare UE).
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Reper OMS:</b> max ~25g zaharuri adăugate/zi (cca. 6 lingurițe). Un suc de fructe de 250ml
+                poate conține 25–30g zahăr — practic tot bugetul zilnic dintr-o înghițitură.
+              </div>
+            </div>
+
+            <!-- 5. Grasimi saturate si sare -->
+            <div class="panel">
+              <h2 class="panel-title">5) Grăsimi saturate &amp; Sare — capcanele ascunse</h2>
+              <p class="panel-sub">
+                Ambele sunt „invizibile" în multe produse procesate — nu miroase a grăsime sau sare,
+                dar numerele de pe etichetă nu mint. Citește <b>la 100g</b>, nu la porție.
+              </p>
+
+              <div class="grid2">
+                <div class="box">
+                  <h3>🥩 Grăsimi saturate</h3>
+                  <p>
+                    <b>Reper zilnic:</b> ≤20–22g (≈10% din 2000 kcal).<br/>
+                    Pe etichetă: <b>&lt;1.5g/100g</b> = puțin · <b>&gt;5g/100g</b> = mult.
+                  </p>
+                  <ul>
+                    <li>Brânzeturi grase, smântână, unt → valori mari, consumă conștient</li>
+                    <li>Patiserie, prăjituri, biscuiți → saturate + zaharuri + calorii dense</li>
+                    <li>Ulei de cocos / palmier → saturate ridicate (chiar dacă pare „natural")</li>
+                    <li>Mezeluri, cârnați → combinate adesea cu sare mare</li>
+                  </ul>
+                </div>
+
+                <div class="box">
+                  <h3>🧂 Sare</h3>
+                  <p>
+                    <b>Reper zilnic:</b> ≤5g sare (≈2g sodiu).<br/>
+                    Pe etichetă: <b>&lt;0.3g/100g</b> = puțin · <b>&gt;1.5g/100g</b> = mult.<br/>
+                    <b>Atenție:</b> dacă afișează <i>Sodiu</i>, nu Sare → Sodiu × 2.5 = Sare echivalentă.
+                  </p>
+                  <ul>
+                    <li>Mezeluri, conserve, produse afumate → top surse</li>
+                    <li>Supe instant, cuburi supă, sosuri gata → densitate extremă</li>
+                    <li>Brânzeturi maturate → combinate cu grăsimi saturate</li>
+                    <li>Pâine (la volum mare) → contribuție surprinzător de semnificativă</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="note">
+                <b>Regula practică:</b> când alegi între 2 produse similare, uită-te la grăsimi saturate + sare
+                la 100g. Produsul cu ambele &lt;5g sat. și &lt;1g sare per 100g e în mod obiectiv o alegere mai bună —
+                indiferent cum e ambalat sau ce scrie pe față.
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="page-footer">
+          <span>Eticheta Alimentelor · Ghid basic (client)</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <path d="M14 19.5C9 15 6.5 11.5 6.5 9.5C6.5 7.2 8.5 5.8 10.5 5.8C12 5.8 13.2 6.7 14 8C14.8 6.7 16 5.8 17.5 5.8C19.5 5.8 21.5 7.2 21.5 9.5C21.5 11.5 19 15 14 19.5Z" fill="#a7f3d0" fill-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 2 / 2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
