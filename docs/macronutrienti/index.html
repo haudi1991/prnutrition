@@ -435,7 +435,7 @@
     }
 
     /* =============================================
-       PRINT / PDF  —  A4 landscape, 2 pagini
+       PRINT / PDF  —  A4 portrait, 2 pagini fixe
        ============================================= */
     @media print {
       *{
@@ -444,8 +444,8 @@
       }
 
       @page{
-        size: A4 landscape;
-        margin: 6mm;
+        size: A4 portrait;
+        margin: 10mm;
       }
 
       html, body{
@@ -458,8 +458,17 @@
       .page-divider{ display:none !important; }
       .pages{ display:block !important; }
       .wrap{ max-width: 100% !important; margin: 0 !important; }
+      .pillrow{ display:none !important; }
+      .meta{ display:none !important; }
 
+      /* Fiecare .page = exact 1 foaie A4 (297mm - 2×10mm = 277mm) */
       .page{
+        height: 277mm !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
         break-after: page !important;
         page-break-after: always !important;
       }
@@ -468,66 +477,96 @@
         page-break-after: auto !important;
       }
 
-      header{ margin-bottom: 8px !important; gap: 7px !important; }
+      /* Header: mărime fixă, nu se întinde */
+      header{
+        flex: 0 0 auto !important;
+        margin-bottom: 8px !important;
+        gap: 6px !important;
+      }
+
+      /* Card: umple spațiul rămas */
+      main.card{
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+      }
+
+      /* Footer: ancorat jos */
+      .page-footer{
+        flex: 0 0 auto !important;
+        margin-top: 6px !important;
+        padding-top: 5px !important;
+        border-top: 1px solid rgba(255,255,255,.10) !important;
+        font-size: 11px !important;
+      }
+
+      /* Header compact */
       .badge{ font-size: 11px !important; padding: 5px 8px !important; }
       .badge .dot{ width:8px !important; height:8px !important; }
-      h1{ font-size: 22px !important; }
-      .sub{ font-size: 12px !important; }
-      .pillrow{ display:none !important; }
-      .meta{ display:none !important; }
+      h1{ font-size: 21px !important; }
+      .sub{ font-size: 12px !important; line-height: 1.35 !important; }
 
-      .section{ padding: 10px !important; }
-      .panel{ padding: 10px !important; margin-top: 10px !important; }
+      /* Section & panels */
+      .section{ padding: 9px !important; }
+      .panel{ padding: 9px !important; margin-top: 8px !important; }
       .panel:first-child{ margin-top: 0 !important; }
-      .panel-title{ font-size: 13px !important; }
-      .panel-sub{ font-size: 12px !important; margin-top: 4px !important; }
-      .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
+      .panel-title{ font-size: 12.5px !important; }
+      .panel-sub{ font-size: 11.5px !important; margin-top: 3px !important; line-height: 1.35 !important; }
+      .tag{ margin-top: 5px !important; padding: 4px 7px !important; font-size: 10.5px !important; }
 
-      .kcal-row{ gap:8px !important; margin-top: 8px !important; }
-      .kcal{ padding: 8px 10px !important; }
-      .kcal strong, .kcal span{ font-size: 11.5px !important; }
+      /* Kcal */
+      .kcal-row{ gap:7px !important; margin-top: 7px !important; }
+      .kcal{ padding: 7px 9px !important; }
+      .kcal strong, .kcal span{ font-size: 11px !important; }
 
+      /* Macro grid — 2 coloane în portrait */
       .macro-grid{
         grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-        margin-top: 8px !important;
+        gap: 7px !important;
+        margin-top: 7px !important;
       }
       .macro.protein{ grid-column: 1 / -1 !important; }
-      .macro.protein::before{ font-size: 10px !important; padding: 4px 7px !important; margin-bottom: 7px !important; }
-      .macro{ padding: 9px !important; }
-      .macro h3{ font-size: 13px !important; }
-      .macro p{ font-size: 11.5px !important; }
-      .chip{ font-size: 10.5px !important; padding: 4px 7px !important; }
-      .mini-list{ gap: 5px !important; margin-top: 7px !important; }
-      .mini-list li{ padding: 6px 9px !important; font-size: 11.5px !important; }
-      .macro-head{ margin-bottom: 6px !important; margin-top: 6px !important; }
+      .macro.protein::before{ font-size: 9.5px !important; padding: 3px 6px !important; margin-bottom: 5px !important; }
+      .macro{ padding: 8px !important; }
+      .macro h3{ font-size: 12px !important; }
+      .macro p{ font-size: 11px !important; line-height: 1.3 !important; }
+      .chip{ font-size: 10px !important; padding: 3px 6px !important; }
+      .mini-list{ gap: 4px !important; margin-top: 5px !important; }
+      .mini-list li{ padding: 5px 8px !important; font-size: 11px !important; line-height: 1.3 !important; }
+      .macro-head{ margin-bottom: 5px !important; margin-top: 5px !important; }
 
+      /* Note / callout */
+      .note, .callout{ padding: 7px 9px !important; font-size: 11px !important; margin-top: 7px !important; line-height: 1.35 !important; }
+
+      /* Steps (t-row) */
       .t-row.col3{
         grid-template-columns: 1fr 1fr 1fr !important;
-        gap: 8px !important;
-        margin-top: 8px !important;
+        gap: 7px !important;
+        margin-top: 7px !important;
       }
       .t-row.col2{
         grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
-        margin-top: 8px !important;
+        gap: 7px !important;
+        margin-top: 7px !important;
       }
-      .t-item{ padding: 9px !important; gap: 10px !important; border-radius: 12px !important; }
-      .t-dot{ width:40px !important; height:40px !important; border-radius: 12px !important; font-size: 11px !important; }
-      .t-head strong{ font-size: 12.5px !important; }
-      .t-mini{ font-size: 10.5px !important; padding: 4px 7px !important; }
-      .t-body{ font-size: 11.5px !important; }
-      .t-list{ font-size: 11.5px !important; }
+      .t-item{ padding: 8px !important; gap: 8px !important; border-radius: 11px !important; }
+      .t-dot{ width:36px !important; height:36px !important; border-radius: 10px !important; font-size: 11px !important; }
+      .t-head strong{ font-size: 12px !important; line-height: 1.2 !important; }
+      .t-mini{ font-size: 10px !important; padding: 3px 6px !important; }
+      .t-body{ font-size: 11px !important; line-height: 1.35 !important; }
+      .t-list{ font-size: 11px !important; line-height: 1.35 !important; margin-top: 5px !important; margin-left: 14px !important; }
+      .t-list li{ margin: 3px 0 !important; }
 
-      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-top: 8px !important; }
-      .box{ padding: 9px 11px !important; }
-      .box h3{ font-size: 13px !important; }
-      .box p, .box ul{ font-size: 11.5px !important; }
+      /* Grid 2col & boxes */
+      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 7px !important; margin-top: 7px !important; }
+      .box{ padding: 8px 10px !important; }
+      .box h3{ font-size: 12px !important; }
+      .box p{ font-size: 11px !important; line-height: 1.35 !important; }
+      .box ul{ font-size: 11px !important; margin-top: 4px !important; margin-left: 14px !important; line-height: 1.35 !important; }
+      .box li{ margin: 3px 0 !important; }
 
-      .note, .callout{ padding: 8px 10px !important; font-size: 11.5px !important; margin-top: 8px !important; }
-
-      .page-footer{ padding-top: 5px !important; margin-top: 8px !important; font-size: 11px !important; }
-
+      /* Nu rupe blocuri urât */
       .panel, .macro, .box, .note, .callout, .t-item, .mini-list li{
         break-inside: avoid !important;
         page-break-inside: avoid !important;
@@ -638,8 +677,8 @@
                   <p><b>Butonul de reglaj:</b> fibre + energie + cât de ușor ții deficitul.</p>
                   <ul class="mini-list">
                     <li><b>Cu fibre:</b> absorbție mai lentă → energie stabilă + apetit mai ușor de gestionat.</li>
-                    <li><b>Fără fibre:</b> absorbție rapidă → la unii crește foamea/poftele (nu sunt interzisi).</li>
-                    <li><b>Reper în deficit:</b> ~<b>1–2 g/kg/zi</b> în funcție de activitate, preferințe și foame.</li>
+                    <li><b>Fără fibre:</b> absorbție rapidă → la unii crește foamea/poftele (nu sunt interziși).</li>
+                    <li><b>Reper în deficit:</b> ~<b>1–2 g/kg/zi</b> în funcție de activitate, efort fizic.</li>
                   </ul>
                 </div>
 
@@ -651,9 +690,9 @@
                   </div>
                   <p><b>Esențiale:</b> hormoni + absorbția vitaminelor A/D/E/K — dar porțiile contează.</p>
                   <ul class="mini-list">
-                    <li><b>9 kcal/g:</b> micile „extra-uri" se adună rapid și invizibil.</li>
-                    <li><b>Calorii ascunse:</b> uleiuri, sosuri, nuci, semințe, unt de arahide.</li>
-                    <li><b>Tipul contează:</b> prioritate nesaturate; saturate moderate, în contextul totalului.</li>
+                    <li><b>9 kcal/g:</b> micile „extra-uri" se adună rapid.</li>
+                    <li><b>Calorii ascunse:</b> uleiuri, sosuri, nuci, semințe, unt de arahide în cantitate mare</li>
+                    <li><b>Tipul contează:</b> prioritate nesaturate; saturate moderate 1/3 în contextul totalului.</li>
                   </ul>
                 </div>
 
@@ -665,6 +704,7 @@
 
         <div class="page-footer">
           <span>Macronutrienți · Ghid basic (client)</span>
+          <span style="font-weight:600; color:rgba(234,241,255,.70);">Puie Radu · Nutriție &nbsp;·&nbsp; 0724 212 779</span>
           <span>Pagina 1 / 2</span>
         </div>
       </div>
@@ -721,8 +761,8 @@
                     <div class="t-body">
                       <ul class="t-list">
                         <li>lipsă proteină → mai adaugi (iaurt, brânză slabă, albuș, carne)</li>
-                        <li>prea multe grăsimi → micșorezi porția (ulei / brânză / nuci / sos)</li>
-                        <li>fără energie → ajustezi carbo (mai ales în zile cu antrenament)</li>
+                        <li>prea multe grăsimi → micșorezi porția (ulei / brânză / mezeluri / sos)</li>
+                        <li>fără energie → ajustezi carbo (mai ales în zile cu antrenament în jurul lui)</li>
                       </ul>
                     </div>
                   </div>
@@ -743,7 +783,7 @@
                 program schimbat, stres.
               </p>
               <div class="callout">
-                <b>Ce ajută, în practică:</b> fibre din alimente (legume/leguminoase), hidratare, pași/mișcare,
+                <b>Ce ajută, în practică:</b> fibre din alimente (legume/leguminoase/fructe/cereale integrale), hidratare, pași/mișcare,
                 ore similare de masă + somn. Ajustăm treptat, nu dintr-o dată.
               </div>
             </div>
@@ -795,6 +835,7 @@
 
         <div class="page-footer">
           <span>Macronutrienți · Ghid basic (client)</span>
+          <span style="font-weight:600; color:rgba(234,241,255,.70);">Puie Radu · Nutriție &nbsp;·&nbsp; 0724 212 779</span>
           <span>Pagina 2 / 2</span>
         </div>
       </div>
