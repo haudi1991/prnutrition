@@ -487,6 +487,65 @@
     }
     .final-box li{ margin: 5px 0; }
 
+    /* ---- Contact section ---- */
+    .contact-section{
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(167,243,208,.25);
+      background: rgba(37,211,102,.05);
+    }
+    .cs-title{
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(234,241,255,.80);
+      margin-bottom: 10px;
+    }
+    .contact-qr-card{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .contact-qr-frame{
+      width: 90px;
+      height: 90px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 7px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.20);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .contact-meta{
+      display:flex;
+      flex-direction:column;
+      gap: 5px;
+    }
+    .contact-meta strong{
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(234,241,255,.92);
+    }
+    .contact-meta span{
+      font-size: 12px;
+      color: rgba(234,241,255,.55);
+    }
+    .contact-meta a{
+      color: var(--text);
+      text-decoration:none;
+      border:1px solid rgba(37,211,102,.35);
+      padding:7px 11px;
+      border-radius: 12px;
+      font-size: 13px;
+      display:inline-flex;
+      align-items:center;
+      background: rgba(37,211,102,.07);
+      width: fit-content;
+      margin-top: 2px;
+    }
+
     /* ---- Footer branding ---- */
     .page-footer{
       display:flex; justify-content:space-between; align-items:center;
@@ -627,6 +686,14 @@
       }
 
       .toprow{ display:none !important; }
+
+      .contact-section{ margin-top: 10px !important; padding: 10px !important; }
+      .contact-section .cs-title{ font-size: 12px !important; margin-bottom: 6px !important; }
+      .contact-qr-card{ padding: 8px 10px !important; gap: 10px !important; }
+      .contact-qr-frame{ width: 72px !important; height: 72px !important; padding: 6px !important; }
+      .contact-meta strong{ font-size: 12px !important; }
+      .contact-meta span{ font-size: 11px !important; }
+      .contact-meta a{ font-size: 11px !important; padding: 5px 7px !important; }
 
       .page-footer{ display:flex !important; justify-content:space-between !important; align-items:center !important; margin-top: 8px !important; padding-top: 6px !important; font-size: 11px !important; }
       .footer-brand{ gap: 7px !important; }
@@ -931,6 +998,26 @@
                   <li>diete rigide</li>
                   <li>soluții rapide</li>
                 </ul>
+              </div>
+            </div>
+
+            <!-- Contact WhatsApp -->
+            <div class="contact-section">
+              <div class="cs-title">📲 Contact direct</div>
+              <div class="contact-qr-card">
+                <div class="contact-qr-frame">
+                  <img class="qr-img"
+                       src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https://wa.me/40724212779"
+                       alt="WhatsApp Puie Radu">
+                </div>
+                <div class="contact-meta">
+                  <strong>Puie Radu</strong>
+                  <span>Nutriție · Lifestyle Sănătos</span>
+                  <a href="https://wa.me/40724212779" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="#25d366" style="vertical-align:-2px;margin-right:4px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.057 23.486a.5.5 0 0 0 .614.636l5.7-1.493A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.031-1.356l-.36-.214-3.733.979.995-3.638-.234-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    WhatsApp · 0724 212 779
+                  </a>
+                </div>
               </div>
             </div>
 
