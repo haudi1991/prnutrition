@@ -477,6 +477,7 @@
     .del-mini:hover{ background: rgba(255,255,255,.06); }
 
     .no-print { display: block; }
+    .print-footer { display: none; }
 
     /* ===== Toast ===== */
     .toast{
@@ -542,6 +543,12 @@
         page-break-inside: avoid !important;
       }
 
+      .print-footer{ display:flex !important; justify-content:space-between !important; align-items:center !important; margin-top: 12px !important; padding-top: 8px !important; border-top: 1px solid rgba(255,255,255,.12) !important; font-size: 11px !important; color: rgba(234,241,255,.65) !important; }
+      .footer-brand{ display:flex !important; align-items:center !important; gap: 8px !important; }
+      .footer-brand svg{ flex: 0 0 auto; }
+      .footer-brand-text{ display:flex !important; flex-direction:column !important; gap: 1px !important; line-height:1.15 !important; }
+      .footer-brand-text strong{ font-size: 11px !important; font-weight: 700 !important; color: rgba(234,241,255,.88) !important; }
+      .footer-brand-text span{ font-size: 10px !important; color: rgba(234,241,255,.46) !important; }
       a[href]::after{ content: "" !important; }
     }
   </style>
@@ -675,6 +682,21 @@
               </thead>
               <tbody id="suppTbody"></tbody>
             </table>
+          </div>
+
+          <div class="print-footer">
+            <span></span>
+            <div class="footer-brand">
+              <svg viewBox="0 0 28 28" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+                <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+                <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+              </svg>
+              <div class="footer-brand-text">
+                <strong>Puie Radu</strong>
+                <span>Nutriție · Lifestyle Sănătos · 0724 212 779</span>
+              </div>
+            </div>
           </div>
 
         </div>

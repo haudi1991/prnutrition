@@ -53,17 +53,41 @@
       margin-bottom:14px;
     }
 
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .badge{
       display:inline-flex;
       align-items:center;
+      gap:8px;
       font-size: 12px;
-      color: var(--muted);
+      color: rgba(234,241,255,.80);
       padding: 7px 10px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: rgba(255,255,255,.03);
       width: fit-content;
     }
+    .badge .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
+    }
+
+    .header-brand{
+      display:flex;
+      align-items:center;
+      gap: 9px;
+    }
+    .header-brand svg{ flex: 0 0 auto; }
+    .header-brand-text{ display:flex; flex-direction:column; gap: 2px; line-height: 1.15; }
+    .header-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
+    .header-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
 
     h1{
       font-size: clamp(24px, 2.8vw, 34px);
@@ -463,6 +487,19 @@
     }
     .final-box li{ margin: 5px 0; }
 
+    /* ---- Footer branding ---- */
+    .page-footer{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px; margin-top: 14px; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(234,241,255,.48); font-size: 12px;
+    }
+    .footer-brand{ display:flex; align-items:center; gap: 9px; }
+    .footer-brand svg{ flex: 0 0 auto; }
+    .footer-brand-text{ display:flex; flex-direction:column; gap: 2px; line-height: 1.15; }
+    .footer-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
+    .footer-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
+
     /* =========================
        PRINT: 2 pagini total
        ========================= */
@@ -589,6 +626,11 @@
         page-break-inside: avoid !important;
       }
 
+      .page-footer{ display:flex !important; justify-content:space-between !important; align-items:center !important; margin-top: 8px !important; padding-top: 6px !important; font-size: 11px !important; }
+      .footer-brand{ gap: 7px !important; }
+      .footer-brand svg{ width: 18px !important; height: 18px !important; }
+      .footer-brand-text strong{ font-size: 11px !important; }
+      .footer-brand-text span{ font-size: 10px !important; }
       a[href]::after{ content: "" !important; }
     }
   </style>
@@ -602,7 +644,20 @@
       <div class="page">
 
         <header>
-          <div class="badge">📌 Ce urmează după consult</div>
+          <div class="toprow">
+            <div class="badge"><span class="dot"></span> Ghid client · Procesul nutrițional</div>
+            <div class="header-brand">
+              <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+                <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+                <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+              </svg>
+              <div class="header-brand-text">
+                <strong>Puie Radu</strong>
+                <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+              </div>
+            </div>
+          </div>
           <h1>Cum lucrăm împreună – procesul nutrițional</h1>
           <p class="sub">Lucrăm structurat, pas cu pas, pentru a construi o strategie nutrițională adaptată stilului tău de viață.</p>
 
@@ -737,6 +792,22 @@
           </section>
         </main>
 
+        <div class="page-footer">
+          <span>Cum lucrăm împreună · Ghid client</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+              <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 1 / 2</span>
+        </div>
+
       </div>
 
       <div class="page-divider" aria-hidden="true"></div>
@@ -863,6 +934,22 @@
 
           </section>
         </main>
+
+        <div class="page-footer">
+          <span>Cum lucrăm împreună · Ghid client</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+              <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 2 / 2</span>
+        </div>
 
       </div>
 
