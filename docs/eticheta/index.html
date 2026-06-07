@@ -566,10 +566,14 @@
     .cs-title{ font-size: 13px; font-weight: 700; color: rgba(234,241,255,.80); margin-bottom: 10px; }
     .contact-qr-card{ display:grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
     .contact-qr-frame{
-      width: 90px; height: 90px; background: #ffffff;
+      width: 90px; height: 90px; min-width: 90px; background: #ffffff;
       border-radius: 12px; padding: 7px;
       box-shadow: 0 8px 20px rgba(0,0,0,.20);
       display:grid; place-items:center; flex: 0 0 auto;
+      overflow: hidden;
+    }
+    .contact-qr-frame img{
+      width: 76px; height: 76px; display:block; border-radius: 6px;
     }
     .contact-meta{ display:flex; flex-direction:column; gap: 5px; }
     .contact-meta strong{ font-size: 14px; font-weight: 800; color: rgba(234,241,255,.92); }
@@ -759,7 +763,7 @@
           <h1>Eticheta alimentului — ce contează cu adevărat</h1>
           <p class="sub">
             Câteva reguli simple îți dau puterea să alegi mai bine și să eviți capcanele —
-            fără să devii expert în chimie alimentară. Regulă de aur: <b>compară mereu la 100g</b>.
+            fără să devii expert în chimie alimentară.
           </p>
 
           <div class="pillrow">
@@ -817,19 +821,18 @@
               </div>
 
               <div class="read-order">
-                <div class="ro-label">Ordinea lecturii:</div>
                 <div class="ro-items">
                   <div class="ro-item ro-primary">Calorii (kcal)</div>
                   <div class="ro-arrow">→</div>
                   <div class="ro-item ro-primary">Proteine</div>
+                  <div class="ro-arrow">→</div>
+                  <div class="ro-item ro-good">Fibre ↑</div>
                   <div class="ro-arrow">→</div>
                   <div class="ro-item ro-warn">Gr. saturate</div>
                   <div class="ro-arrow">→</div>
                   <div class="ro-item ro-warn">Zahăr</div>
                   <div class="ro-arrow">→</div>
                   <div class="ro-item ro-warn">Sare</div>
-                  <div class="ro-arrow">→</div>
-                  <div class="ro-item ro-good">Fibre ↑</div>
                 </div>
               </div>
             </div>
@@ -846,7 +849,7 @@
                 <div class="ht-step">
                   <div class="ht-num">1</div>
                   <div class="ht-text">
-                    <strong>Citește primele 3 ingrediente</strong>
+                    <strong>Citește ingredientele</strong>
                     <span>Dacă zahărul, un sirop sau o grăsime saturată e printre primele 3 → produsul e bazat pe ele.</span>
                   </div>
                 </div>
@@ -854,7 +857,7 @@
                   <div class="ht-num">2</div>
                   <div class="ht-text">
                     <strong>Numără ingredientele</strong>
-                    <span>≤ 5–8 ingrediente familiare = semn bun. 15+ ingrediente cu E-uri = ultra-procesat.</span>
+                    <span>≤ 5–8 ingrediente familiare = semn bun. Prezența emulgatorilor, stabilizatorilor sau aromatizanților sintetici = ultra-procesat (clasificare NOVA/OMS), indiferent de număr.</span>
                   </div>
                 </div>
                 <div class="ht-step">

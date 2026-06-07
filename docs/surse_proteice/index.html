@@ -274,6 +274,65 @@
     .footer-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
     .footer-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
 
+    .contact-section{
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(167,243,208,.25);
+      background: rgba(37,211,102,.05);
+    }
+    .cs-title{
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(234,241,255,.80);
+      margin-bottom: 10px;
+    }
+    .contact-qr-card{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .contact-qr-frame{
+      width: 90px;
+      height: 90px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 7px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.20);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .contact-qr-frame img{ width:76px; height:76px; display:block; }
+    .contact-meta{
+      display:flex;
+      flex-direction:column;
+      gap: 5px;
+    }
+    .contact-meta strong{
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(234,241,255,.92);
+    }
+    .contact-meta span{
+      font-size: 12px;
+      color: rgba(234,241,255,.55);
+    }
+    .contact-meta a{
+      display:inline-flex; align-items:center; gap:5px;
+      color: rgba(234,241,255,.88);
+      text-decoration:none;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(37,211,102,.12);
+      border: 1px solid rgba(37,211,102,.25);
+      padding: 6px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
     /* =========================
        PRINT: FORTEAZA 1 PAGINA
        ========================= */
@@ -390,6 +449,15 @@
       /* fara URL printat */
       a[href]::after{ content: "" !important; }
 
+      .contact-section{ margin-top: 8px !important; padding: 9px 11px !important; }
+      .contact-section .cs-title{ font-size: 11.5px !important; margin-bottom: 5px !important; }
+      .contact-qr-card{ padding: 0 !important; gap: 9px !important; }
+      .contact-qr-frame{ width: 60px !important; height: 60px !important; padding: 5px !important; }
+      .contact-qr-frame img{ width:50px !important; height:50px !important; }
+      .contact-meta strong{ font-size: 11px !important; }
+      .contact-meta span{ font-size: 10px !important; }
+      .contact-meta a{ font-size: 10.5px !important; padding: 4px 7px !important; }
+
       /* evita breaks */
       header, .card, .panel, .t-item, .mini-card, .quote, .t-note{
         break-inside: avoid !important;
@@ -408,13 +476,13 @@
           <div class="badge">🥛🍳 Proteine – exemple rapide</div>
           <h1>Surse de proteine pentru a atinge obiectivul zilnic</h1>
           <p class="sub">
-            Daca vrei sa iti fie mai usor sa ajungi la aportul de proteine din planul nutritional,
-            foloseste exemplele de mai jos ca “building blocks” (snack-uri sau completari la mese).
+            Dacă ești sub ținta zilnică de proteine, adaugă 1–2 opțiuni de mai jos ca gustare sau completare la masă —
+            ajuți sațietatea și sprijini menținerea masei musculare fără să complici ziua.
           </p>
 
           <div class="pillrow">
-            <div class="pill">hipersatietate</div>
-            <div class="pill">gustari rapide</div>
+            <div class="pill">hipersațietate</div>
+            <div class="pill">gustări rapide</div>
             <div class="pill">mese mai echilibrate</div>
             <div class="pill">aport proteic mai mare</div>
           </div>
@@ -424,8 +492,8 @@
           <section class="section">
 
             <p class="quote">
-              Proteinele ajuta la satietate si te sprijina in mentinerea masei musculare.
-              Daca esti sub tinta zilnica, adauga 1–2 optiuni de mai jos (in functie de necesar).
+              La fiecare masă încearcă să ai o sursă clară de proteine — ouă, carne, pește, lactate sau brânză.
+              Dacă ziua nu permite, produsele de mai jos sunt soluții rapide și ușor de măsurat.
             </p>
 
             <!-- ✅ wrapper: in print devine 2 coloane -->
@@ -434,9 +502,9 @@
               <div class="panel">
                 <h2 class="panel-title">Produse high-protein (cu link)</h2>
                 <p class="panel-sub">
-                  Exemple simple, usor de introdus in zi: ca gustare, mic dejun sau completare dupa antrenament.
+                  Exemple simple, ușor de introdus în zi: ca gustare, mic dejun sau completare după antrenament.
                 </p>
-                <div class="tag">✅ Rapid + usor de masurat</div>
+                <div class="tag">✅ Rapid + ușor de măsurat</div>
 
                 <div class="timeline">
 
@@ -447,7 +515,7 @@
                         <strong>Kefir Olympus High Protein (2% grasime)</strong>
                         <span class="t-mini">~26g / sticla</span>
                       </div>
-                      <div class="t-body">Bun ca gustare rapida sau langa un mic dejun mai usor.</div>
+                      <div class="t-body">Bun ca gustare rapidă sau lângă un mic dejun mai ușor.</div>
                       <div class="t-note">
                         Link: <a href="https://www.auchan.ro/kefir-olympus-high-protein-2-grasime-330-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                       </div>
@@ -461,7 +529,7 @@
                         <strong>Branza de vaci Covalact (0.5% grasime)</strong>
                         <span class="t-mini">~34g / cutie</span>
                       </div>
-                      <div class="t-body">Merge in combinatii sarate (legume) sau dulci (fructe/indulcitor) – in functie de preferinte.</div>
+                      <div class="t-body">Merge în combinații sărate (legume) sau dulci (fructe/îndulcitor) – în funcție de preferințe.</div>
                       <div class="t-note">
                         Link: <a href="https://www.auchan.ro/branza-de-vaci-covalact-proaspata-0-5-grasime-200-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                       </div>
@@ -475,7 +543,7 @@
                         <strong>Cottage Light Olympus (2% grasime)</strong>
                         <span class="t-mini">~19g / cutie</span>
                       </div>
-                      <div class="t-body">Bun pentru salate, sandvisuri, sau ca snack rapid.</div>
+                      <div class="t-body">Bun pentru salate, sandvișuri, sau ca snack rapid.</div>
                       <div class="t-note">
                         Link: <a href="https://www.auchan.ro/branza-de-vaca-cottage-light-olympus-2-grasime-180-g/p" target="_blank" rel="noopener">Deschide produsul</a>
                       </div>
@@ -489,7 +557,7 @@
                         <strong>Budinca proteica Milbona (Lidl)</strong>
                         <span class="t-mini">~20g / portie</span>
                       </div>
-                      <div class="t-body">Alternativa ok cand ai pofta de “ceva dulce”, dar vrei proteine.</div>
+                      <div class="t-body">Alternativă ok când ai poftă de „ceva dulce", dar vrei proteine.</div>
                       <div class="t-note">
                         Link: <a href="https://www.lidl.ro/p/milbona-budinca-proteica/p10037091" target="_blank" rel="noopener">Deschide produsul</a>
                       </div>
@@ -503,7 +571,7 @@
                         <strong>Bautura proteica Milbona (Lidl)</strong>
                         <span class="t-mini">~37g / sticla</span>
                       </div>
-                      <div class="t-body">Varianta foarte rapida cand ai nevoie de un “boost” de proteine intr-o zi mai aglomerata.</div>
+                      <div class="t-body">Variantă foarte rapidă când ai nevoie de un „boost" de proteine într-o zi mai aglomerată.</div>
                       <div class="t-note">
                         Link: <a href="https://www.lidl.ro/p/milbona-bautura-proteica-ciocolata/p10037081" target="_blank" rel="noopener">Deschide produsul</a>
                       </div>
@@ -515,38 +583,38 @@
 
               <div class="panel">
                 <h2 class="panel-title">Alte surse simple de proteine</h2>
-                <p class="panel-sub">Optiuni clasice, usor de gasit si de introdus in mese.</p>
-                <div class="tag">🍽️ Alimente “de baza”</div>
+                <p class="panel-sub">Opțiuni clasice, ușor de găsit și de integrat în mese. Valorile sunt aproximative per 100g.</p>
+                <div class="tag">🍽️ Alimente „de bază”</div>
 
                 <div class="small-grid">
                   <div class="mini-card">
-                    <strong>Oua</strong>
-                    <span>Mic dejun rapid / omleta / fierte.</span>
+                    <strong>Ouă <span style="color:#a7f3d0;font-size:0.85em">~13g</span></strong>
+                    <span>Mic dejun rapid / omletă / fierte.</span>
                   </div>
 
                   <div class="mini-card">
-                    <strong>Lapte</strong>
-                    <span>Combinabil cu ovaz.</span>
+                    <strong>Lapte <span style="color:#a7f3d0;font-size:0.85em">~3.5g/100ml</span></strong>
+                    <span>Combinabil cu ovăz sau în smoothie proteic.</span>
                   </div>
 
                   <div class="mini-card">
-                    <strong>Iaurt</strong>
-                    <span>Gustare + fructe / seminte.</span>
+                    <strong>Iaurt simplu <span style="color:#a7f3d0;font-size:0.85em">~5–10g</span></strong>
+                    <span>Gustare + fructe / semințe. Alege variante naturale.</span>
                   </div>
 
                   <div class="mini-card">
-                    <strong>Carne</strong>
-                    <span>Pui, curcan, vita (in functie de preferinte).</span>
+                    <strong>Piept pui / curcan <span style="color:#a7f3d0;font-size:0.85em">~23–25g</span></strong>
+                    <span>Sursa principală la prânz sau cină.</span>
                   </div>
 
                   <div class="mini-card">
-                    <strong>Peste</strong>
-                    <span>Ton, somon, cod etc. (rapid + usor).</span>
+                    <strong>Pește (ton / cod / somon) <span style="color:#a7f3d0;font-size:0.85em">~20–26g</span></strong>
+                    <span>Ton la conservă = cea mai rapidă opțiune.</span>
                   </div>
                 </div>
 
                 <div class="callout">
-                  <b>Idee simpla:</b> la fiecare masa incearca sa ai o sursa clara de proteine (ex: oua/iaurt/carne/peste/branza).
+                  <b>De reținut:</b> dacă o masă nu are o sursă clară de proteine, foamea revine mai repede și e mai greu să respecți ținta zilnică.
                 </div>
               </div>
 
@@ -554,6 +622,28 @@
             <!-- /print-grid -->
 
           </section>
+
+          <!-- Contact WhatsApp -->
+          <div class="contact-section">
+            <div class="cs-title">📲 Contact direct</div>
+            <div class="contact-qr-card">
+              <div class="contact-qr-frame">
+                <img class="qr-img"
+                     src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https://wa.me/40724212779"
+                     alt="WhatsApp Puie Radu">
+              </div>
+              <div class="contact-meta">
+                <strong>Puie Radu</strong>
+                <span>Nutriție · Lifestyle Sănătos</span>
+                <a href="https://wa.me/40724212779" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.057 23.486a.5.5 0 0 0 .614.636l5.7-1.493A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.031-1.356l-.36-.214-3.733.979.995-3.638-.234-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                  Deschide WhatsApp
+                  <svg viewBox="0 0 12 12" width="10" height="10" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.55"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </main>
 
         <div class="page-footer">
