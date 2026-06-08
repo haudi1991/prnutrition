@@ -518,7 +518,42 @@
       border-radius: 20px;
       width: fit-content;
     }
-
+    /* ---- Metabolism flow ---- */
+    .metab-macro{ margin-top: 12px; }
+    .metab-macro-head{
+      font-size: 12.5px; font-weight: 850;
+      padding: 5px 10px; border-radius: 8px;
+      margin-bottom: 6px; display: inline-block;
+    }
+    .metab-macro-head.prot{ color: rgba(125,211,252,.92); background: rgba(125,211,252,.08); border: 1px solid rgba(125,211,252,.20); }
+    .metab-macro-head.carb{ color: rgba(167,243,208,.92); background: rgba(167,243,208,.08); border: 1px solid rgba(167,243,208,.20); }
+    .metab-macro-head.fat{ color: rgba(251,191,36,.92); background: rgba(251,191,36,.06); border: 1px solid rgba(251,191,36,.18); }
+    .metab-flow{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .metab-step{
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 9px 10px;
+    }
+    .metab-step-warn{
+      border-color: rgba(251,191,36,.28) !important;
+      background: rgba(251,191,36,.05) !important;
+    }
+    .metab-step-label{
+      font-size: 9.5px; letter-spacing: .05em;
+      color: rgba(234,241,255,.45); margin-bottom: 4px;
+    }
+    .metab-step-title{
+      font-size: 11.5px; font-weight: 750;
+      color: rgba(234,241,255,.90); line-height: 1.2; margin-bottom: 4px;
+    }
+    .metab-step-text{
+      font-size: 11px; color: rgba(234,241,255,.62); line-height: 1.35;
+    }
     /* =============================================
        PRINT / PDF  —  A4 portrait, 2 pagini fixe
        ============================================= */
@@ -675,6 +710,15 @@
       .contact-meta strong{ font-size: 12px !important; }
       .contact-meta span{ font-size: 11px !important; }
       .contact-meta a{ font-size: 11px !important; padding: 5px 7px !important; }
+
+      .metab-macro{ margin-top: 8px !important; }
+      .metab-macro-head{ font-size: 11.5px !important; padding: 4px 8px !important; margin-bottom: 4px !important; }
+      .metab-flow{ gap: 6px !important; }
+      .metab-step{ padding: 7px 8px !important; border-radius: 10px !important; }
+      .metab-step-label{ font-size: 9px !important; }
+      .metab-step-title{ font-size: 10.5px !important; margin-bottom: 3px !important; }
+      .metab-step-text{ font-size: 10px !important; }
+      .metab-macro, .metab-step{ break-inside: avoid !important; page-break-inside: avoid !important; }
     }
   </style>
 </head>
@@ -691,7 +735,7 @@
             <div class="badge"><span class="dot"></span> Ghid basic · Macronutrienți</div>
             <div class="meta">
               <span>Focus: aderență</span>
-              <span>2 pagini</span>
+              <span>3 pagini</span>
               <span>Practic, fără stres</span>
             </div>
           </div>
@@ -814,7 +858,7 @@
               <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
             </div>
           </div>
-          <span>Pagina 1 / 2</span>
+          <span>Pagina 1 / 3</span>
         </div>
       </div>
 
@@ -937,7 +981,6 @@
               <div class="callout">
                 <b>Regula anti-panică:</b> nu schimbăm planul după 1–2 zile. Corectăm trendul, nu emoția.
               </div>
-            </div>              
             </div>
 
           </section>
@@ -956,7 +999,131 @@
               <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
             </div>
           </div>
-          <span>Pagina 2 / 2</span>
+          <span>Pagina 2 / 3</span>
+        </div>
+      </div>
+
+      <div class="page-divider" aria-hidden="true"></div>
+
+      <!-- ==================== PAGE 3 ==================== -->
+      <div class="page">
+
+        <main class="card">
+          <section class="section">
+
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">Metabolism — de la farfurie la celulă</h2>
+              <p class="panel-sub">
+                Fiecare macro urmează o rută distinctă de digestie, absorbție și utilizare.
+                Grăsimile sunt singurul macro care <b>nu trece direct prin vena portă</b> — ocolesc ficatul inițial prin limfă.
+              </p>
+
+              <!-- Proteine -->
+              <div class="metab-macro">
+                <div class="metab-macro-head prot">🥩 Proteine</div>
+                <div class="metab-flow">
+                  <div class="metab-step">
+                    <div class="metab-step-label">① Digestie</div>
+                    <div class="metab-step-title">Stomac + Intestin subțire</div>
+                    <div class="metab-step-text">Pepsina (stomac, pH acid) + tripsina &amp; chimotripsina (pancreas) rup legăturile peptidice</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">② Produs final</div>
+                    <div class="metab-step-title">Aminoacizi liberi</div>
+                    <div class="metab-step-text">Proteinele mari → peptide → aminoacizi liberi; absorbiți prin mucoasa intestinului subțire</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">③ Transport</div>
+                    <div class="metab-step-title">Vena portă → Ficat</div>
+                    <div class="metab-step-text">Direct în sânge → vena portă → ficatul procesează, distribuie sau deaminează aminoacizii</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">④ Utilizare</div>
+                    <div class="metab-step-title">Sinteză + Energie + Uree</div>
+                    <div class="metab-step-text">Mușchi, enzime, hormoni; excesul → glucoză (gluconeogeneză) sau grăsime; azot → uree → rinichi</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Carbohidrați -->
+              <div class="metab-macro">
+                <div class="metab-macro-head carb">🍚 Carbohidrați</div>
+                <div class="metab-flow">
+                  <div class="metab-step">
+                    <div class="metab-step-label">① Digestie</div>
+                    <div class="metab-step-title">Gură → Intestin subțire</div>
+                    <div class="metab-step-text">Amilaza salivară (gură) inițiază; amilaza pancreatică + sucrase / lactase / maltase finalizează</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">② Produs final</div>
+                    <div class="metab-step-title">Glucoză · Fructoză · Galactoză</div>
+                    <div class="metab-step-text">Amidon → glucoză; zaharoză → glucoză + fructoză; lactoză → glucoză + galactoză</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">③ Transport</div>
+                    <div class="metab-step-title">Vena portă → Ficat</div>
+                    <div class="metab-step-text">Monozaharidele → absorbite → vena portă; ficatul convertește fructoza &amp; galactoza în glucoză</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">④ Utilizare</div>
+                    <div class="metab-step-title">ATP → Glicogen → (Lipide)</div>
+                    <div class="metab-step-text">Glucoza → glicoliză → ATP; surplus → glicogen în mușchi/ficat; suprasurplus → lipogeneză</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Grăsimi -->
+              <div class="metab-macro">
+                <div class="metab-macro-head fat">🥑 Grăsimi</div>
+                <div class="metab-flow">
+                  <div class="metab-step">
+                    <div class="metab-step-label">① Digestie</div>
+                    <div class="metab-step-title">Stomac + Intestin subțire</div>
+                    <div class="metab-step-text">Bila (ficat) emulsionează grăsimile; lipaza pancreatică hidrolizează trigliceridele</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">② Produs final</div>
+                    <div class="metab-step-title">Monogliceride + Acizi grași</div>
+                    <div class="metab-step-text">Trigliceride → 2-monogliceride + acizi grași liberi; absorbite prin mucoasa intestinală</div>
+                  </div>
+                  <div class="metab-step metab-step-warn">
+                    <div class="metab-step-label">③ Transport ⚠️</div>
+                    <div class="metab-step-title">Limfă → chilomicroni</div>
+                    <div class="metab-step-text">Nu vena portă! Reîmpachetați ca chilomicroni → duct toracic limfatic → subclavie → sânge</div>
+                  </div>
+                  <div class="metab-step">
+                    <div class="metab-step-label">④ Utilizare</div>
+                    <div class="metab-step-title">Energie + Membrane + Hormoni</div>
+                    <div class="metab-step-text">Beta-oxidare → ATP; membrane celulare; hormoni steroizi; transport vitamine A, D, E, K</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Fibrele (carbohidrați complecși):</b> nu sunt digerate de enzimele umane — sunt fermentate de bacteriile intestinale
+                → acizi grași cu lanț scurt (butirat, propionat, acetat): hrană pentru colonocite și efect antiinflamator.
+                <br><b>Grăsimile vs. ceilalți macro:</b> ocolesc ficatul inițial — efectul lor asupra trigliceridelor serice apare
+                cu o dinamică diferită față de glucoză sau aminoacizi.
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="page-footer">
+          <span>Macronutrienți · Ghid basic (client)</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+              <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 3 / 3</span>
         </div>
       </div>
 
