@@ -275,6 +275,51 @@
     .box li{ margin: 5px 0; }
     .box p{ margin:6px 0 0 0; color: rgba(234,241,255,.74); font-size: 12.7px; line-height: 1.45; }
 
+    /* ---- Supplement card ---- */
+    .supl-card{
+      display:grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: flex-start;
+      margin-top: 12px;
+      padding: 13px 15px;
+      border-radius: 16px;
+      border: 1px solid rgba(125,211,252,.25);
+      background: rgba(125,211,252,.05);
+    }
+    .supl-img{
+      width: 60px; height: 60px;
+      border-radius: 12px;
+      background: #ffffff;
+      display:grid; place-items:center;
+      overflow:hidden; flex: 0 0 auto;
+      font-size: 28px;
+    }
+    .supl-body{ display:flex; flex-direction:column; gap:5px; }
+    .supl-name{ font-size: 13.5px; font-weight: 850; color: rgba(234,241,255,.94); letter-spacing:-.01em; }
+    .supl-brand{ font-size: 11.5px; color: rgba(234,241,255,.50); }
+    .supl-desc{ font-size: 12.5px; color: rgba(234,241,255,.70); line-height: 1.4; }
+    .supl-link{
+      display:inline-flex; align-items:center; gap:5px;
+      color: rgba(125,211,252,.88); text-decoration:none;
+      font-size: 12px; font-weight: 600;
+      background: rgba(125,211,252,.08); border: 1px solid rgba(125,211,252,.22);
+      padding: 5px 10px; border-radius: 20px; width: fit-content; margin-top: 2px;
+    }
+
+    .study-list{
+      margin: 10px 0 0 0; padding: 0; list-style: none; display:grid; gap: 6px;
+    }
+    .study-list li{
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      border-radius: 12px; padding: 8px 11px;
+      font-size: 12px; color: rgba(234,241,255,.68); line-height: 1.4;
+    }
+    .study-list li b{ color: rgba(234,241,255,.90); }
+    .study-list a{ color: rgba(125,211,252,.80); text-decoration: none; font-size: 11px; }
+    .study-list a:hover{ text-decoration: underline; }
+
     /* ---- Contact ---- */
     .contact-section{
       margin-top: 14px; padding: 14px; border-radius: 16px;
@@ -391,7 +436,16 @@
       .contact-meta span{ font-size: 11px !important; }
       .contact-meta a{ font-size: 11px !important; padding: 5px 7px !important; }
 
-      .panel, .box, .note, .callout, .mini-list li, .level-card{
+      .supl-card{ margin-top: 8px !important; padding: 9px 11px !important; gap: 10px !important; }
+      .supl-img{ width: 44px !important; height: 44px !important; font-size: 22px !important; }
+      .supl-name{ font-size: 12px !important; }
+      .supl-brand{ font-size: 10.5px !important; }
+      .supl-desc{ font-size: 11.5px !important; }
+      .supl-link{ font-size: 11px !important; padding: 4px 8px !important; }
+      .study-list{ gap: 5px !important; margin-top: 7px !important; }
+      .study-list li{ padding: 6px 9px !important; font-size: 11px !important; }
+
+      .panel, .box, .note, .callout, .mini-list li, .level-card, .supl-card{
         break-inside: avoid !important;
         page-break-inside: avoid !important;
       }
@@ -553,6 +607,8 @@
               <div class="note">
                 <b>Notă importantă (OHF 2024):</b> valorile variază în funcție de soi, metodă de preparare și cantitate exactă.
                 Gătitul (fierbere + scurgere) reduce oxalații cu 30–50% în cazul legumelor cu frunze. Porțiile contează — aceeași masă preparată diferit poate varia semnificativ.
+                <br/><br/>
+                📄 <a href="https://ohf.org/wp-content/uploads/2024/02/Oxalate-List-022724.pdf" target="_blank" rel="noopener" style="color:rgba(125,211,252,.80);text-decoration:none;font-weight:600;">Listă completă oxalați (OHF 2024) — PDF oficial ↗</a>
               </div>
             </div>
 
@@ -696,6 +752,50 @@
 
               <div class="callout">
                 <b>Repere OHF:</b> majoritatea oamenilor consumă 200–300 mg oxalați/zi. Dacă ești la risc de calculi renali, experții recomandă &lt; 100 mg/zi. La risc foarte ridicat — &lt; 50 mg/zi. Discută cu medicul tău înainte de a restricționa alimente întregi categorii.
+              </div>
+            </div>
+
+            <!-- Probiotice -->
+            <div class="panel">
+              <h2 class="panel-title">Probiotice și oxalați — ce spune cercetarea</h2>
+              <p class="panel-sub">
+                Anumite tulpini de bacterii intestinale pot <b>degrada oxalatul în intestin</b>, reducând cantitatea absorbită în sânge și eliminată prin urină. Efectul este confirmat în mai multe studii controlate.
+              </p>
+
+              <ul class="study-list">
+                <li>
+                  <b>Campieri et al. (2001)</b> — Lactobacillus acidophilus + Bifidobacterium (doze mari) au redus semnificativ oxaluria la pacienți cu calculi renali recurenți.
+                  <br/><a href="https://pubmed.ncbi.nlm.nih.gov/11406226/" target="_blank" rel="noopener">PubMed #11406226 ↗</a>
+                </li>
+                <li>
+                  <b>Goldfarb et al. (2011)</b> — VSL#3 (mix Lactobacillus + Bifidobacterium) a scăzut oxalatul urinar la subiecți sănătoși cu dietă bogată în oxalați.
+                  <br/><a href="https://pubmed.ncbi.nlm.nih.gov/21364323/" target="_blank" rel="noopener">PubMed #21364323 ↗</a>
+                </li>
+                <li>
+                  <b>Siener et al. (2013)</b> — Lactobacillus acidophilus și Bifidobacterium animalis au demonstrat capacitate de degradare a oxalatului in vitro și reducere a absorbției intestinale in vivo.
+                  <br/><a href="https://pubmed.ncbi.nlm.nih.gov/23866005/" target="_blank" rel="noopener">PubMed #23866005 ↗</a>
+                </li>
+                <li>
+                  <b>Mecanismul:</b> bacteriile din genul Lactobacillus și Bifidobacterium exprimă oxalil-CoA decarboxilaza și formil-CoA transferaza — enzime care descompun oxalatul în CO₂ și formiat, eliminând-ul înainte de absorbție.
+                </li>
+              </ul>
+
+              <div class="note">
+                <b>Important:</b> efectul probioticelor este adjuvant — nu înlocuiește dieta, hidratarea sau tratamentul medical. Util ca strategie complementară, discutat cu medicul sau nutriționistul.
+              </div>
+
+              <div class="supl-card">
+                <div class="supl-img">🧫</div>
+                <div class="supl-body">
+                  <div class="supl-name">8 Billion Acidophilus &amp; Bifidus</div>
+                  <div class="supl-brand">Now Foods · 60 capsule</div>
+                  <div class="supl-desc">
+                    Conține <b>Lactobacillus acidophilus</b> și <b>Bifidobacterium</b> — exact tulpinile studiate pentru degradarea oxalatului intestinal. 8 miliarde UFC/capsulă. Luat cu masa, contribuie la un microbiom care metabolizează mai eficient oxalații.
+                  </div>
+                  <a class="supl-link" href="https://www.emag.ro/8-billion-acidophilus-si-bifidus-now-foods-60-capsule-733739029300/pd/DYD212MBM/" target="_blank" rel="noopener">
+                    Vezi produs pe eMAG ↗
+                  </a>
+                </div>
               </div>
             </div>
 
