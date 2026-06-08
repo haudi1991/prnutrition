@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Oxalați — Ghid Practic</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#9fb0c3;
+      --text:#eaf1ff;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --line:rgba(255,255,255,.10);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --panel: rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.02);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(167,243,208,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      padding: 22px 14px;
+    }
+
+    .wrap{ max-width: 980px; margin: 0 auto; }
+    .pages{ display:grid; gap: 18px; }
+    .page-divider{
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      opacity: .65;
+      width: 100%;
+      margin: 6px 0;
+    }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .toprow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      color: rgba(234,241,255,.80);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      width: fit-content;
+    }
+    .badge .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(167,243,208,.10);
+    }
+
+    .meta{
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+      color: rgba(234,241,255,.60); font-size: 12px;
+    }
+    .meta span{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+
+    .header-brand{ display:flex; align-items:center; gap: 9px; }
+    .header-brand svg{ flex: 0 0 auto; }
+    .header-brand-text{ display:flex; flex-direction:column; gap: 2px; line-height: 1.15; }
+    .header-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
+    .header-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
+
+    h1{
+      font-size: clamp(24px, 2.8vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 82ch;
+      font-size: 13.2px;
+      line-height: 1.45;
+    }
+
+    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 4px; }
+    .pill{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .section{ padding: 16px; }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .panel:first-child{ margin-top: 0; }
+
+    .panel-title{
+      margin:0;
+      font-size: 14px;
+      color: rgba(234,241,255,.92);
+      font-weight: 850;
+      letter-spacing: -0.01em;
+    }
+    .panel-sub{
+      margin:6px 0 0 0;
+      font-size: 13px;
+      color: rgba(234,241,255,.70);
+      line-height: 1.45;
+    }
+
+    .tag{
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 6px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted); font-size: 12px;
+      width: fit-content; margin-top: 10px;
+    }
+
+    .note{
+      margin-top: 10px; padding: 10px 12px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(125,211,252,.06);
+      color: rgba(234,241,255,.84); font-size: 13px; line-height: 1.4;
+    }
+    .callout{
+      margin-top: 10px; padding: 10px 12px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(167,243,208,.08);
+      color: rgba(234,241,255,.84); font-size: 13px; line-height: 1.4;
+    }
+
+    .mini-list{
+      margin:10px 0 0 0; padding:0; list-style:none; display:grid; gap:7px;
+    }
+    .mini-list li{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      border-radius: 12px; padding: 8px 10px;
+      color: rgba(234,241,255,.74); font-size: 12.5px; line-height: 1.35;
+    }
+    .mini-list b{ color: rgba(234,241,255,.94); font-weight: 850; }
+
+    /* ---- Level scale bar ---- */
+    .level-scale{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .level-card{
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid;
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+    }
+    .level-card.lc-vhigh{ border-color: rgba(248,113,113,.35); background: rgba(248,113,113,.07); }
+    .level-card.lc-high{ border-color: rgba(251,146,60,.30); background: rgba(251,146,60,.06); }
+    .level-card.lc-mod{ border-color: rgba(252,211,77,.25); background: rgba(252,211,77,.05); }
+    .level-card.lc-low{ border-color: rgba(52,211,153,.28); background: rgba(52,211,153,.06); }
+    .level-badge{
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .lc-vhigh .level-badge{ color: rgba(248,113,113,.90); }
+    .lc-high .level-badge{ color: rgba(251,146,60,.90); }
+    .lc-mod .level-badge{ color: rgba(252,211,77,.88); }
+    .lc-low .level-badge{ color: rgba(52,211,153,.88); }
+    .level-range{
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(234,241,255,.92);
+    }
+    .level-desc{
+      font-size: 11px;
+      color: rgba(234,241,255,.48);
+      line-height: 1.3;
+    }
+
+    /* ---- Food table ---- */
+    .food-table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 12.5px;
+    }
+    .food-table th{
+      text-align:left;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(234,241,255,.50);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .food-table td{
+      padding: 7px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      color: rgba(234,241,255,.78);
+      vertical-align: middle;
+    }
+    .food-table tr:last-child td{ border-bottom: none; }
+    .food-table tr:hover td{ background: rgba(255,255,255,.02); }
+    .food-name{ font-weight: 700; color: rgba(234,241,255,.92); }
+    .food-mg{
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .mg-vhigh{ color: rgba(248,113,113,.90); }
+    .mg-high{ color: rgba(251,146,60,.90); }
+    .mg-mod{ color: rgba(252,211,77,.88); }
+    .mg-low{ color: rgba(52,211,153,.88); }
+
+    .dot-vhigh{ display:inline-block; width:8px; height:8px; border-radius:999px; background:rgba(248,113,113,.80); margin-right:5px; }
+    .dot-high{ display:inline-block; width:8px; height:8px; border-radius:999px; background:rgba(251,146,60,.80); margin-right:5px; }
+    .dot-mod{ display:inline-block; width:8px; height:8px; border-radius:999px; background:rgba(252,211,77,.78); margin-right:5px; }
+    .dot-low{ display:inline-block; width:8px; height:8px; border-radius:999px; background:rgba(52,211,153,.78); margin-right:5px; }
+
+    .grid2{
+      display:grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px;
+    }
+    @media (min-width: 720px){ .grid2{ grid-template-columns: 1fr 1fr; } }
+    .box{
+      border-radius: 14px; background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.10); padding: 10px 12px; height: 100%;
+    }
+    .box h3{ margin:0; font-size: 13.5px; font-weight: 950; color: rgba(234,241,255,.94); letter-spacing: -0.01em; }
+    .box ul{ margin:8px 0 0 18px; padding:0; color: rgba(234,241,255,.72); font-size: 12.5px; line-height: 1.45; }
+    .box li{ margin: 5px 0; }
+    .box p{ margin:6px 0 0 0; color: rgba(234,241,255,.74); font-size: 12.7px; line-height: 1.45; }
+
+    /* ---- Contact ---- */
+    .contact-section{
+      margin-top: 14px; padding: 14px; border-radius: 16px;
+      border: 1px solid rgba(167,243,208,.25);
+      background: rgba(37,211,102,.05);
+    }
+    .cs-title{ font-size: 13px; font-weight: 700; color: rgba(234,241,255,.80); margin-bottom: 10px; }
+    .contact-qr-card{ display:grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+    .contact-qr-frame{
+      width: 90px; height: 90px; background: #ffffff;
+      border-radius: 12px; padding: 7px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.20);
+      display:grid; place-items:center; overflow:hidden; flex: 0 0 auto;
+    }
+    .contact-qr-frame img{ width:76px; height:76px; display:block; }
+    .contact-meta{ display:flex; flex-direction:column; gap: 5px; }
+    .contact-meta strong{ font-size: 14px; font-weight: 800; color: rgba(234,241,255,.92); }
+    .contact-meta span{ font-size: 12px; color: rgba(234,241,255,.55); }
+    .contact-meta a{
+      display:inline-flex; align-items:center; gap:5px;
+      color: rgba(234,241,255,.88); text-decoration:none;
+      font-size: 12px; font-weight: 600;
+      background: rgba(37,211,102,.12); border: 1px solid rgba(37,211,102,.25);
+      padding: 6px 10px; border-radius: 20px; width: fit-content;
+    }
+
+    /* footer */
+    .page-footer{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px; margin-top: 14px; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(234,241,255,.48); font-size: 12px;
+    }
+    .footer-brand{ display:flex; align-items:center; gap: 9px; }
+    .footer-brand svg{ flex: 0 0 auto; }
+    .footer-brand-text{ display:flex; flex-direction:column; gap: 2px; line-height: 1.15; }
+    .footer-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
+    .footer-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
+
+    /* =============================================
+       PRINT / PDF  —  A4 portrait, 2 pagini
+       ============================================= */
+    @media print {
+      *{
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page{ size: A4 portrait; margin: 10mm; }
+      html, body{ background: var(--bg) !important; color: var(--text) !important; margin: 0 !important; padding: 0 !important; }
+      .page-divider{ display:none !important; }
+      .pages{ display:block !important; }
+      .wrap{ max-width: 100% !important; margin: 0 !important; }
+      .pillrow{ display:none !important; }
+      .meta{ display:none !important; }
+      .toprow{ display:none !important; }
+
+      .page{
+        height: 277mm !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        break-after: page !important;
+        page-break-after: always !important;
+      }
+      .page:last-child{
+        break-after: auto !important;
+        page-break-after: auto !important;
+      }
+      header{ flex: 0 0 auto !important; margin-bottom: 8px !important; gap: 6px !important; }
+      main.card{ flex: 1 1 auto !important; min-height: 0 !important; box-shadow: none !important; overflow: hidden !important; }
+      .page-footer{ flex: 0 0 auto !important; margin-top: 6px !important; padding-top: 6px !important; border-top: 1px solid rgba(255,255,255,.10) !important; font-size: 11px !important; }
+      .footer-brand{ gap: 7px !important; }
+      .footer-brand svg{ width: 18px !important; height: 18px !important; }
+      .footer-brand-text strong{ font-size: 11px !important; }
+      .footer-brand-text span{ font-size: 10px !important; }
+
+      .badge{ font-size: 11px !important; padding: 5px 8px !important; }
+      h1{ font-size: 22px !important; }
+      .sub{ font-size: 12.5px !important; line-height: 1.35 !important; }
+
+      .section{ padding: 11px !important; }
+      .panel{ padding: 10px !important; margin-top: 9px !important; }
+      .panel-title{ font-size: 13px !important; }
+      .panel-sub{ font-size: 12px !important; margin-top: 4px !important; }
+      .tag{ margin-top: 6px !important; padding: 4px 8px !important; font-size: 11px !important; }
+
+      .level-scale{ gap: 6px !important; margin-bottom: 10px !important; }
+      .level-card{ padding: 8px 10px !important; gap: 3px !important; }
+      .level-badge{ font-size: 9.5px !important; }
+      .level-range{ font-size: 12px !important; }
+      .level-desc{ font-size: 10px !important; }
+
+      .food-table{ font-size: 11.5px !important; margin-top: 8px !important; }
+      .food-table th{ font-size: 10px !important; padding: 5px 8px !important; }
+      .food-table td{ padding: 5px 8px !important; }
+
+      .grid2{ grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+      .box{ padding: 9px 11px !important; }
+      .box h3{ font-size: 12.5px !important; }
+      .box ul{ font-size: 11.5px !important; }
+      .box li{ margin: 3px 0 !important; }
+
+      .note, .callout{ padding: 8px 10px !important; font-size: 12px !important; margin-top: 7px !important; }
+      .mini-list{ gap: 5px !important; margin-top: 7px !important; }
+      .mini-list li{ padding: 6px 9px !important; font-size: 11.5px !important; }
+
+      .contact-section{ margin-top: 8px !important; padding: 9px 11px !important; }
+      .cs-title{ font-size: 12px !important; margin-bottom: 5px !important; }
+      .contact-qr-frame{ width: 66px !important; height: 66px !important; padding: 5px !important; }
+      .contact-qr-frame img{ width:56px !important; height:56px !important; }
+      .contact-meta strong{ font-size: 12px !important; }
+      .contact-meta span{ font-size: 11px !important; }
+      .contact-meta a{ font-size: 11px !important; padding: 5px 7px !important; }
+
+      .panel, .box, .note, .callout, .mini-list li, .level-card{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      h1, h2, h3, .panel-title{ break-after: avoid !important; page-break-after: avoid !important; }
+      a[href]::after{ content: "" !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="pages">
+
+      <!-- ==================== PAGE 1 ==================== -->
+      <div class="page">
+
+        <header>
+          <div class="toprow">
+            <div class="badge"><span class="dot"></span> Ghid basic · Oxalați</div>
+            <div class="header-brand">
+              <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+                <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+                <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+              </svg>
+              <div class="header-brand-text">
+                <strong>Puie Radu</strong>
+                <span>Nutriție · Lifestyle Sănătos</span>
+              </div>
+            </div>
+          </div>
+
+          <h1>Oxalați — ce sunt și când contează</h1>
+          <p class="sub">
+            Oxalații sunt compuși naturali din plante. Pentru majoritatea oamenilor nu sunt o problemă —
+            dar dacă ai risc de calculi renali sau hiperoxalurie, cunoașterea surselor alimentare face diferența.
+          </p>
+
+          <div class="pillrow">
+            <div class="pill">calculi renali</div>
+            <div class="pill">hiperoxalurie</div>
+            <div class="pill">alimente cu risc</div>
+            <div class="pill">alternative sigure</div>
+            <div class="pill">hidratare</div>
+          </div>
+        </header>
+
+        <main class="card">
+          <section class="section">
+
+            <!-- Scala de niveluri -->
+            <div class="level-scale">
+              <div class="level-card lc-vhigh">
+                <div class="level-badge">Foarte ridicat</div>
+                <div class="level-range">≥ 300 mg</div>
+                <div class="level-desc">per porție</div>
+              </div>
+              <div class="level-card lc-high">
+                <div class="level-badge">Ridicat</div>
+                <div class="level-range">100–299 mg</div>
+                <div class="level-desc">per porție</div>
+              </div>
+              <div class="level-card lc-mod">
+                <div class="level-badge">Moderat</div>
+                <div class="level-range">25–99 mg</div>
+                <div class="level-desc">per porție</div>
+              </div>
+              <div class="level-card lc-low">
+                <div class="level-badge">Scăzut</div>
+                <div class="level-range">&lt; 25 mg</div>
+                <div class="level-desc">per porție</div>
+              </div>
+            </div>
+
+            <!-- Tabel alimente cu oxalati ridicati -->
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">Alimente cu oxalați ridicați</h2>
+              <p class="panel-sub">Valorile sunt orientative per porție standard (sursă: OHF / WebMD). Porțiile variază — citește cu atenție.</p>
+
+              <table class="food-table">
+                <thead>
+                  <tr>
+                    <th>Aliment</th>
+                    <th>Porție</th>
+                    <th>Oxalați</th>
+                    <th>Nivel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="food-name">Spanac (fiert)</span></td>
+                    <td>½ cană (~90g)</td>
+                    <td><span class="food-mg mg-vhigh">755 mg</span></td>
+                    <td><span class="dot-vhigh"></span>Foarte ridicat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Băutură din soia / lapte soia</span></td>
+                    <td>1 cană (~240ml)</td>
+                    <td><span class="food-mg mg-vhigh">336 mg</span></td>
+                    <td><span class="dot-vhigh"></span>Foarte ridicat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Tofu (ferm)</span></td>
+                    <td>85g</td>
+                    <td><span class="food-mg mg-high">235 mg</span></td>
+                    <td><span class="dot-high"></span>Ridicat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Sfeclă roșie (fiartă)</span></td>
+                    <td>1 cană (~170g)</td>
+                    <td><span class="food-mg mg-high">152 mg</span></td>
+                    <td><span class="dot-high"></span>Ridicat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Migdale</span></td>
+                    <td>28g (~22 bucăți)</td>
+                    <td><span class="food-mg mg-high">122 mg</span></td>
+                    <td><span class="dot-high"></span>Ridicat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Cartof copt (cu coajă)</span></td>
+                    <td>1 mediu</td>
+                    <td><span class="food-mg mg-mod">97 mg</span></td>
+                    <td><span class="dot-mod"></span>Moderat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Fasole albă (navy)</span></td>
+                    <td>½ cană (~90g fiert)</td>
+                    <td><span class="food-mg mg-mod">76 mg</span></td>
+                    <td><span class="dot-mod"></span>Moderat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Zmeură</span></td>
+                    <td>1 cană (~123g)</td>
+                    <td><span class="food-mg mg-mod">48 mg</span></td>
+                    <td><span class="dot-mod"></span>Moderat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Curmale uscate</span></td>
+                    <td>1 bucată</td>
+                    <td><span class="food-mg mg-mod">24 mg</span></td>
+                    <td><span class="dot-mod"></span>Moderat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Caju, arahide, nuci</span></td>
+                    <td>28g</td>
+                    <td><span class="food-mg mg-mod">~30 mg</span></td>
+                    <td><span class="dot-mod"></span>Moderat</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Ceai negru / verde (infuzat)</span></td>
+                    <td>240ml</td>
+                    <td><span class="food-mg mg-high">~100–200 mg</span></td>
+                    <td><span class="dot-high"></span>Ridicat</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="note">
+                <b>Notă importantă (OHF 2024):</b> valorile variază în funcție de soi, metodă de preparare și cantitate exactă.
+                Gătitul (fierbere + scurgere) reduce oxalații cu 30–50% în cazul legumelor cu frunze. Porțiile contează — aceeași masă preparată diferit poate varia semnificativ.
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="page-footer">
+          <span>Oxalați · Ghid client</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+              <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 1 / 2</span>
+        </div>
+      </div>
+
+      <div class="page-divider" aria-hidden="true"></div>
+
+      <!-- ==================== PAGE 2 ==================== -->
+      <div class="page">
+
+        <main class="card">
+          <section class="section">
+
+            <!-- Alimente cu oxalati scazuti -->
+            <div class="panel" style="margin-top:0;">
+              <h2 class="panel-title">Alternative cu oxalați scăzuți (&lt; 25 mg / porție)</h2>
+              <p class="panel-sub">Dacă trebuie să reduci aportul de oxalați, aceste alimente sunt substituturi bune pentru categoriile cu risc ridicat.</p>
+
+              <table class="food-table">
+                <thead>
+                  <tr>
+                    <th>Aliment</th>
+                    <th>Porție</th>
+                    <th>Oxalați</th>
+                    <th>Înlocuiește</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="food-name">Kale / varză creață</span></td>
+                    <td>1 cană (~67g)</td>
+                    <td><span class="food-mg mg-low">2 mg</span></td>
+                    <td>Spanac</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Bok choy</span></td>
+                    <td>1 cană</td>
+                    <td><span class="food-mg mg-low">1 mg</span></td>
+                    <td>Spanac</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Broccoli</span></td>
+                    <td>1 cană (~91g)</td>
+                    <td><span class="food-mg mg-low">2 mg</span></td>
+                    <td>Cartof / legume cu frunze</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Semințe dovleac / floarea-soarelui</span></td>
+                    <td>28g</td>
+                    <td><span class="food-mg mg-low">&lt; 2 mg</span></td>
+                    <td>Migdale</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Cartof dulce (sweet potato)</span></td>
+                    <td>1 cană (~200g)</td>
+                    <td><span class="food-mg mg-mod">28 mg</span></td>
+                    <td>Cartof obișnuit</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Fasole roșie (kidney)</span></td>
+                    <td>½ cană (~90g)</td>
+                    <td><span class="food-mg mg-low">15 mg</span></td>
+                    <td>Fasole albă (navy)</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Afine / mure</span></td>
+                    <td>1 cană</td>
+                    <td><span class="food-mg mg-low">4 mg</span></td>
+                    <td>Zmeură</td>
+                  </tr>
+                  <tr>
+                    <td><span class="food-name">Smochine uscate</span></td>
+                    <td>1–2 bucăți</td>
+                    <td><span class="food-mg mg-low">~5 mg</span></td>
+                    <td>Curmale</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Ce faci practic -->
+            <div class="panel">
+              <h2 class="panel-title">Ce poți face practic</h2>
+              <p class="panel-sub">Pașii de mai jos sunt relevanți <b>doar dacă medicul sau nutriționistul ți-a recomandat</b> reducerea oxalaților. Alimentele cu oxalați sunt în general sănătoase.</p>
+
+              <div class="grid2">
+                <div class="box">
+                  <h3>🥤 Hidratare</h3>
+                  <ul>
+                    <li>Cel mai eficient mod de a elimina oxalații în exces prin urină</li>
+                    <li>Țintă: 2–2.5L lichide/zi (mai mult dacă faci sport)</li>
+                    <li>Urina deschisă la culoare = hidratare bună</li>
+                    <li>Evită deshidratarea, mai ales vara sau în perioadele cu efort fizic</li>
+                  </ul>
+                </div>
+                <div class="box">
+                  <h3>🥛 Calciu din alimente</h3>
+                  <ul>
+                    <li>Calciul din alimente (nu suplimente) <b>leagă oxalații în intestin</b> și reduce absorbția lor</li>
+                    <li>Consumă surse de calciu <b>la aceeași masă</b> cu alimentele bogate în oxalați</li>
+                    <li>Ex: spanac cu brânză sau iaurt → mai sigur decât spanac singur</li>
+                    <li>Suplimentele de calciu luate între mese pot crește riscul de calculi</li>
+                  </ul>
+                </div>
+                <div class="box">
+                  <h3>🍳 Metodă de preparare</h3>
+                  <ul>
+                    <li>Fierbere + scurgere apei reduce oxalații cu 30–50% la legume</li>
+                    <li>Aburul și coacerea reduc mai puțin decât fierberea</li>
+                    <li>Nu arunca beneficiile nutriționale — spanacul fiert este în continuare o sursă valoroasă de fier și folat</li>
+                  </ul>
+                </div>
+                <div class="box">
+                  <h3>⚖️ Echilibru, nu eliminare</h3>
+                  <ul>
+                    <li>Limitează sodiul și zahărul în exces — pot contribui indirect la calculi</li>
+                    <li>Nu depăși doza recomandată de vitamina C (excesul se transformă în oxalat)</li>
+                    <li>Alternează alimentele cu oxalați ridicați cu cele din lista verde</li>
+                    <li>Majoritatea oamenilor nu au nicio problemă cu oxalații din alimentație normală</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="callout">
+                <b>Repere OHF:</b> majoritatea oamenilor consumă 200–300 mg oxalați/zi. Dacă ești la risc de calculi renali, experții recomandă &lt; 100 mg/zi. La risc foarte ridicat — &lt; 50 mg/zi. Discută cu medicul tău înainte de a restricționa alimente întregi categorii.
+              </div>
+            </div>
+
+            <!-- Contact WhatsApp -->
+            <div class="contact-section">
+              <div class="cs-title">📲 Contact direct</div>
+              <div class="contact-qr-card">
+                <div class="contact-qr-frame">
+                  <img class="qr-img"
+                       src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https://wa.me/40724212779"
+                       alt="WhatsApp Puie Radu">
+                </div>
+                <div class="contact-meta">
+                  <strong>Puie Radu</strong>
+                  <span>Nutriție · Lifestyle Sănătos</span>
+                  <a href="https://wa.me/40724212779" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.852L.057 23.486a.5.5 0 0 0 .614.636l5.7-1.493A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.031-1.356l-.36-.214-3.733.979.995-3.638-.234-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    Deschide WhatsApp
+                    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.55"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </section>
+        </main>
+
+        <div class="page-footer">
+          <span>Oxalați · Ghid client</span>
+          <div class="footer-brand">
+            <svg viewBox="0 0 28 28" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12.5" stroke="#7dd3fc" stroke-width="1.2" stroke-opacity="0.5" fill="rgba(125,211,252,.04)"/>
+              <circle cx="14" cy="14" r="3.5" fill="#a7f3d0" fill-opacity="0.78"/>
+              <path d="M14 7V9.5M14 18.5V21M7 14H9.5M18.5 14H21M9.5 9.5L11.3 11.3M16.7 16.7L18.5 18.5M18.5 9.5L16.7 11.3M11.3 16.7L9.5 18.5" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.72"/>
+            </svg>
+            <div class="footer-brand-text">
+              <strong>Puie Radu</strong>
+              <span>Nutriție · Lifestyle Sănătos &thinsp;&middot;&thinsp; 0724 212 779</span>
+            </div>
+          </div>
+          <span>Pagina 2 / 2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
