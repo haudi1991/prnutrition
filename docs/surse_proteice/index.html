@@ -274,65 +274,6 @@
     .footer-brand-text strong{ display:block; font-size: 12.5px; font-weight: 700; color: rgba(234,241,255,.88); }
     .footer-brand-text span{ display:block; font-size: 11px; color: rgba(234,241,255,.46); }
 
-    .contact-section{
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(167,243,208,.25);
-      background: rgba(37,211,102,.05);
-    }
-    .cs-title{
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(234,241,255,.80);
-      margin-bottom: 10px;
-    }
-    .contact-qr-card{
-      display:grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      align-items: center;
-    }
-    .contact-qr-frame{
-      width: 90px;
-      height: 90px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 7px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.20);
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-      flex: 0 0 auto;
-    }
-    .contact-qr-frame img{ width:76px; height:76px; display:block; }
-    .contact-meta{
-      display:flex;
-      flex-direction:column;
-      gap: 5px;
-    }
-    .contact-meta strong{
-      font-size: 14px;
-      font-weight: 800;
-      color: rgba(234,241,255,.92);
-    }
-    .contact-meta span{
-      font-size: 12px;
-      color: rgba(234,241,255,.55);
-    }
-    .contact-meta a{
-      display:inline-flex; align-items:center; gap:5px;
-      color: rgba(234,241,255,.88);
-      text-decoration:none;
-      font-size: 12px;
-      font-weight: 600;
-      background: rgba(37,211,102,.12);
-      border: 1px solid rgba(37,211,102,.25);
-      padding: 6px 10px;
-      border-radius: 20px;
-      width: fit-content;
-    }
-
     /* =========================
        PRINT: FORTEAZA 1 PAGINA
        ========================= */
@@ -448,15 +389,6 @@
       .footer-brand-text span{ font-size: 10px !important; }
       /* fara URL printat */
       a[href]::after{ content: "" !important; }
-
-      .contact-section{ margin-top: 8px !important; padding: 9px 11px !important; }
-      .contact-section .cs-title{ font-size: 11.5px !important; margin-bottom: 5px !important; }
-      .contact-qr-card{ padding: 0 !important; gap: 9px !important; }
-      .contact-qr-frame{ width: 60px !important; height: 60px !important; padding: 5px !important; }
-      .contact-qr-frame img{ width:50px !important; height:50px !important; }
-      .contact-meta strong{ font-size: 11px !important; }
-      .contact-meta span{ font-size: 10px !important; }
-      .contact-meta a{ font-size: 10.5px !important; padding: 4px 7px !important; }
 
       /* evita breaks */
       header, .card, .panel, .t-item, .mini-card, .quote, .t-note{
