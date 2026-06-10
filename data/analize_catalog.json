@@ -25,7 +25,7 @@
   },
   {
     "id": "bilirubina-totala",
-    "name": "Bilirubina (totala)",
+    "name": "Bilirubină (totală)",
     "notes": "Marker orientativ pentru metabolizarea bilirubinei (ficat/tract biliar/hemoliza). Abateri se interpreteaza medical.",
     "billing": "cas"
   },
@@ -105,6 +105,42 @@
     "id": "psa-total",
     "name": "PSA (antigen specific prostatic) – total",
     "notes": "Marker orientativ pentru prostata. Se interpreteaza urologic (varsta, simptome, volum prostatic, dinamica in timp).",
+    "billing": "pay"
+  },
+  {
+    "id": "estrona-e1",
+    "name": "Estronă (E1)",
+    "notes": "Estrogen produs mai ales dupa menopauza (din androgeni in tesut adipos). Util in evaluarea statusului estrogenic post-menopauza sau in investigatii hormonale.",
+    "billing": "pay"
+  },
+  {
+    "id": "estriol-e3",
+    "name": "Estriol (E3)",
+    "notes": "Estrogen slab, semnificativ clinic mai ales in sarcina. In afara sarcinii se evalueaza in profil hormonal complet sau terapii hormonale bioidentice.",
+    "billing": "pay"
+  },
+  {
+    "id": "albumina-serica",
+    "name": "Albumină serică",
+    "notes": "Proteina principala din plasma; marker al statusului nutritional, functiei hepatice si inflamatiei cronice. Valori scazute pot indica malnutritie proteica, afectare hepatica sau inflamatie.",
+    "billing": "cas"
+  },
+  {
+    "id": "shbg",
+    "name": "SHBG (Sex Hormone Binding Globulin)",
+    "notes": "Proteina transportoare pentru hormoni sexuali (testosteron, estradiol). Influentata de insulinorezistenta, obezitate, hipotiroidism. Util pentru calculul testosteronului liber si evaluarea androgenilor.",
+    "billing": "pay"
+  },
+  {
+    "id": "dhea-s",
+    "name": "DHEA-S (Dehidroepiandrosteron sulfat)",
+    "notes": "Androgen adrenal; marker al activitatii suprarenalei. Scade cu varsta. Util in evaluarea excesului androgenic (ex: PCOS, hirsutism) sau a deficitului adrenal.",
+    "billing": "pay"
+  },
+  {
+    "id": "pregnenolon-sulfat",
+    "name": "Pregnenolon sulfat (PREG-S)",
+    "notes": "Neurohormon steroid produs din colesterol; precursor al tuturor hormonilor steroizi. Poate fi evaluat in context de oboseala cronica, declin cognitiv sau profil hormonal complet.",
     "billing": "pay"
   }
 ]
