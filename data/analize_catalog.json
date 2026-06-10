@@ -30,6 +30,12 @@
     "billing": "cas"
   },
   {
+    "id": "bilirubina-directa",
+    "name": "Bilirubină directă (conjugată)",
+    "notes": "Fracțiunea conjugată a bilirubinei; utilă în diferențierea cauzelor icterului (hepatocelular vs. colestatic). Se interpretează împreună cu bilirubina totală și indirectă.",
+    "billing": "pay"
+  },
+  {
     "id": "egfr",
     "name": "eGFR (rata filtrarii glomerulare estimata)",
     "notes": "Estimare a functiei renale (pe baza creatininei si altor parametri). Utila pentru screening/monitorizare rinichi, mai ales in HTA/diabet.",
