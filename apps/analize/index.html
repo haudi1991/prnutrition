@@ -906,7 +906,7 @@
 
       els.printFooterName.textContent = name;
       const fileSlug = slugify(name) || 'client';
-      els.printFooterFile.textContent = `analize-${fileSlug}.pdf`;
+      if (els.printFooterFile) els.printFooterFile.textContent = `analize-${fileSlug}.pdf`;
 
       lastUiTitle = `${BASE_TITLE} - ${name}`;
       document.title = lastUiTitle;
